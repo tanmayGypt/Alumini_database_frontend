@@ -1,11 +1,20 @@
-import React from 'react'
-import About from './components/about'
-const App = () => {
+import "./App.css";
+import AboutUs from "./components/about";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+function Home() {
+  return <div className="text-4xl text-center">Homepage</div>;
+}
+function App() {
   return (
-    <div>
-     <About />
-    </div>
-  )
+    <>
+      <Router>
+        <Routes>
+          <Route Component={Home} path="/" />
+        </Routes>
+      </Router>
+   <AboutUs/>
+    </>
+  );
 }
 
-export default App
+export default App;
