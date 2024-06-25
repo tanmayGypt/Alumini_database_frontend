@@ -1,18 +1,17 @@
 import "./App.css";
-import AboutUs from "./components/about";
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-function Home() {
-  return <div className="text-4xl text-center">Homepage</div>;
-}
+import NavBar from "./Components/Comman_Components/NavBar";
+import Homepage from "./Page/Homepage";
 function App() {
   return (
     <>
       <Router>
+        <NavBar />
         <Routes>
-          <Route Component={Home} path="/" />
+          <Route Component={Homepage} path="/" />
         </Routes>
       </Router>
-   <AboutUs/>
     </>
   );
 }
