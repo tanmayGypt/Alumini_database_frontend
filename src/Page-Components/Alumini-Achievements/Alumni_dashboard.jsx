@@ -75,7 +75,7 @@ const AlumniCarousel = () => {
   };
 
   return (
-    <div className="carousel-container">
+    <div className="carousel-container mt-20">
       <div className="carousel-background"></div>
       <h1 className="carousel-title">
         Celebrating Alumni Success:{" "}

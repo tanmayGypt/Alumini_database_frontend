@@ -19,7 +19,7 @@ const NavBar = () => {
             </a>
           </li>
           <li>
-            <a href="#alumni" className="nav-link">
+            <a href="/Alumini_Directory" className="nav-link">
               Alumni Directory
             </a>
           </li>
