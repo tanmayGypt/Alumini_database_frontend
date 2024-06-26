@@ -3,8 +3,8 @@ import './NavBar.css';
 
 const NavBar = () => {
   return (
-    <nav className="bg-white py-5 w-full">
-      <div className="container mx-auto flex justify-between items-center">
+    <nav className="navbar fixed top-0 left-0 right-0 bg-white shadow-md z-40">
+      <div className="container mx-auto flex justify-between items-center py-5">
         <div className="flex items-center">
           <img className = "h-12" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7RzOQ_E52YXYZQ4Vwrbnbs_HaBhq0ZEvXrQ&s" alt="Logo"/>
           
