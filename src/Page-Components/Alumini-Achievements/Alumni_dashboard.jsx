@@ -1,52 +1,62 @@
 import React, { useState, useEffect } from "react";
-import { FaInstagram, FaGithub, FaTwitter, FaLinkedin, FaUser } from "react-icons/fa";
+import {
+  FaInstagram,
+  FaGithub,
+  FaTwitter,
+  FaLinkedin,
+  FaUser,
+} from "react-icons/fa";
 import "./Alumni.css";
 
 const alumniData = [
   {
     name: "Dummy Name",
     role: "Web Developer",
-    achievement: "achieved an impressive milestone by securing a ₹1.2 Crore package at a top multinational tech company.",
+    achievement:
+      "achieved an impressive milestone by securing a ₹1.2 Crore package at a top multinational tech company.",
     year: "Class of 2015",
   },
   {
     name: "Jane Smith",
     role: "Software Engineer",
-    achievement: "achieved an impressive milestone by securing a ₹1.2 Crore package at a top multinational tech company.",
+    achievement:
+      "achieved an impressive milestone by securing a ₹1.2 Crore package at a top multinational tech company.",
     year: "Class of 2015",
   },
   {
     name: "Alice Johnson",
     role: "Data Scientist",
-    achievement: "achieved an impressive milestone by securing a ₹1.2 Crore package at a top multinational tech company.",
+    achievement:
+      "achieved an impressive milestone by securing a ₹1.2 Crore package at a top multinational tech company.",
     year: "Class of 2015",
   },
   {
     name: "Bob Brown",
     role: "Product Manager",
-    achievement: "achieved an impressive milestone by securing a ₹1.2 Crore package at a top multinational tech company..",
+    achievement:
+      "achieved an impressive milestone by securing a ₹1.2 Crore package at a top multinational tech company..",
     year: "Class of 2015",
   },
   {
     name: "Chris Green",
     role: "DevOps Engineer",
-    achievement: "achieved an impressive milestone by securing a ₹1.2 Crore package at a top multinational tech company.",
+    achievement:
+      "achieved an impressive milestone by securing a ₹1.2 Crore package at a top multinational tech company.",
     year: "Class of 2015",
-  }
+  },
 ];
 
 const AlumniCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
 
-
   useEffect(() => {
     const interval = setInterval(() => {
       if (!isHovering) {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % alumniData.length);
       }
-    }, 3000); 
-    
+    }, 3000);
+
     return () => clearInterval(interval);
   }, [currentIndex, isHovering]);
 
@@ -55,7 +65,9 @@ const AlumniCarousel = () => {
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + alumniData.length) % alumniData.length);
+    setCurrentIndex(
+      (prevIndex) => (prevIndex - 1 + alumniData.length) % alumniData.length
+    );
   };
 
   const handleCardHover = (hovering) => {
@@ -66,15 +78,24 @@ const AlumniCarousel = () => {
     <div className="carousel-container">
       <div className="carousel-background"></div>
       <h1 className="carousel-title">
-        Celebrating Alumni Success: <span className="highlight">Achievements</span> and Milestones
+        Celebrating Alumni Success:{" "}
+        <span className="highlight">Achievements</span> and Milestones
       </h1>
       <div className="carousel-content">
         <button className="carousel-button left" onClick={prevSlide}>
           &#8249;
         </button>
-        <div className="carousel-inner" style={{ transform: `translateX(-${currentIndex * 33.33}%)` }}>
+        <div
+          className="carousel-inner"
+          style={{ transform: `translateX(-${currentIndex * 33.33}%)` }}
+        >
           {alumniData.map((alumnus, index) => (
-            <div className="carousel-item" key={index} onMouseEnter={() => handleCardHover(true)} onMouseLeave={() => handleCardHover(false)}>
+            <div
+              className="carousel-item"
+              key={index}
+              onMouseEnter={() => handleCardHover(true)}
+              onMouseLeave={() => handleCardHover(false)}
+            >
               <div className="alumni-card">
                 <div className="alumni-photo">
                   <FaUser /> {}
