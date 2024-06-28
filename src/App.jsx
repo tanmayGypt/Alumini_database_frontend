@@ -7,6 +7,7 @@ import Footer from "./Components/Comman_Components/Footer";
 import Alumini_Achivements_Page from "./Page/Alumini-Achivements";
 import Alumini_Directory from "./Page/Alumini-Directory";
 import Contact from "./Page/Contact";
+import Netwoking_Opportunities from "./Page/Netwoking_Opportunities";
 
 function App() {
   return (
@@ -21,6 +22,10 @@ function App() {
           />
           <Route element={<Alumini_Directory />} path="/Alumini_Directory" />
           <Route element={<Contact />} path="/Contact" />
+          <Route
+            element={<Netwoking_Opportunities />}
+            path="/Netwoking_Opportunities"
+          />
         </Routes>
         <Footer />
       </Router>

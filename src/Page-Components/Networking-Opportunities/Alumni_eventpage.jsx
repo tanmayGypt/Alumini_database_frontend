@@ -1,29 +1,32 @@
-import React from 'react';
-import './test.css'; 
+import React from "react";
+import "./test.css";
 
-function Test() {
+function Alumini_Eventpage() {
   return (
     <div className="App">
       <header className="App-header">
         <img
-          src="public/eventimage.jpg" 
+          src="public/eventimage.jpg"
           alt="Header"
           className="header-image"
         />
         <h1>
-          UNITE & PROSPER: ALUMNI <span className="highlight">NETWORKING</span> & MENTORSHIP
+          UNITE & PROSPER: ALUMNI <span className="highlight">NETWORKING</span>{" "}
+          & MENTORSHIP
         </h1>
         <p>
-          Explore a vibrant network of alumni connections, mentorship opportunities, and career pathways for ongoing professional growth and success.
+          Explore a vibrant network of alumni connections, mentorship
+          opportunities, and career pathways for ongoing professional growth and
+          success.
         </p>
       </header>
       <main>
         <section className="events-section">
-        <button className="events-button">Events and Reunions</button>
+          <button className="events-button">Events and Reunions</button>
           <div className="events-container">
             <div className="event-card">
               <img
-                src="public/photo2.jpg" 
+                src="public/photo2.jpg"
                 alt="Event"
                 className="event-image"
               />
@@ -34,7 +37,7 @@ function Test() {
             </div>
             <div className="event-card">
               <img
-                src="public/photo2.jpg" 
+                src="public/photo2.jpg"
                 alt="Event"
                 className="event-image"
               />
@@ -45,7 +48,7 @@ function Test() {
             </div>
             <div className="event-card">
               <img
-                src="public/photo2.jpg" 
+                src="public/photo2.jpg"
                 alt="Event"
                 className="event-image"
               />
@@ -54,10 +57,10 @@ function Test() {
               <p>Location: College Campus</p>
               <button className="register-button">Register Now</button>
             </div>
-            
+
             <div className="event-card">
               <img
-                src="public/photo2.jpg" 
+                src="public/photo2.jpg"
                 alt="Event"
                 className="event-image"
               />
@@ -74,4 +77,4 @@ function Test() {
   );
 }
 
-export default Test;
+export default Alumini_Eventpage;

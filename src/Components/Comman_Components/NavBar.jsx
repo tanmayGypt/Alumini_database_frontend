@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./NavBar.css";
+import { Link } from "react-router-dom";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,11 +36,7 @@ const NavBar = () => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
-                d={
-                  isOpen
-                    ? "M6 18L18 6M6 6l12 12"
-                    : "M4 6h16M4 12h16m-7 6h7"
-                }
+                d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16m-7 6h7"}
               />
             </svg>
           </button>
@@ -50,32 +47,50 @@ const NavBar = () => {
           } md:flex md:col-span-2 md:justify-end space-x-1 text-sm md:text-base text-gray-700`}
         >
           <li>
-            <a href="/" className="nav-link px-3 flex text-sm shrink md:text-base">
+            <Link
+              to="/"
+              className="nav-link px-3 flex text-sm shrink md:text-base"
+            >
               Home
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/Alumini_Directory" className="nav-link flex px-2 text-sm md:text-base">
+            <Link
+              to="/Alumini_Directory"
+              className="nav-link flex px-2 text-sm md:text-base"
+            >
               Alumni Directory
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/Alumini-Achivements" className="nav-link flex px-2 sm:text-sm md:text-base">
+            <Link
+              to="/Alumini-Achivements"
+              className="nav-link flex px-2 sm:text-sm md:text-base"
+            >
               Achievements
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="#networking" className="nav-link flex px-2 sm:text-sm md:text-base">
+            <Link
+              to="/Netwoking_Opportunities"
+              className="nav-link flex px-2 sm:text-sm md:text-base"
+            >
               Networking
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="#news" className="nav-link flex px-2 sm:text-sm md:text-base">
+            <a
+              href="#news"
+              className="nav-link flex px-2 sm:text-sm md:text-base"
+            >
               News
             </a>
           </li>
           <li>
-            <a href="/Contact" className="nav-link flex px-2 sm:text-sm md:text-base">
+            <a
+              href="/Contact"
+              className="nav-link flex px-2 sm:text-sm md:text-base"
+            >
               Contact Us
             </a>
           </li>
