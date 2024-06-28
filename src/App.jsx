@@ -6,6 +6,7 @@ import Homepage from "./Page/Homepage";
 import Footer from "./Components/Comman_Components/Footer";
 import Alumini_Achivements_Page from "./Page/Alumini-Achivements";
 import Alumini_Directory from "./Page/Alumini-Directory";
+import Contact from "./Page/Contact";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             element={<Alumini_Achivements_Page />}
           />
           <Route element={<Alumini_Directory />} path="/Alumini_Directory" />
+          <Route element={<Contact />} path="/Contact" />
         </Routes>
         <Footer />
       </Router>

@@ -26,8 +26,8 @@ const Sidebar = () => {
   }, [isOpen]);
 
   return (
-    <div className="mt-20">
-      <div className="p-4 bg-gray-200 text-black">
+    <div className="">
+      <div className="p-4  text-black">
         <button onClick={toggleSidebar}>
           <svg
             className="w-6 h-8"
