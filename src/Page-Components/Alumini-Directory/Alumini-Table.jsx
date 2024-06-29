@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 const Alumni_Table = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOption, setSortOption] = useState("");
+  const [isOpen, setIsOpen] = useState(false); // State for sidebar
+  const sidebarRef = useRef(null); // Ref for sidebar
 
   const data = [
     {
@@ -152,6 +154,27 @@ const Alumni_Table = () => {
     }
   });
 
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleClickOutside = (event) => {
+    if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
   return (
     <div style={{ width: "100%", maxHeight: "100vh" }}>
       <div
@@ -167,6 +190,59 @@ const Alumni_Table = () => {
           boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
         }}
       >
+        <div className="flex items-center">
+          <div className="p-4 text-black">
+            <button onClick={toggleSidebar}>
+              <svg
+                className="w-6 h-8"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                ></path>
+              </svg>
+            </button>
+          </div>
+          <div
+            ref={sidebarRef}
+            className={`fixed  inset-y-0 left-0 z-30 transform ${
+              isOpen ? "translate-x-0" : "-translate-x-full"
+            } transition-transform duration-300 ease-in-out`}
+          >
+            <div className="w-64 h-full bg-white shadow-md">
+              <div className="p-4 mt-20">
+                <input
+                  type="text"
+                  placeholder="Find a view"
+                  className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-md"
+                />
+                <div className="space-y-2">
+                  <div className="flex items-center px-4 py-2 text-blue-700 bg-blue-100 rounded-md cursor-pointer">
+                    <span className="mr-2">📄</span> All alumni
+                  </div>
+                  <div className="flex items-center px-4 py-2 cursor-pointer hover:bg-gray-100 rounded-md">
+                    <span className="mr-2">📄</span> Alumni by graduating class
+                  </div>
+                  <div className="flex items-center px-4 py-2 cursor-pointer hover:bg-gray-100 rounded-md">
+                    <span className="mr-2">📄</span> Alumni by major
+                  </div>
+                  <div className="flex items-center px-4 py-2 cursor-pointer hover:bg-gray-100 rounded-md">
+                    <span className="mr-2">📄</span> Alumni info form
+                  </div>
+                  <div className="flex items-center px-4 py-2 cursor-pointer hover:bg-gray-100 rounded-md">
+                    <span className="mr-2">📄</span> Alumni gallery
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <input
           type="text"
           placeholder="Search..."
@@ -186,7 +262,7 @@ const Alumni_Table = () => {
           style={{
             padding: "10px",
             width: "200px",
-            marginRight: "10px",
+            marginRight: "60%",
             border: "1px solid #ccc",
             borderRadius: "5px",
           }}
