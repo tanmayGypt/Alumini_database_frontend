@@ -1,4 +1,3 @@
-import "./App.css";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import NavBar from "./Components/Comman_Components/NavBar";
 import Homepage from "./Page/Homepage";
@@ -29,7 +28,7 @@ function App() {
         <Route path="/Contact" element={<Contact />} />
         <Route path="/Netwoking_Opportunities" element={<Netwoking_Opportunities />} />
       </Routes>
-      <LoadingBar color="purple" height={3} progress={progress} />
+      <LoadingBar color="#9333ea" height={3} progress={progress} />
       <Footer />
     </>
   );
