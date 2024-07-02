@@ -6,7 +6,7 @@ function Alumini_Eventpage() {
     <div className="App">
       <header className="App-header">
         <img
-          src="public/eventimage.jpg"
+          src="/eventimage.jpg"
           alt="Header"
           className="header-image"
         />
@@ -26,7 +26,7 @@ function Alumini_Eventpage() {
           <div className="events-container">
             <div className="event-card">
               <img
-                src="public/photo2.jpg"
+                src="/photo2.jpg"
                 alt="Event"
                 className="event-image"
               />
@@ -37,7 +37,7 @@ function Alumini_Eventpage() {
             </div>
             <div className="event-card">
               <img
-                src="public/photo2.jpg"
+                src="/photo2.jpg"
                 alt="Event"
                 className="event-image"
               />
@@ -48,7 +48,7 @@ function Alumini_Eventpage() {
             </div>
             <div className="event-card">
               <img
-                src="public/photo2.jpg"
+                src="/photo2.jpg"
                 alt="Event"
                 className="event-image"
               />
@@ -60,7 +60,7 @@ function Alumini_Eventpage() {
 
             <div className="event-card">
               <img
-                src="public/photo2.jpg"
+                src="/photo2.jpg"
                 alt="Event"
                 className="event-image"
               />
