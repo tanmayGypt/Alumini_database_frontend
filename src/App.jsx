@@ -14,6 +14,8 @@ import Netwoking_Opportunities from "./Page/Netwoking_Opportunities";
 import LoadingBar from "react-top-loading-bar";
 import useAutoIncrementProgress from "./hooks/useAutoIncrementProgress";
 import { useEffect } from "react";
+import News from "./Page/News";
+import Mobile from "./Page/Mobile";
 
 function App() {
   const location = useLocation();
@@ -38,6 +40,8 @@ function App() {
           path="/Netwoking_Opportunities"
           element={<Netwoking_Opportunities />}
         />
+        <Route path="/News" element={<News />} />
+        <Route path="/Mobile_App" element={<Mobile />} />
       </Routes>
       <LoadingBar color="#9333ea" height={3} progress={progress} />
       <Footer />
