@@ -1,7 +1,13 @@
-import React from "react";
 
-function News() {
-  return <div></div>;
+import NewsDashboard from "../Page-Components/News-Components/NewsDashboard"
+import NewsSection from "../Page-Components/News-Components/NewsSection"
+
+function News(){
+    return(
+        <div>
+            <NewsDashboard/>
+            <NewsSection/>
+        </div>
+    )
 }
-
-export default News;
+export default News

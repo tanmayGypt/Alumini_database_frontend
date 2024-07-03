@@ -84,7 +84,7 @@ const NavBar = () => {
           </li>
           <li>
             <a
-              href="#news"
+              href="/News"
               className="nav-link flex px-2 sm:text-sm md:text-base"
             >
               News
