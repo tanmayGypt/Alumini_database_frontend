@@ -16,6 +16,7 @@ import useAutoIncrementProgress from "./hooks/useAutoIncrementProgress";
 import { useEffect } from "react";
 import News from "./Page/News";
 import Mobile from "./Page/Mobile";
+import Cards from "./Page-Components/Registered-Candidates/Card";
 
 function App() {
   const location = useLocation();
@@ -42,6 +43,7 @@ function App() {
         />
         <Route path="/News" element={<News />} />
         <Route path="/Mobile_App" element={<Mobile />} />
+        <Route path="/registered_candidates" element={<Cards />} />
       </Routes>
       <LoadingBar color="#9333ea" height={3} progress={progress} />
       <Footer />
