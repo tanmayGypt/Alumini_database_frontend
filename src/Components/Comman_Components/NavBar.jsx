@@ -13,11 +13,15 @@ const NavBar = () => {
     <nav className="navbar fixed top-0 left-0 right-0 bg-white shadow-md z-40">
       <div className="container mx-auto grid grid-cols-2 md:grid-cols-3 items-center py-3 md:py-5">
         <div className="flex items-center">
-          <img
-            className="h-12"
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7RzOQ_E52YXYZQ4Vwrbnbs_HaBhq0ZEvXrQ&s"
-            alt="Logo"
-          />
+            <Link
+              to="/"
+            >
+              <img
+                className="h-12"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7RzOQ_E52YXYZQ4Vwrbnbs_HaBhq0ZEvXrQ&s"
+                alt="Logo"
+              />
+            </Link>
         </div>
         <div className="md:hidden flex justify-end">
           <button
