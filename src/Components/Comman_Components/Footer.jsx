@@ -1,6 +1,6 @@
 function Footer() {
   return (
-    <div className="bg-gray-800 text-white p-6 rounded-lg shadow-md">
+    <div className="bg-gray-800 text-white p-6 rounded-lg shadow-md relative">
       <div className="flex justify-between items-start mb-6">
         <div>
           <div className="text-lg font-bold mb-2">
@@ -76,7 +76,7 @@ function Footer() {
           </a>
         </div>
       </div>
-      <div className="absolute bottom-0 right-0 mr-4 mb-4">
+      <div className="fixed bottom-4 right-4">
         <button className="bg-green-500 text-white px-4 py-2 rounded-full shadow-md hover:bg-green-600 transition duration-300">
           Feedback
         </button>
