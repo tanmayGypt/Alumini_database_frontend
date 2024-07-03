@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./test.css";
 
 function Alumini_Eventpage() {
@@ -24,21 +25,36 @@ function Alumini_Eventpage() {
               <h3>Annual Alumni Reunion</h3>
               <p>Date: July 20, 2024</p>
               <p>Location: College Campus</p>
-              <button className="register-button">Register Now</button>
+              <Link
+                to="/Networking_Opportunities/RegisterPage"
+                className="register-button"
+              >
+                Register Now
+              </Link>
             </div>
             <div className="event-card">
               <img src="/photo2.jpg" alt="Event" className="event-image" />
               <h3>Annual Alumni Reunion</h3>
               <p>Date: July 20, 2024</p>
               <p>Location: College Campus</p>
-              <button className="register-button">Register Now</button>
+              <Link
+                to="/Networking_Opportunities/RegisterPage"
+                className="register-button"
+              >
+                Register Now
+              </Link>
             </div>
             <div className="event-card">
               <img src="/photo2.jpg" alt="Event" className="event-image" />
               <h3>Annual Alumni Reunion</h3>
               <p>Date: July 20, 2024</p>
               <p>Location: College Campus</p>
-              <button className="register-button">Register Now</button>
+              <Link
+                to="/Networking_Opportunities/RegisterPage"
+                className="register-button"
+              >
+                Register Now
+              </Link>
             </div>
 
             <div className="event-card">
@@ -46,7 +62,12 @@ function Alumini_Eventpage() {
               <h3>Annual Alumni Reunion</h3>
               <p>Date: July 20, 2024</p>
               <p>Location: College Campus</p>
-              <button className="register-button">Register Now</button>
+              <Link
+                to="/Networking_Opportunities/RegisterPage"
+                className="register-button"
+              >
+                Register Now
+              </Link>
             </div>
           </div>
           <button className="view-more-button p-4">View More</button>

@@ -17,6 +17,7 @@ import { useEffect } from "react";
 import News from "./Page/News";
 import Mobile from "./Page/Mobile";
 import Cards from "./Page-Components/Registered-Candidates/Card";
+import RegisterPage from "./Page-Components/Networking-Opportunities/RegisterPage";
 
 function App() {
   const location = useLocation();
@@ -40,6 +41,10 @@ function App() {
         <Route
           path="/Netwoking_Opportunities"
           element={<Netwoking_Opportunities />}
+        />
+        <Route
+          path="/Networking_Opportunities/RegisterPage"
+          element={<RegisterPage />}
         />
         <Route path="/News" element={<News />} />
         <Route path="/Mobile_App" element={<Mobile />} />
