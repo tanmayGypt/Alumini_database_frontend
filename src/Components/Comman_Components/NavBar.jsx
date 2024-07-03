@@ -1,6 +1,6 @@
 import React, { useState } from "react";
+import { Link, NavLink } from "react-router-dom";
 import "./NavBar.css";
-import { Link } from "react-router-dom";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -49,60 +49,68 @@ const NavBar = () => {
           } md:flex md:col-span-2 md:justify-end space-x-1 text-sm md:text-base text-gray-700`}
         >
           <li>
-            <Link
+            <NavLink
+              exact
               to="/"
               className="nav-link px-3 flex text-sm shrink md:text-base"
+              activeClassName="active"
             >
               Home
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link
+            <NavLink
               to="/Alumini_Directory"
               className="nav-link flex px-2 text-sm md:text-base"
+              activeClassName="active"
             >
               Alumni Directory
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link
+            <NavLink
               to="/Alumini-Achivements"
               className="nav-link flex px-2 sm:text-sm md:text-base"
+              activeClassName="active"
             >
               Achievements
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link
+            <NavLink
               to="/Netwoking_Opportunities"
               className="nav-link flex px-2 sm:text-sm md:text-base"
+              activeClassName="active"
             >
               Networking
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <a
-              href="/News"
+            <NavLink
+              to="/News"
               className="nav-link flex px-2 sm:text-sm md:text-base"
+              activeClassName="active"
             >
               News
-            </a>
+            </NavLink>
           </li>
           <li>
-            <a
-              href="/Mobile_App"
+            <NavLink
+              to="/Mobile_App"
               className="nav-link flex px-2 sm:text-sm md:text-base"
+              activeClassName="active"
             >
               Mobile App
-            </a>
+            </NavLink>
           </li>
           <li>
-            <a
-              href="/Contact"
+            <NavLink
+              to="/Contact"
               className="nav-link flex px-2 sm:text-sm md:text-base"
+              activeClassName="active"
             >
               Contact Us
-            </a>
+            </NavLink>
           </li>
           <li>
             <a
