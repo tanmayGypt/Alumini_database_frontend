@@ -1,4 +1,12 @@
+import { useState } from "react";
+import FeedbackModal from "./FeedbackModal";
+
 function Footer() {
+  const [isFeedbackOpen, setFeedbackOpen] = useState(false);
+
+  const openFeedback = () => setFeedbackOpen(true);
+  const closeFeedback = () => setFeedbackOpen(false);
+
   return (
     <div className="bg-gray-800 text-white p-6 rounded-lg shadow-md">
       <div className="flex justify-between items-start mb-6">
@@ -76,11 +84,15 @@ function Footer() {
           </a>
         </div>
       </div>
-      <div className="absolute bottom-0 right-0 mr-4 mb-4">
-        <button className="bg-green-500 text-white px-4 py-2 rounded-full shadow-md hover:bg-green-600 transition duration-300">
+      <div className="fixed bottom-0 right-0 mr-4 mb-4">
+        <button
+          className="bg-green-500 text-white px-4 py-2 rounded-full shadow-md hover:bg-green-600 transition duration-300"
+          onClick={openFeedback}
+        >
           Feedback
         </button>
       </div>
+      <FeedbackModal isOpen={isFeedbackOpen} onClose={closeFeedback} />
     </div>
   );
 }
