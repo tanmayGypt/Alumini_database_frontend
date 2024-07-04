@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import "./test.css";
+import Card from "./Event_card";
+import eventDetails from "./eventDetails"; // Importing the event details
 
 function Alumini_Eventpage() {
   return (
@@ -20,57 +22,20 @@ function Alumini_Eventpage() {
         <section className="events-section">
           <button className="events-button">Events and Reunions</button>
           <div className="events-container">
-            <div className="event-card">
-              <img src="/photo2.jpg" alt="Event" className="event-image" />
-              <h3>Annual Alumni Reunion</h3>
-              <p>Date: July 20, 2024</p>
-              <p>Location: College Campus</p>
-              <Link
-                to="/Networking_Opportunities/RegisterPage"
-                className="register-button"
-              >
-                Register Now
-              </Link>
-            </div>
-            <div className="event-card">
-              <img src="/photo2.jpg" alt="Event" className="event-image" />
-              <h3>Annual Alumni Reunion</h3>
-              <p>Date: July 20, 2024</p>
-              <p>Location: College Campus</p>
-              <Link
-                to="/Networking_Opportunities/RegisterPage"
-                className="register-button"
-              >
-                Register Now
-              </Link>
-            </div>
-            <div className="event-card">
-              <img src="/photo2.jpg" alt="Event" className="event-image" />
-              <h3>Annual Alumni Reunion</h3>
-              <p>Date: July 20, 2024</p>
-              <p>Location: College Campus</p>
-              <Link
-                to="/Networking_Opportunities/RegisterPage"
-                className="register-button"
-              >
-                Register Now
-              </Link>
-            </div>
-
-            <div className="event-card">
-              <img src="/photo2.jpg" alt="Event" className="event-image" />
-              <h3>Annual Alumni Reunion</h3>
-              <p>Date: July 20, 2024</p>
-              <p>Location: College Campus</p>
-              <Link
-                to="/Networking_Opportunities/RegisterPage"
-                className="register-button"
-              >
-                Register Now
-              </Link>
-            </div>
+            {eventDetails.map((event, index) => (
+              <Card
+                key={index}
+                image={event.image}
+                title={event.title}
+                date={event.date}
+                location={event.location}
+                link={event.link}
+              />
+            ))}
           </div>
-          <button className="view-more-button p-4">View More</button>
+          <Link to="/Networking_Opportunities/New_eventpage" className="view-more-link">
+            <button className="view-more-button p-4">View More</button>
+          </Link>
         </section>
       </main>
     </div>

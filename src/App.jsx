@@ -19,6 +19,7 @@ import Mobile from "./Page/Mobile";
 import Cards from "./Page-Components/Registered-Candidates/Card";
 import RegisterPage from "./Page-Components/Networking-Opportunities/RegisterPage";
 
+
 function App() {
   const location = useLocation();
   const [progress, setProgress] = useAutoIncrementProgress();
