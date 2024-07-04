@@ -19,7 +19,7 @@ import Mobile from "./Page/Mobile";
 import Cards from "./Page-Components/Registered-Candidates/Card";
 import RegisterPage from "./Page-Components/Networking-Opportunities/RegisterPage";
 import JobsSection from "./Page-Components/Networking-Opportunities/JobsSection";
-
+import New_eventpage from "./Page-Components/Networking-Opportunities/New_eventpage";
 
 function App() {
   const location = useLocation();
@@ -55,8 +55,14 @@ function App() {
         <Route path="/News" element={<News />} />
         <Route path="/Mobile_App" element={<Mobile />} />
         <Route path="/registered_candidates" element={<Cards />} />
+        <Route path="/JobSection" element={<JobsSection />} />
+        <Route
+          path="/Networking_Opportunities/New_eventpage"
+          element={<New_eventpage />}
+        />
       </Routes>
       <LoadingBar color="#9333ea" height={3} progress={progress} />
+
       <Footer />
     </>
   );
