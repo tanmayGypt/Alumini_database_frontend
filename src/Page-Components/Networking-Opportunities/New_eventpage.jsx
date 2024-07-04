@@ -4,13 +4,13 @@ import SearchBar from "../Alumini-Achievements/SearchBar";
 import eventDetails from "./eventDetails";
 
 function New_eventpage() {
-  // Calculate width dynamically based on number of cards per row
+
   const cardWidth = `${100 / 4}%`; // 4 cards per row
 
   return (
-    <div className="py-12 px-4 md:px-8"> {/* Added padding for general spacing */}
-      <header className="App-header mb-8 text-center"> {/* Added margin bottom for header */}
-        <img src="/eventimage.jpg" alt="Header" className="header-image mt-8 mb-4" /> {/* Adjusted margin top and bottom for image */}
+    <div className="py-12 px-4 md:px-8"> 
+      <header className="App-header mb-8 text-center"> 
+        <img src="/eventimage.jpg" alt="Header" className="header-image mt-8 mb-4" /> 
         <h1>
           CONNECT & GROW: ALUMNI <span className="highlight">EVENTS</span>{" "}
           & MENTORSHIP
@@ -22,10 +22,10 @@ function New_eventpage() {
           growth and success.
         </p>
       </header>
-      <SearchBar className="mt-8 mb-8 pr-4" /> {/* Added padding right class */}
+      <SearchBar className="mt-8 mb-8 pr-4" />
       <main>
-        <section className="events-section text-center"> {/* Centered content */}
-          <button className="events-button mb-8 mx-auto">Events and Reunions</button> {/* Centered and added bottom margin for the button */}
+        <section className="events-section text-center"> 
+          <button className="events-button mb-8 mx-auto">Events and Reunions</button> 
           <div
             style={{
               display: "flex",
