@@ -18,6 +18,7 @@ import News from "./Page/News";
 import Mobile from "./Page/Mobile";
 import Cards from "./Page-Components/Registered-Candidates/Card";
 import RegisterPage from "./Page-Components/Networking-Opportunities/RegisterPage";
+import JobsSection from "./Page-Components/Networking-Opportunities/JobsSection";
 
 function App() {
   const location = useLocation();
@@ -45,6 +46,10 @@ function App() {
         <Route
           path="/Networking_Opportunities/RegisterPage"
           element={<RegisterPage />}
+        />
+        <Route
+          path="/Networking_Opportunities/JobsSection"
+          element={<JobsSection />}
         />
         <Route path="/News" element={<News />} />
         <Route path="/Mobile_App" element={<Mobile />} />
