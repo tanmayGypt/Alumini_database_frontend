@@ -113,12 +113,13 @@ const NavBar = () => {
             </NavLink>
           </li>
           <li>
-            <a
-              href="#login"
-              className="bg-gray-200 hover:bg-gray-300 text-purple-600 px-4 py-2 rounded flex justify-center text-sm md:text-base"
+            <NavLink
+              to="/Student_Registration"
+              className="nav-link flex px-2 sm:text-sm md:text-base"
+              activeClassName="active"
             >
-              LOGIN/SIGNUP
-            </a>
+              Students
+            </NavLink>
           </li>
         </ul>
       </div>

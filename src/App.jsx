@@ -25,7 +25,6 @@ import Body from "./Page-Components/Resume-components/Resume_body";
 
 import EventDetailsPage from "./Page-Components/Networking-Opportunities/EventDetailsPage";
 
-
 function App() {
   const location = useLocation();
   const [progress, setProgress] = useAutoIncrementProgress();
@@ -65,10 +64,11 @@ function App() {
           path="/Networking_Opportunities/New_eventpage"
           element={<New_eventpage />}
         />
-        <Route 
-        path = "/Networking_Opportunities/EventDetailsPage"
-        element={<EventDetailsPage/>}
+        <Route
+          path="/Networking_Opportunities/EventDetailsPage"
+          element={<EventDetailsPage />}
         />
+        <Route path="/Student_Registration" element={<Body />} />
       </Routes>
       <LoadingBar color="#9333ea" height={3} progress={progress} />
 
