@@ -2,7 +2,7 @@ import React from 'react';
 
 const NewsCard = ({ title, date, description, image }) => {
   return (
-    <div className="bg-gray-100 rounded-xl p-7 mb-4 lg:mx-40 md:mx-20 sm:mx-10 mx-10 transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg">
+    <div className="bg-gray-100 rounded-xl p-7 mb-4  transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg">
       <div className="flex flex-col sm:flex-row items-center">
         <div className="bg-gray-200 rounded-lg overflow-hidden w-full sm:w-1/2 md:w-1/4 h-auto">
           <img src={image} alt="avatar" className="w-full h-full object-cover" />
