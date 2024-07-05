@@ -31,7 +31,7 @@ const newsData = [
 
 const NewsSection = () => {
   return (
-    <section className="container mx-auto mt-8 mb-10">
+    <section className="container mx-auto mt-8 mb-10 ">
 
       <div className="bg-[#518DAF] mt-10 rounded-3xl p-3 overflow-hidden w-1/2 sm:w-1/2 md:w-1/4 h-auto mx-auto">
         <h2 className="text-2xl  text-white text-center ">Latest News</h2>
@@ -41,7 +41,7 @@ const NewsSection = () => {
         <SearchBar/>
       </div>
       
-      <div className="space-y-6">
+      <div className="space-y-6 lg:mx-40 md:mx-20 sm:mx-10 mx-10">
         {newsData.map((item, index) => (
           <NewsCard key={index} {...item} />
         ))}
