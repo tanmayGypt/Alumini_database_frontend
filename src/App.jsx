@@ -20,7 +20,10 @@ import Cards from "./Page-Components/Registered-Candidates/Card";
 import RegisterPage from "./Page-Components/Networking-Opportunities/RegisterPage";
 import JobsSection from "./Page-Components/Networking-Opportunities/JobsSection";
 import New_eventpage from "./Page-Components/Networking-Opportunities/New_eventpage";
+
 import Body from "./Page-Components/Resume-components/Resume_body";
+
+import EventDetailsPage from "./Page-Components/Networking-Opportunities/EventDetailsPage";
 
 function App() {
   const location = useLocation();
@@ -61,6 +64,11 @@ function App() {
           path="/Networking_Opportunities/New_eventpage"
           element={<New_eventpage />}
         />
+        <Route
+          path="/Networking_Opportunities/EventDetailsPage"
+          element={<EventDetailsPage />}
+        />
+        <Route path="/Student_Registration" element={<Body />} />
       </Routes>
       <LoadingBar color="#9333ea" height={3} progress={progress} />
 

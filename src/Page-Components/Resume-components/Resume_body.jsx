@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import ReactToPrint from "react-to-print";
 import { ArrowDown } from "react-feather";
 
@@ -47,15 +47,15 @@ function Body() {
       sectionTitle: sections.achievement,
       details: [],
     },
-    [sections.positionOfResponsibility]: { 
+    [sections.positionOfResponsibility]: {
       id: sections.positionOfResponsibility,
       sectionTitle: sections.positionOfResponsibility,
-      details: [], 
+      details: [],
     },
   });
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} mt-20`}>
       <p className={styles.heading}>Resume Builder</p>
       <div className={styles.toolbar}>
         <div className={styles.colors}>
