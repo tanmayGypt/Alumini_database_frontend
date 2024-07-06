@@ -7,7 +7,7 @@ import { Typography, Button } from "@material-tailwind/react";
 function Dashboard() {
   return (
     <Carousel
-      className="rounded-xl mt-5 py-10 md:py-20 "
+      className="rounded-xl mt-5 pt-10 md:py-20 "
       autoPlay
       interval={3000}
       infiniteLoop
