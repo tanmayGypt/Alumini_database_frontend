@@ -1,4 +1,38 @@
 const eventDetails = [
+<<<<<<< HEAD
+    {
+      image: "/profileicon.jpg",
+      title: "Annual Alumni Reunion",
+      date: "July 20, 2024",
+      location: "College Campus",
+      link: "/Networking_Opportunities/RegisterPage",
+    },
+    {
+      image: "/profileicon.jpg",
+      title: "Annual Alumni Reunion",
+      date: "July 20, 2024",
+      location: "College Campus",
+      link: "/Networking_Opportunities/RegisterPage",
+    },
+    {
+      image: "/profileicon.jpg",
+      title: "Annual Alumni Reunion",
+      date: "July 20, 2024",
+      location: "College Campus",
+      link: "/Networking_Opportunities/RegisterPage",
+    },
+    {
+      image: "/profileicon.jpg",
+      title: "Annual Alumni Reunion",
+      date: "July 20, 2024",
+      location: "College Campus",
+      link: "/Networking_Opportunities/RegisterPage",
+    },
+  ];
+  
+  export default eventDetails;
+  
+=======
   {
     id: 1,
     image: "/photo2.jpg",
@@ -42,3 +76,4 @@ const eventDetails = [
 ];
 
 export default eventDetails;
+>>>>>>> 8f75b50cc6de59f8c2477c419a80d7e5c0c25fbe

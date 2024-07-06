@@ -62,7 +62,7 @@ const jobs = [
 ];
 
 return (
-  <div className="text-center py-16">
+  <div className="text-center py-8">
     <style>
       {`
         @import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;700&display=swap');
