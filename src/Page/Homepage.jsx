@@ -1,4 +1,3 @@
-import AboutUs from "../Page-Components/Home-Components/About";
 import Dashboard from "../Page-Components/Home-Components/Dashboard";
 import Overview from "../Page-Components/Home-Components/Overview";
 

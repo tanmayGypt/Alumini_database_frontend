@@ -1,31 +1,14 @@
-import { useState } from "react";
-import AchievementCard from "../Alumini-Achievements/AchievementCard";
 import JobCard from "../Networking-Opportunities/JobCard";
 import ImageList from "./CustomImageList";
 import NewsCard from "../News-Components/NewsCard";
+import AchievementList from "./AchievmentList";
+import { useLocation, Link } from "react-router-dom";
+import JobCarousel from "./JobCarousel";
 
 function Overview() {
-    const [achievements, setAchievements] = useState([
-        {
-            title: "CONGRATULATIONS FOR QUALIFYING GATE-2023",
-            date: "17th Jul, 2023",
-            message:
-                "BPIT FAMILY CONGRATULATES Ms. Sunanda & Mr. Krishna Kishor for Qualifying GATE-2023. Your hard work, dedication, and perseverance have paid off, and you should be extremely proud of your achievement. ",
-            imageUrl: "https://pinnacle.works/wp-content/uploads/2022/06/dummy-image.jpg",
-            description: "This achievement marks a significant milestone in their academic journey."
-        },
-        {
-            title: "CONGRATULATIONS FOR QUALIFYING GATE-2023",
-            date: "17th Jul, 2023",
-            message:
-                "BPIT FAMILY CONGRATULATES Ms. Sunanda & Mr. Krishna Kishor for Qualifying GATE-2023. Your hard work, dedication, and perseverance have paid off, and you should be extremely proud of your achievement.",
-            imageUrl: "https://pinnacle.works/wp-content/uploads/2022/06/dummy-image.jpg",
-            description: "Celebrating their outstanding performance in GATE-2023."
-        }
-        // We Can add more achievements here
-    ]);
+   
 
-    const jobs = Array(3).fill({
+    const jobs = Array(7).fill({
         type: "Part Time",
         salary: "15k / Mo",
         title: "UI/UX Designer",
@@ -51,9 +34,9 @@ function Overview() {
       ];
 
     return (
-        <div className="container mx-auto p-4 grid grid-cols-4 gap-6 md:grid-cols-3">
+        <div className="container mx-auto p-4 grid grid-cols-4 gap-6 md:grid-cols-3 mb-12">
 
-            <div className="p-5 bg-white col-span-4 rounded-lg ">
+            <div className="px-5 bg-white col-span-4 rounded-lg ">
                 <h1 className="text-2xl font-bold mt-10 mb-4">News and Events</h1>
                 <div className="grid gap-6 grid-cols-2">
                 {newsData.map((item, index) => (
@@ -64,25 +47,14 @@ function Overview() {
 
             <div className="p-5 bg-white rounded-lg col-span-4 mb-10">
                 <h1 className="text-2xl font-bold mt-10 mb-4">Jobs</h1>
-                <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-4">
-                    {jobs.map((job, index) => (
-                        <JobCard key={index} job={job} />
-                    ))}
+                <div className="">
+                <JobCarousel jobs={jobs} />
                 </div>
             </div>
 
-            <div className="p-5 bg-white rounded-lg mt-10 col-span-3">
+            <div className="p-5 bg-white rounded-lg mt-10 mb-10 col-span-3">
                 <h1 className="text-2xl font-bold mb-4">Achievements</h1>
-                {achievements.map((achievement, index) => (
-                    <AchievementCard
-                        key={index}
-                        title={achievement.title}
-                        date={achievement.date}
-                        message={achievement.message}
-                        imageUrl={achievement.imageUrl}
-                        description={achievement.description}
-                    />
-                ))}
+                <AchievementList/>
             </div>
 
             <div className=" p-5 justify-centre mt-10 mr-10">
@@ -91,12 +63,17 @@ function Overview() {
             </div>
 
             <div className="p-5 bg-white col-span-4 colrounded-lg col-span-3 text-center">
-                <button className="m-2 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600">
+            
+                <Link 
+                    to="/Contact"
+                    className="m-2 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600">
                     Contact Us
-                </button>
-                <button className="m-2 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600">
+                </Link>
+                <Link 
+                    to = "/About"
+                    className="m-2 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 ">
                     About Us
-                </button>
+                </Link>
             </div>
             
         </div>

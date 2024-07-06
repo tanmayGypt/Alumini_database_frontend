@@ -24,6 +24,7 @@ import New_eventpage from "./Page-Components/Networking-Opportunities/New_eventp
 import Body from "./Page-Components/Resume-components/Resume_body";
 
 import EventDetailsPage from "./Page-Components/Networking-Opportunities/EventDetailsPage";
+import AboutUs from "./Page/About";
 
 function App() {
   const location = useLocation();
@@ -63,6 +64,10 @@ function App() {
         <Route
           path="/Networking_Opportunities/New_eventpage"
           element={<New_eventpage />}
+        />
+        <Route
+          path="/About"
+          element={<AboutUs />}
         />
         <Route
           path="/Networking_Opportunities/EventDetailsPage"
