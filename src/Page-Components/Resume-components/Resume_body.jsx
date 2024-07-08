@@ -8,6 +8,7 @@ import Resume from "./Resume";
 import styles from "./Resume_Body.module.css";
 
 const colors = ["#239ce2"];
+
 function Body() {
   const sections = {
     basicInfo: "Basic Info",
@@ -57,6 +58,19 @@ function Body() {
   return (
     <div className={`${styles.container} mt-20`}>
       <p className={styles.heading}>Resume Builder</p>
+      <div className={styles.main}>
+        <Editor
+          sections={sections}
+          information={resumeInformation}
+          setInformation={setResumeInformation}
+        />
+        <Resume
+          ref={resumeRef}
+          sections={sections}
+          information={resumeInformation}
+          activeColor={activeColor}
+        />
+      </div>
       <div className={styles.toolbar}>
         <div className={styles.colors}>
           {colors.map((item) => (
@@ -79,19 +93,6 @@ function Body() {
             );
           }}
           content={() => resumeRef.current}
-        />
-      </div>
-      <div className={styles.main}>
-        <Editor
-          sections={sections}
-          information={resumeInformation}
-          setInformation={setResumeInformation}
-        />
-        <Resume
-          ref={resumeRef}
-          sections={sections}
-          information={resumeInformation}
-          activeColor={activeColor}
         />
       </div>
     </div>

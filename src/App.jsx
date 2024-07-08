@@ -21,6 +21,7 @@ import RegisterPage from "./Page-Components/Networking-Opportunities/RegisterPag
 import JobsSection from "./Page-Components/Networking-Opportunities/JobsSection";
 import New_eventpage from "./Page-Components/Networking-Opportunities/New_eventpage";
 
+
 import Body from "./Page-Components/Resume-components/Resume_body";
 
 import EventDetailsPage from "./Page-Components/Networking-Opportunities/EventDetailsPage";
