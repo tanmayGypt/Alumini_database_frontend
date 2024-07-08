@@ -38,7 +38,7 @@ function Overview() {
 
             <div className="px-5 bg-white col-span-4 rounded-lg ">
                 <h1 className="text-2xl font-bold mt-10 mb-4">News and Events</h1>
-                <div className="grid gap-6 grid-cols-2">
+                <div className="grid gap-6 md:grid-rows-auto lg:grid-cols-2 sm:grid-rows-auto">
                 {newsData.map((item, index) => (
                     <NewsCard key={index} {...item} />
                 ))}
@@ -51,13 +51,16 @@ function Overview() {
                 <JobCarousel jobs={jobs} />
                 </div>
             </div>
-
-            <div className="p-5 bg-white rounded-lg mt-10 mb-10 col-span-3">
+ 
+            <div className="p-5 bg-white rounded-lg mt-10 mb-10 lg:col-span-3 md:col-span-4 sm:col-span-4 col-span-4">
                 <h1 className="text-2xl font-bold mb-4">Achievements</h1>
                 <AchievementList/>
-            </div>
+            </div> 
 
-            <div className=" p-5 justify-centre mt-10 mr-10">
+
+
+
+            <div className=" p-5 justify-centre pr-10 lg:col-span-1 md:col-span-4 sm:col-span-4 col-span-4" >
                 <h1 className="text-2xl  font-bold mb-4">Our Alumni</h1>
                 <ImageList />
             </div>

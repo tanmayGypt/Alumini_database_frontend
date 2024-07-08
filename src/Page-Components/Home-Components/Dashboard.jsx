@@ -60,12 +60,12 @@ function Dashboard() {
           alt="image 2"
           className="h-full w-full object-cover"
         />
-        <div className="absolute inset-0 flex items-center bg-black/60"> 
-          <div className="w-3/4 pl-8 sm:pl-12 md:w-2/4 md:pl-20 lg:pl-32">
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/60"> 
+          <div className="w-3/4 text-center md:w-2/4">
             <Typography
               variant="h1"
               color="white"
-              className="mb-4 text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl"
+              className="mb-4 text-xl sm:text-xl md:text-3xl lg:text-4xl xl:text-5xl"
             >
               Welcome to the <span className="text-red-600">Abhigyan</span> Alumni
               Network
@@ -73,19 +73,19 @@ function Dashboard() {
             <Typography
               variant="lead"
               color="white"
-              className="mb-6 md:mb-8 lg:mb-10 xl:mb-12 opacity-80 text-sm sm:text-base md:text-lg lg:text-xl"
+              className="mb-6 md:mb-8 lg:mb-10 xl:mb-12 opacity-80 text-sm sm:text-sm md:text-lg lg:text-xl"
             >
               Connecting our graduates, showcasing achievements, and facilitating
               networking opportunities.
             </Typography>
-            <div className="flex flex-wrap gap-2">
-              <Button className="px-4 py-2 text-sm sm:px-6 sm:py-3 sm:text-base md:px-8 md:py-4 md:text-lg" color="orange"> {/* Responsive button sizes */}
+            <div className="flex flex-wrap justify-center gap-2">
+              <Button className="px-4 py-2 text-sm sm:px-6 sm:py-3 sm:text-sm md:px-8 md:py-4 md:text-lg" color="orange">
                 Join the Alumni Network
               </Button>
-              <Button className="px-4 py-2 text-sm sm:px-6 sm:py-3 sm:text-base md:px-8 md:py-4 md:text-lg" color="orange"> {/* Responsive button sizes */}
+              <Button className="px-4 py-2 text-sm sm:px-6 sm:py-3 sm:text-sm md:px-8 md:py-4 md:text-lg" color="orange"> 
                 Search Alumni
               </Button>
-              <Button className="px-4 py-2 text-sm sm:px-6 sm:py-3 sm:text-base md:px-8 md:py-4 md:text-lg" color="orange"> {/* Responsive button sizes */}
+              <Button className="px-4 py-2 text-sm sm:px-6 sm:py-3 sm:text-sm md:px-8 md:py-4 md:text-lg" color="orange"> 
                 View Upcoming Events
               </Button>
             </div>
