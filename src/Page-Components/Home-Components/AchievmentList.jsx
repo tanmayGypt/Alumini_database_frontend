@@ -41,7 +41,9 @@ export default function AchievementList() {
         // We Can add more achievements here
     ]);
   return (
-    <Box sx={{ width: 650, height: 450, overflowY: 'scroll' }}>
+    <Box sx={{  width:'90%',
+                height: { xs: 300, sm: 350, md: 400, lg: 450, xl: 500 }, 
+                overflowY: 'scroll' }}>
        {achievements.map((achievement, index) => (
                     <AchievementCard
                         key={index}
