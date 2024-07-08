@@ -8,7 +8,7 @@ function AboutUs() {
   };
 
   return (
-    <div className="container bg-#333333  px-4 py-5 flex flex-row justify-center">
+    <div className="container bg-#333333  px-4 py-20 mt-10 flex flex-row justify-center">
       <div className="max-w-5xl mx-24 bg-white p-8 rounded shadow-md w-3/4">
         <h1 className="text-4xl font-12px pb-5 ">
           {activeTab === "about" ? "About Us" : "Vision & Mission"}
