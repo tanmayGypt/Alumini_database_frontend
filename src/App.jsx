@@ -20,12 +20,13 @@ import Cards from "./Page-Components/Registered-Candidates/Card";
 import RegisterPage from "./Page-Components/Networking-Opportunities/RegisterPage";
 import JobsSection from "./Page-Components/Networking-Opportunities/JobsSection";
 import New_eventpage from "./Page-Components/Networking-Opportunities/New_eventpage";
-
-
 import Body from "./Page-Components/Resume-components/Resume_body";
-
 import EventDetailsPage from "./Page-Components/Networking-Opportunities/EventDetailsPage";
 import AboutUs from "./Page/About";
+import JobPostingPage from "./Page-Components/Job_Posting_Page";
+import RanklistPage from "./Page-Components/Rank_List";
+import InterviewList from "./Page-Components/Interview-Experience/InterviewList";
+import InterviewDetail from "./Page-Components/Interview-Experience/InterviewDetail";
 
 function App() {
   const location = useLocation();
@@ -66,15 +67,16 @@ function App() {
           path="/Networking_Opportunities/New_eventpage"
           element={<New_eventpage />}
         />
-        <Route
-          path="/About"
-          element={<AboutUs />}
-        />
+        <Route path="/About" element={<AboutUs />} />
         <Route
           path="/Networking_Opportunities/EventDetailsPage"
           element={<EventDetailsPage />}
         />
         <Route path="/Student_Registration" element={<Body />} />
+        <Route path="/JobRankForm" element={<JobPostingPage />} />
+        <Route path="/JobRanklist" element={<RanklistPage />} />
+        <Route path="/interview_experience" element={<InterviewList />} />
+        <Route path="/InterviewDetails" element={<InterviewDetail />} />
       </Routes>
       <LoadingBar color="#9333ea" height={3} progress={progress} />
 
