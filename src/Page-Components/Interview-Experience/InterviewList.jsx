@@ -1,25 +1,75 @@
-import React from "react";
+
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import ActionAreaCard from "./ActionAreaCard";
 
 const InterviewList = ({ interviews }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const cardsToShow = 3; // Number of cards to show at once
+  const cardWidthPercentage = 100 / cardsToShow; // Each card occupies 1/3 of the container
+
+  const handlePrevClick = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex > 0 ? prevIndex - 1 : interviews.length - 1
+    );
+  };
+
+  const handleNextClick = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex < interviews.length - 1 ? prevIndex + 1 : 0
+    );
+  };
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-      {interviews?.map((interview) => (
-        <Link
-          key={interview.id}
-          to={`/interview/${interview.id}`}
-          className="no-underline p-3"
+    <div className="relative">
+      <div className="flex overflow-x-hidden">
+        <button
+          className="absolute left-0 z-10 p-2 bg-white border rounded-full shadow-md top-1/2 transform -translate-y-1/2"
+          onClick={handlePrevClick}
         >
-          <div className=" transform transition duration-300 hover:scale-105 hover:shadow-lg">
-            <ActionAreaCard
-              title={interview.title}
-              content={interview.summary}
-              image={interview.image}
-            />
-          </div>
-        </Link>
-      ))}
+          &#8249;
+        </button>
+        <div
+          className="flex transition-transform duration-500"
+          style={{
+            transform: `translateX(-${currentIndex * cardWidthPercentage}%)`,
+            width: `${100 * interviews.length}%`,
+          }}
+        >
+          {interviews?.map((interview, index) => (
+            <div
+              key={index}
+              className="flex-shrink-0 p-5"
+              style={{ width: `${cardWidthPercentage}%` }}
+            >
+              <Link
+                to={`/interview/${interview.id}`}
+                className="no-underline p-3"
+              >
+                <div className="transform transition duration-300 hover:scale-105 hover:shadow-lg">
+                  <ActionAreaCard
+                    title={interview.title}
+                    content={interview.summary}
+                    image={interview.image}
+                    dateTime={interview.dateTime}
+                    postedBy={interview.postedBy}
+                    role={interview.role} 
+                  />
+                  <div className="mt-2">
+                    <p className="text-sm text-gray-500">{interview.role}</p>
+                  </div>
+                </div>
+              </Link>
+            </div>
+          ))}
+        </div>
+        <button
+          className="absolute right-0 z-10 p-2 bg-white border rounded-full shadow-md top-1/2 transform -translate-y-1/2"
+          onClick={handleNextClick}
+        >
+          &#8250;
+        </button>
+      </div>
     </div>
   );
 };

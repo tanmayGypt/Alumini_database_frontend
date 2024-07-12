@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import ActionAreaCard from './ActionAreaCard';
@@ -17,6 +18,12 @@ const InterviewDetail = ({ interviews }) => {
           title={interview.title} 
           content={interview.content} 
           image={interview.image} 
+          dateTime={interview.dateTime}
+          postedBy={interview.postedBy}
+          postedInYear={interview.postedInYear}
+          role={interview.role}
+          campusType={interview.campusType}
+          referral={interview.referral}
         />
       </div>
     </div>
@@ -24,3 +31,4 @@ const InterviewDetail = ({ interviews }) => {
 };
 
 export default InterviewDetail;
+

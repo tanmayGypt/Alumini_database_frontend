@@ -27,6 +27,7 @@ import JobPostingPage from "./Page-Components/Job_Posting_Page";
 import RanklistPage from "./Page-Components/Rank_List";
 import InterviewList from "./Page-Components/Interview-Experience/InterviewList";
 import InterviewDetail from "./Page-Components/Interview-Experience/InterviewDetail";
+import TabComponent from "./Page-Components/Alumni_portfolio/tabcomponent";
 
 function App() {
   const location = useLocation();
@@ -37,7 +38,7 @@ function App() {
   }, [location.pathname, setProgress]);
 
   return (
-    <>
+    <>  
       <NavBar />
       <Routes>
         <Route path="/" element={<Homepage />} />
@@ -79,7 +80,7 @@ function App() {
         <Route path="/InterviewDetails" element={<InterviewDetail />} />
       </Routes>
       <LoadingBar color="#9333ea" height={3} progress={progress} />
-
+        
       <Footer />
     </>
   );
