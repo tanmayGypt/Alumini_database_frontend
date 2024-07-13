@@ -1,19 +1,30 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import Dashboard from './Dashboard';
-import SearchBar from './SearchBar';
-import InterviewList from './InterviewList';
-import InterviewDetail from './InterviewDetail';
-import { setSearchTerm } from '../../features/interviewSlice';
+
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import Dashboard from "./Dashboard";
+import SearchBar from "./SearchBar";
+import InterviewList from "./InterviewList";
+import InterviewDetail from "./InterviewDetail";
+
+import "./InterviewPage.css";
 
 const InterviewExp = () => {
-  const searchTerm = useSelector((state) => state.interview.searchTerm);
-  const interviews = useSelector((state) => state.interview.interviews);
-  const dispatch = useDispatch();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedInterview, setSelectedInterview] = useState(null);
+
+  // Accessing interviews from Redux store
+  const interviews = useSelector((state) => state.interviews.interviews);
 
   const handleSearch = (e) => {
-    dispatch(setSearchTerm(e.target.value));
+    setSearchTerm(e.target.value);
+  };
+
+  const handleInterviewClick = (interview) => {
+    setSelectedInterview(interview);
+  };
+
+  const handleBackClick = () => {
+    setSelectedInterview(null);
   };
 
   const filteredInterviews = interviews.filter((interview) =>
@@ -21,22 +32,21 @@ const InterviewExp = () => {
   );
 
   return (
-    <Router>
-      <div className="App">
-        <Dashboard />
-        <SearchBar handleSearch={handleSearch} />
-        <Routes>
-          <Route
-            path="/"
-            element={<InterviewList interviews={filteredInterviews} />}
-          />
-          <Route
-            path="/interview/:id"
-            element={<InterviewDetail interviews={interviews} />}
-          />
-        </Routes>
-      </div>
-    </Router>
+    <div className="App">
+      <Dashboard />
+      <SearchBar handleSearch={handleSearch} />
+      {selectedInterview ? (
+        <InterviewDetail
+          interview={selectedInterview}
+          handleBackClick={handleBackClick}
+        />
+      ) : (
+        <InterviewList
+          interviews={filteredInterviews}
+          handleInterviewClick={handleInterviewClick}
+        />
+      )}
+    </div>
   );
 };
 

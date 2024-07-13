@@ -1,9 +1,7 @@
-
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import ActionAreaCard from "./ActionAreaCard";
 
-const InterviewList = ({ interviews }) => {
+const InterviewList = ({ interviews, handleInterviewClick }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const cardsToShow = 3; // Number of cards to show at once
   const cardWidthPercentage = 100 / cardsToShow; // Each card occupies 1/3 of the container
@@ -41,11 +39,9 @@ const InterviewList = ({ interviews }) => {
               key={index}
               className="flex-shrink-0 p-5"
               style={{ width: `${cardWidthPercentage}%` }}
+              onClick={() => handleInterviewClick(interview)}
             >
-              <Link
-                to={`/interview/${interview.id}`}
-                className="no-underline p-3"
-              >
+              <div className="no-underline p-3 cursor-pointer">
                 <div className="transform transition duration-300 hover:scale-105 hover:shadow-lg">
                   <ActionAreaCard
                     title={interview.title}
@@ -53,13 +49,13 @@ const InterviewList = ({ interviews }) => {
                     image={interview.image}
                     dateTime={interview.dateTime}
                     postedBy={interview.postedBy}
-                    role={interview.role} 
+                    role={interview.role}
                   />
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">{interview.role}</p>
                   </div>
                 </div>
-              </Link>
+              </div>
             </div>
           ))}
         </div>
@@ -75,3 +71,4 @@ const InterviewList = ({ interviews }) => {
 };
 
 export default InterviewList;
+

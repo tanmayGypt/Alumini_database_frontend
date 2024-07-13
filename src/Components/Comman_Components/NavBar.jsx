@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import msalInstance from "./msalConfig";
@@ -7,10 +5,15 @@ import "./NavBar.css";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [account, setAccount] = useState(null);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
   };
 
   const initializeMsal = async () => {
@@ -152,14 +155,57 @@ const NavBar = () => {
               Contact Us
             </NavLink>
           </li>
-          <li>
-            <NavLink
-              to="/Student_Registration"
+          
+          <li className="relative">
+            <button
+              onClick={toggleDropdown}
               className="nav-link flex px-2 sm:text-sm md:text-base"
-              activeClassName="active"
             >
-              Students
-            </NavLink>
+              Resources
+            </button>
+            {isDropdownOpen && (
+              <ul className="absolute bg-white shadow-lg rounded-md mt-1 py-1 w-40">
+                <li>
+                  <NavLink
+                    to="/interview-experience"
+                    className="dropdown-link block px-4 py-2 text-sm text-gray-700"
+                    activeClassName="active"
+                  >
+                    Interview Experience
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/Student_Registration"
+                    className="dropdown-link block px-4 py-2 text-sm text-gray-700"
+                    activeClassName="active"
+                  >
+                    Students
+                  </NavLink>
+                </li>
+                <li className="relative">
+  <NavLink
+    to="/JobRankForm"
+    className="dropdown-link block px-4 py-2 text-sm text-gray-700"
+    activeClassName="active"
+  >
+    Job Posting
+  </NavLink>
+</li>
+<li className="relative">
+  <NavLink
+    to="/JobRanklist"
+    className="dropdown-link block px-4 py-2 text-sm text-gray-700"
+    activeClassName="active"
+  >
+    Ranklist
+  </NavLink>
+</li>
+
+                
+            
+              </ul>
+            )}
           </li>
           {account ? (
             <li>

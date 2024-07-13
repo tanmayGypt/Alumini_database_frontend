@@ -23,11 +23,12 @@ import New_eventpage from "./Page-Components/Networking-Opportunities/New_eventp
 import Body from "./Page-Components/Resume-components/Resume_body";
 import EventDetailsPage from "./Page-Components/Networking-Opportunities/EventDetailsPage";
 import AboutUs from "./Page/About";
-import JobPostingPage from "./Page-Components/Job_Posting_Page";
-import RanklistPage from "./Page-Components/Rank_List";
+import JobPostingPage from "./Page/Job_Posting_Page";
+import RanklistPage from "./Page/Rank_List";
 import InterviewList from "./Page-Components/Interview-Experience/InterviewList";
 import InterviewDetail from "./Page-Components/Interview-Experience/InterviewDetail";
 import TabComponent from "./Page-Components/Alumni_portfolio/tabcomponent";
+import InterviewExp from "./Page-Components/Interview-Experience/InterviewPage";
 
 function App() {
   const location = useLocation();
@@ -78,6 +79,8 @@ function App() {
         <Route path="/JobRanklist" element={<RanklistPage />} />
         <Route path="/interview_experience" element={<InterviewList />} />
         <Route path="/InterviewDetails" element={<InterviewDetail />} />
+        <Route path="/interview-experience" element={<InterviewExp />} />
+
       </Routes>
       <LoadingBar color="#9333ea" height={3} progress={progress} />
         

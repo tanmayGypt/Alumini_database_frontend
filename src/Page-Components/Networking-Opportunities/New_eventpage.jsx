@@ -34,6 +34,9 @@ function New_eventpage() {
                   className="view-more-link"
                   style={{ textDecoration: "none", color: "inherit" }}
                 >
+                
+
+                
                   <Card
                     image={event.image}
                     title={event.title}
