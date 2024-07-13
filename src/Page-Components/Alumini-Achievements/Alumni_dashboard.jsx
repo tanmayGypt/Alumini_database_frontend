@@ -7,46 +7,12 @@ import {
   FaUser,
 } from "react-icons/fa";
 import "./Alumni.css";
+import { useSelector } from "react-redux";
 
-const alumniData = [
-  {
-    name: "Dummy Name",
-    role: "Web Developer",
-    achievement:
-      "achieved an impressive milestone by securing a ₹1.2 Crore package at a top multinational tech company.",
-    year: "Class of 2015",
-  },
-  {
-    name: "Jane Smith",
-    role: "Software Engineer",
-    achievement:
-      "achieved an impressive milestone by securing a ₹1.2 Crore package at a top multinational tech company.",
-    year: "Class of 2015",
-  },
-  {
-    name: "Alice Johnson",
-    role: "Data Scientist",
-    achievement:
-      "achieved an impressive milestone by securing a ₹1.2 Crore package at a top multinational tech company.",
-    year: "Class of 2015",
-  },
-  {
-    name: "Bob Brown",
-    role: "Product Manager",
-    achievement:
-      "achieved an impressive milestone by securing a ₹1.2 Crore package at a top multinational tech company..",
-    year: "Class of 2015",
-  },
-  {
-    name: "Chris Green",
-    role: "DevOps Engineer",
-    achievement:
-      "achieved an impressive milestone by securing a ₹1.2 Crore package at a top multinational tech company.",
-    year: "Class of 2015",
-  },
-];
 
 const AlumniCarousel = () => {
+  const alumniData = useSelector((state) => state.alumniData.alumniData);
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
 

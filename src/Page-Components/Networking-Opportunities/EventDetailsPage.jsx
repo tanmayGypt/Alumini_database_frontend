@@ -1,12 +1,14 @@
 import React from "react";
 import { useLocation, Link } from "react-router-dom";
-import eventDetails from "./eventDetails";
+import { useSelector } from "react-redux";
 
 function EventDetailsPage() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const eventId = queryParams.get("eventId");
 
+  // Use useSelector to get eventDetails from the Redux store
+  const eventDetails = useSelector((state) => state.event.eventData);
   const event = eventDetails.find((event) => event.id === parseInt(eventId));
 
   if (!event) return <div className="min-h-screen flex items-center justify-center bg-gray-100">Event not found</div>;

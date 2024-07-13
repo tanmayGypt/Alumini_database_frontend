@@ -1,10 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Card from "./Event_card";
 import SearchBar from "../Alumini-Achievements/SearchBar";
-import eventDetails from "./eventDetails";
 
 function New_eventpage() {
+  const eventDetails = useSelector((state) => state.event.eventData);
+
   return (
     <div className="py-12 px-4 md:px-8">
       <header className="App-header mb-8 text-center">
@@ -29,11 +31,14 @@ function New_eventpage() {
           <div className="flex flex-wrap justify-center md:justify-between">
             {eventDetails.map((event, index) => (
               <div key={index} className="w-full sm:w-1/2 lg:w-1/4 p-2">
-                <Link
+               <Link
                   to={`/Networking_Opportunities/EventDetailsPage?eventId=${event.id}`}
                   className="view-more-link"
                   style={{ textDecoration: "none", color: "inherit" }}
                 >
+                
+
+                
                   <Card
                     image={event.image}
                     title={event.title}
