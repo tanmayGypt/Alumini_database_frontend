@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-import newsReducer from '../features/newsSlice'
 import jobsReducer from '../features/jobsSlice';
 
 export const store = configureStore({
@@ -8,3 +7,4 @@ export const store = configureStore({
     jobs: jobsReducer
   },
 });
+
