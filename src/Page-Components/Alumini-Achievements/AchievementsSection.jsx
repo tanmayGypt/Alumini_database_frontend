@@ -2,19 +2,11 @@ import { useState } from "react";
 import Heading from "../Heading";
 import AchievementCard from "./AchievementCard";
 import SearchBar from "./SearchBar";
+import { useSelector } from 'react-redux';
+
 
 const AchievementsSection = () => {
-  const [achievements, setAchievements] = useState([
-    {
-      title: "CONGRATULATIONS FOR QUALIFYING GATE-2023",
-      date: "17th Jul, 2023",
-      message:
-        "BPIT FAMILY CONGRATULATES Ms. Sunanda & Mr. Krishna Kishor for Qualifying GATE-2023. Your hard work, dedication, and perseverance have paid off, and you should be extremely proud of your achievement. This success is a testament to your knowledge, skills, and the effort you put into your studies. Best wishes for your future endeavors!",
-      imageUrl:
-        "https://pinnacle.works/wp-content/uploads/2022/06/dummy-image.jpg",
-    },
-    // We Can add more achivements here
-  ]);
+  const achievements = useSelector((state) => state.achievements.achievements.slice(0,2)) 
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -34,28 +26,9 @@ const AchievementsSection = () => {
       <SearchBar searchTerm={searchTerm} onSearchChange={handleSearchChange} />
 
       <div className="bg-gray-100 rounded-xl shadow-lg">
-        <div>
-          {filteredAchievements.map((achievement, index) => (
-            <AchievementCard
-              key={index}
-              title={achievement.title}
-              date={achievement.date}
-              message={achievement.message}
-              imageUrl={achievement.imageUrl}
-            />
-          ))}
-        </div>
-        <div>
-          {filteredAchievements.map((achievement, index) => (
-            <AchievementCard
-              key={index}
-              title={achievement.title}
-              date={achievement.date}
-              message={achievement.message}
-              imageUrl={achievement.imageUrl}
-            />
-          ))}
-        </div>
+      {achievements.map((item) => (
+          <AchievementCard key={item.id} {...item} />
+        ))}
       </div>
     </div>
   );

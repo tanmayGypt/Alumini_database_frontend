@@ -4,34 +4,16 @@ import NewsCard from "../News-Components/NewsCard";
 import AchievementList from "./AchievmentList";
 import { useLocation, Link } from "react-router-dom";
 import JobCarousel from "./JobCarousel";
+import { useSelector } from 'react-redux';
+import { selectJobBoardJobs } from '../../features/jobsSlice';
 
 function Overview() {
    
 
-    const jobs = Array(7).fill({
-        type: "Part Time",
-        salary: "15k / Mo",
-        title: "UI/UX Designer",
-        company: "Epic Coders",
-        skills: ["UI", "UX", "PHOTOSHOP"],
-        description: "We are looking for an experienced UI and UX designer to work on our new projects ..."
-    });
+    const jobs = useSelector(selectJobBoardJobs);
 
-    const newsData = [
-        {
-          title: 'Alumni Award Winners Announced',
-          date: '14th Jul, 2023',
-          description: 'Our distinguished alumni have been recognized for their outstanding contributions in various fields.',
-          image: 'src/assets/medal.png'
-        },
-        {
-          title: 'New Alumni Mentorship Program Launch',
-          date: '14th Jul, 2023',
-          description: 'We are excited to announce the launch of our new mentorship program, connecting students with experienced alumni.',
-          image: 'src/assets/congratulation.png'
-        },
+    const newsData = useSelector((state) => state.news.newsData.slice(0,2));
 
-      ];
 
     return (
         <div className="container mx-auto p-4 grid grid-cols-4 gap-6 md:grid-cols-3 mb-12">
