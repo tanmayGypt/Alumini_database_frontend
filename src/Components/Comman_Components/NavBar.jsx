@@ -1,13 +1,53 @@
-import React, { useState } from "react";
+
+
+import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
+import msalInstance from "./msalConfig";
 import "./NavBar.css";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [account, setAccount] = useState(null);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
+  const initializeMsal = async () => {
+    try {
+      await msalInstance.initialize();
+    } catch (error) {
+      console.error("MSAL initialization failed:", error);
+    }
+  };
+
+  const handleLogin = async () => {
+    try {
+      await initializeMsal();
+      const loginResponse = await msalInstance.loginPopup({
+        scopes: ["user.read"],
+      });
+      setAccount(loginResponse.account);
+      // Store user details
+      localStorage.setItem("msalAccount", JSON.stringify(loginResponse.account));
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
+  };
+
+  const handleLogout = () => {
+    msalInstance.logoutPopup();
+    setAccount(null);
+    localStorage.removeItem("msalAccount");
+  };
+
+  // Check if user is already logged in
+  useEffect(() => {
+    const storedAccount = JSON.parse(localStorage.getItem("msalAccount"));
+    if (storedAccount) {
+      setAccount(storedAccount);
+    }
+  }, []);
 
   return (
     <nav className="navbar fixed top-0 left-0 right-0 bg-white shadow-md z-40">
@@ -121,6 +161,25 @@ const NavBar = () => {
               Students
             </NavLink>
           </li>
+          {account ? (
+            <li>
+              <button
+                onClick={handleLogout}
+                className="nav-link-button"
+              >
+                Logout
+              </button>
+            </li>
+          ) : (
+            <li>
+              <button
+                onClick={handleLogin}
+                className="nav-link-button"
+              >
+                Login
+              </button>
+            </li>
+          )}
         </ul>
       </div>
     </nav>
