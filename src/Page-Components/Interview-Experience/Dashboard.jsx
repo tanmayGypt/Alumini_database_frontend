@@ -6,7 +6,7 @@ const messages = [
   "Welcome to the Interview Experiences!",
   "Find insights from various interviews.",
   "Prepare better with real interview experiences.",
-  "ENHANCE YOUR CHANCES WITH IN-DEPTH REVIEWS"
+  "Enhance Your Chances With In-Depth Reviews"
 ];
 
 const Dashboard = () => {
@@ -22,7 +22,7 @@ const Dashboard = () => {
 
   return (
     <header
-    className="py-24 h-max w-full bg-cover bg-center relative"
+    className="py-36 h-max w-full bg-cover bg-center relative"
     style={{ backgroundImage: `url(${backgroundImage})` }}
   >
     <div
