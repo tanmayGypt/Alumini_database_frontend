@@ -29,7 +29,7 @@ import InterviewList from "./Page-Components/Interview-Experience/InterviewList"
 import InterviewDetail from "./Page-Components/Interview-Experience/InterviewDetail";
 import TabComponent from "./Page-Components/Alumni_portfolio/tabcomponent";
 import InterviewExp from "./Page-Components/Interview-Experience/InterviewPage";
-
+import MainPage from "./Page/Explore/MainPage";
 function App() {
   const location = useLocation();
   const [progress, setProgress] = useAutoIncrementProgress();
