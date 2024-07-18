@@ -55,7 +55,6 @@ const alumniDataSlice = createSlice({
             role,
             achievement,
             year
-
         }
     })
 
