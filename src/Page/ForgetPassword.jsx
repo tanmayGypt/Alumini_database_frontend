@@ -1,121 +1,79 @@
-import React, { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
-import "./NavBar.css";
+import React, { useState } from 'react';
+import ReCAPTCHA from 'react-google-recaptcha';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const NavBar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+const ForgetPassword = () => {
+  const [email, setEmail] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [captchaVerified, setCaptchaVerified] = useState(false);
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
+  const validateEmail = (email) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  };
+
+  const handleCaptcha = (value) => {
+    setCaptchaVerified(!!value);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!validateEmail(email)) {
+      toast.error('Please enter a valid email address.');
+      return;
+    }
+
+    // if (!captchaVerified) {
+    //   toast.error('Please verify the CAPTCHA.');
+    //   return;
+    // }
+
+    setIsLoading(true);
+    try {
+      // Logic for sending the reset link to the email
+
+      toast.success(`If an account with ${email} exists, a reset link has been sent.`);
+    } catch (err) {
+      toast.error('An error occurred while sending the reset link. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <nav className="navbar fixed top-0 left-0 right-0 bg-white shadow-md z-40">
-      <div className="container mx-auto grid grid-cols-2 md:grid-cols-3 items-center py-3 md:py-5">
-        <div className="flex items-center">
-          <Link to="/">
-            <img
-              className="h-12"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7RzOQ_E52YXYZQ4Vwrbnbs_HaBhq0ZEvXrQ&s"
-              alt="Logo"
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded shadow-md">
+        <h2 className="text-2xl font-bold text-center">Forget Password</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label htmlFor="email" className="block mb-1 text-sm font-medium text-gray-700">Email Address</label>
+            <input
+              type="email"
+              id="email"
+              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
-          </Link>
-        </div>
-        <div className="hidden md:flex justify-end items-center space-x-4">
-          {/* Conditional Rendering for My Profile */}
-          {window.innerWidth > 768 && (
-            <div className="relative">
-              <Link className="flex items-center text-gray-700">
-                <div className="w-10 h-10 rounded-full overflow-hidden">
-                  <img
-                    src="https://randomuser.me/api/portraits/men/1.jpg"
-                    alt="User"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <span className="ml-2 text-sm">My Profile</span>
-              </Link>
-            </div>
-          )}
-          {/* End Conditional Rendering for My Profile */}
-          {/* Mobile Menu Toggle */}
+          </div>
+          <ReCAPTCHA
+            sitekey="your-recaptcha-site-key"  // Replace with your actual reCAPTCHA site key
+            onChange={handleCaptcha}
+          />
           <button
-            onClick={toggleMenu}
-            className="text-gray-700 md:hidden focus:outline-none"
-            aria-label="Toggle Menu"
+            type="submit"
+            className="w-full px-4 py-2 text-white bg-green-500 hover:bg-green-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            disabled={isLoading}
           >
-            <svg
-              className="h-6 w-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16m-7 6h7"}
-              />
-            </svg>
+            {isLoading ? 'Sending...' : 'Send Reset Link'}
           </button>
-          {/* End Mobile Menu Toggle */}
-        </div>
-        <ul
-          className={`${
-            isOpen ? "block" : "hidden"
-          } md:flex md:col-span-2 md:justify-end space-x-1 text-sm md:text-base text-gray-700`}
-        >
-          {/* Navigation Links */}
-          <li>
-            <NavLink
-              exact
-              to="/"
-              className="nav-link px-3 flex text-sm md:text-base"
-              activeClassName="active"
-            >
-              Home
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/Alumini_Directory"
-              className="nav-link flex px-2 text-sm md:text-base"
-              activeClassName="active"
-            >
-              Alumni Directory
-            </NavLink>
-          </li>
-          {/* Add more navigation links as needed */}
-        </ul>
-        {/* Mobile Menu */}
-        <ul className={`${isOpen ? "block" : "hidden"} md:hidden`}>
-          <li>
-            <NavLink
-              exact
-              to="/"
-              className="block px-4 py-2 text-sm text-gray-700"
-              activeClassName="active"
-            >
-              Home
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/Alumini_Directory"
-              className="block px-4 py-2 text-sm text-gray-700"
-              activeClassName="active"
-            >
-              Alumni Directory
-            </NavLink>
-          </li>
-          {/* Add more mobile navigation links as needed */}
-        </ul>
-        {/* End Mobile Menu */}
+        </form>
       </div>
-    </nav>
+      <ToastContainer />
+    </div>
   );
 };
 
-export default NavBar;
-
+export default ForgetPassword;
