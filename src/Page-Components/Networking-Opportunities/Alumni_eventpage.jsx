@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
 import "./test.css";
 import Card from "./Event_card";
-import eventDetails from "./eventDetails"; // Importing the event details
+import { useSelector } from "react-redux";
+
 
 function Alumini_Eventpage() {
+  const eventDetails = useSelector((state) => state.event.eventData);
+
   return (
     <div className="App">
       <header className="App-header">
