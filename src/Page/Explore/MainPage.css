@@ -1,0 +1,57 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-image: url('https://i0.wp.com/palabradepoderradio.com/wp-content/uploads/2024/04/pexels-stywo-1054218.jpg?resize=480%2C320&ssl=1');
+    padding: 50px 20px;
+    background-position: bottom;
+    background-size: cover;
+  }
+  
+  .header {
+    text-align: center;
+    margin-bottom: 40px;
+    
+  }
+  
+  .title {
+    font-size: 2.5em;
+    color: white;
+    font-family: Palanquin Dark;
+  font-size: 40px;
+  font-weight: normal;
+  line-height: 20px;
+  letter-spacing: 0em;
+  width: 835px;
+  font-variation-settings: "opsz" auto;
+  font-family: Palanquin Dark;
+  font-weight: 400;
+  font-size: 35px;
+  font-variation-settings: "opsz" auto;
+  }
+  
+  .highlight {
+    color: red;
+  }
+  
+  .subtitle {
+  font-family: Abhaya Libre;
+  font-size: 22px;
+  font-weight: normal;
+  line-height: 67px;
+  letter-spacing: 0em;
+  left: 320px;
+  width: 800px;
+  font-variation-settings: "opsz" auto;
+  color: #FFFFFF;
+  }
+  
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    justify-content: center;
+    gap: 40px;
+    width: 80%;
+    max-width: 1200px;
+  }
+  
