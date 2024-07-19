@@ -29,7 +29,13 @@ import InterviewList from "./Page-Components/Interview-Experience/InterviewList"
 import InterviewDetail from "./Page-Components/Interview-Experience/InterviewDetail";
 import TabComponent from "./Page-Components/Alumni_portfolio/tabcomponent";
 import InterviewExp from "./Page-Components/Interview-Experience/InterviewPage";
+
+import Login from './Page/Login';
+import Signup from './Page/Signup'; 
+
+
 import MainPage from "./Page/Explore/MainPage";
+
 function App() {
   const location = useLocation();
   const [progress, setProgress] = useAutoIncrementProgress();
@@ -79,7 +85,9 @@ function App() {
         <Route path="/JobRanklist" element={<RanklistPage />} />
         <Route path="/interview_experience" element={<InterviewList />} />
         <Route path="/InterviewDetails" element={<InterviewDetail />} />
-        <Route path="/interview-experience" element={<InterviewExp />} />
+         <Route path="/interview-experience" element={<InterviewExp />} />
+         <Route path="/login" element={<Login/>} />
+        <Route path="/signup" element={<Signup/>} /> 
 
       </Routes>
       <LoadingBar color="#9333ea" height={3} progress={progress} />
@@ -98,3 +106,4 @@ function AppWrapper() {
 }
 
 export default AppWrapper;
+
