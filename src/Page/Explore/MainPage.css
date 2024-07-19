@@ -1,40 +1,43 @@
-.container {
+.container-main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-image: url('https://i0.wp.com/palabradepoderradio.com/wp-content/uploads/2024/04/pexels-stywo-1054218.jpg?resize=480%2C320&ssl=1');
+    background-image: url('/explorebg.jpg');
     padding: 50px 20px;
+    opacity: 10;
     background-position: bottom;
     background-size: cover;
   }
   
-  .header {
+  .header11 {
     text-align: center;
     margin-bottom: 40px;
-    
   }
   
-  .title {
+  .title-main {
     font-size: 2.5em;
-    color: white;
+    color: #FFFFFF;
     font-family: Palanquin Dark;
-  font-size: 40px;
-  font-weight: normal;
-  line-height: 20px;
+    font-weight: 400;
+    font-size: 35px;
+  line-height: 18px;
   letter-spacing: 0em;
-  width: 835px;
-  font-variation-settings: "opsz" auto;
-  font-family: Palanquin Dark;
-  font-weight: 400;
-  font-size: 35px;
+  width: 800px;
+  max-width: 835px;
+  opacity: 1;
   font-variation-settings: "opsz" auto;
   }
   
-  .highlight {
-    color: red;
+  .highlight11 {
+    color: #E91F1F;
+    font-family: Palanquin Dark;
+font-weight: 400;
+font-size: 40px;
+opacity: 1;
+font-variation-settings: "opsz" auto;
   }
   
-  .subtitle {
+  .subtitle11 {
   font-family: Abhaya Libre;
   font-size: 22px;
   font-weight: normal;
@@ -51,7 +54,31 @@
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     justify-content: center;
     gap: 40px;
+    height: 60%;
     width: 80%;
     max-width: 1200px;
   }
-  
+  @media only screen and (max-width: 795px) {
+    .title-main {
+     font-size: 27px;
+    }
+    .highlight11 {
+      font-size: 32px;
+    }
+    .subtitle11{
+      font-size: 22px;
+    }
+
+  }
+  @media only screen and (max-width: 700px) {
+    .title-main {
+     font-size: 20px;
+    }
+    .highlight11 {
+      font-size: 25px;
+    }
+    .subtitle11{
+      font-size: 15px;
+    }
+
+  }
