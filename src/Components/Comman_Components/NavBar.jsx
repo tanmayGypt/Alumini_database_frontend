@@ -31,7 +31,6 @@ const NavBar = () => {
         scopes: ["user.read"],
       });
       setAccount(loginResponse.account);
-      // Store user details
       localStorage.setItem("msalAccount", JSON.stringify(loginResponse.account));
     } catch (error) {
       console.error("Login failed:", error);
@@ -44,7 +43,6 @@ const NavBar = () => {
     localStorage.removeItem("msalAccount");
   };
 
-  // Check if user is already logged in
   useEffect(() => {
     const storedAccount = JSON.parse(localStorage.getItem("msalAccount"));
     if (storedAccount) {
@@ -156,12 +154,27 @@ const NavBar = () => {
             </NavLink>
           </li>
           
+          
           <li className="relative">
             <button
               onClick={toggleDropdown}
-              className="nav-link flex px-2 sm:text-sm md:text-base"
+              className="nav-link flex items-center px-2 sm:text-sm md:text-base"
             >
               Resources
+              <svg
+                className="h-4 w-4 ml-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
             </button>
             {isDropdownOpen && (
               <ul className="absolute bg-white shadow-lg rounded-md mt-1 py-1 w-40">
@@ -184,29 +197,27 @@ const NavBar = () => {
                   </NavLink>
                 </li>
                 <li className="relative">
-  <NavLink
-    to="/JobRankForm"
-    className="dropdown-link block px-4 py-2 text-sm text-gray-700"
-    activeClassName="active"
-  >
-    Job Posting
-  </NavLink>
-</li>
-<li className="relative">
-  <NavLink
-    to="/JobRanklist"
-    className="dropdown-link block px-4 py-2 text-sm text-gray-700"
-    activeClassName="active"
-  >
-    Ranklist
-  </NavLink>
-</li>
-
-                
-            
+                  <NavLink
+                    to="/JobRankForm"
+                    className="dropdown-link block px-4 py-2 text-sm text-gray-700"
+                    activeClassName="active"
+                  >
+                    Job Posting
+                  </NavLink>
+                </li>
+                <li className="relative">
+                  <NavLink
+                    to="/JobRanklist"
+                    className="dropdown-link block px-4 py-2 text-sm text-gray-700"
+                    activeClassName="active"
+                  >
+                    Ranklist
+                  </NavLink>
+                </li>
               </ul>
             )}
           </li>
+
           {account ? (
             <li>
               <button
