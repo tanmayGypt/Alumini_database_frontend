@@ -29,8 +29,12 @@ import InterviewList from "./Page-Components/Interview-Experience/InterviewList"
 import InterviewDetail from "./Page-Components/Interview-Experience/InterviewDetail";
 import TabComponent from "./Page-Components/Alumni_portfolio/tabcomponent";
 import InterviewExp from "./Page-Components/Interview-Experience/InterviewPage";
+
 import Login from './Page/Login';
 import Signup from './Page/Signup'; 
+
+
+import MainPage from "./Page/Explore/MainPage";
 
 function App() {
   const location = useLocation();
