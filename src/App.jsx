@@ -30,9 +30,8 @@ import InterviewDetail from "./Page-Components/Interview-Experience/InterviewDet
 import TabComponent from "./Page-Components/Alumni_portfolio/tabcomponent";
 import InterviewExp from "./Page-Components/Interview-Experience/InterviewPage";
 
-import Login from './Page/Login';
-import Signup from './Page/Signup'; 
-
+import Login from "./Page/Login";
+import Signup from "./Page/Signup";
 
 import MainPage from "./Page/Explore/MainPage";
 
@@ -45,7 +44,7 @@ function App() {
   }, [location.pathname, setProgress]);
 
   return (
-    <>  
+    <>
       <NavBar />
       <Routes>
         <Route path="/" element={<Homepage />} />
@@ -85,15 +84,15 @@ function App() {
         <Route path="/JobRanklist" element={<RanklistPage />} />
         <Route path="/interview_experience" element={<InterviewList />} />
         <Route path="/InterviewDetails" element={<InterviewDetail />} />
-         <Route path="/interview-experience" element={<InterviewExp />} />
-         <Route path="/login" element={<Login/>} />
-        <Route path="/signup" element={<Signup/>} /> 
-
+        <Route path="/interview-experience" element={<InterviewExp />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/explore" element={<MainPage />} />
+        <Route path="/portfolio" element={<TabComponent />} />
       </Routes>
       <LoadingBar color="#9333ea" height={3} progress={progress} />
-        
+
       <Footer />
-      <MainPage/>
     </>
   );
 }
@@ -107,4 +106,3 @@ function AppWrapper() {
 }
 
 export default AppWrapper;
-
