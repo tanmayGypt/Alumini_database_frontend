@@ -93,6 +93,7 @@ function App() {
       <LoadingBar color="#9333ea" height={3} progress={progress} />
         
       <Footer />
+      <MainPage/>
     </>
   );
 }
