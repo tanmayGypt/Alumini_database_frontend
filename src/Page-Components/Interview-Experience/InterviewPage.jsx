@@ -1,24 +1,23 @@
 
-import React, { useState } from "react";
+import React, { useState , useContext } from "react";
 import { useSelector } from "react-redux";
 import Dashboard from "./Dashboard";
 import SearchBar from "./SearchBar";
 import InterviewList from "./InterviewList";
 import InterviewDetail from "./InterviewDetail";
-
 import "./InterviewPage.css";
+import { SearchContext } from "../../Context/SearchContext";
 
 const InterviewExp = () => {
-  const [searchTerm, setSearchTerm] = useState("");
   const [selectedInterview, setSelectedInterview] = useState(null);
+  const {searchTerm} = useContext(SearchContext)
+  
+ 
 
   // Accessing interviews from Redux store
   const interviews = useSelector((state) => state.interviews.interviews);
 
-  const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
-  };
-
+  
   const handleInterviewClick = (interview) => {
     setSelectedInterview(interview);
   };
@@ -34,7 +33,7 @@ const InterviewExp = () => {
   return (
     <div className="App">
       <Dashboard />
-      <SearchBar handleSearch={handleSearch} />
+      <SearchBar />
       {selectedInterview ? (
         <InterviewDetail
           interview={selectedInterview}

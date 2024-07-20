@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import NewsCard from './NewsCard';
 import SearchBar from './SearchBar';
+import { SearchContext } from '../../Context/SearchContext';
+import { Link } from 'react-router-dom'; 
+
 
 const NewsSection = () => {
   const newsData = useSelector((state) => state.news.newsData);
+  const {searchTerm} = useContext(SearchContext)
+  const filteredNewsData = newsData.filter((item) =>
+    item.title.toLowerCase().includes(searchTerm.toLowerCase())
+  )
 
   return (
     <section className="container mx-auto mt-8 mb-10">
@@ -17,16 +24,21 @@ const NewsSection = () => {
       </div>
 
       <div className="space-y-6 lg:mx-40 md:mx-20 sm:mx-10 mx-10">
-        {newsData.map((item) => (
+        {filteredNewsData.map((item) => (
           <NewsCard key={item.id} {...item} />
         ))}
       </div>
-
-      <div className="bg-gray-100 mt-10 hover:bg-gray-300 rounded-3xl p-3 w-full sm:w-1/3 md:w-1/4 lg:w-1/5 h-auto mx-auto flex justify-center">
-        <button type="button" className="text-2xl text-gray-700">
-          View More
-        </button>
-      </div>
+      <Link  
+        to = '/MoreNews'
+      >
+        
+        <div className="bg-gray-100 mt-10 hover:bg-gray-300 rounded-3xl p-3 w-full sm:w-1/3 md:w-1/4 lg:w-1/5 h-auto mx-auto flex justify-center">
+          <button type="button" className="text-2xl text-gray-700">
+            View More
+          </button>
+        </div>
+      </Link>
+      
     </section>
   );
 };

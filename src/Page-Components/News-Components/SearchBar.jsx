@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import FilterButton from './FilterButton';
+import { SearchContext } from '../../Context/SearchContext'
 
-const SearchBar = ({ searchTerm, onSearchChange }) => {
+const SearchBar = () => {
+    const {searchTerm,setSearchTerm} = useContext(SearchContext)
+    const handleSearchChange = (e) =>{
+        setSearchTerm(e.target.value)
+
+    }
     return (
         <div className="flex flex-wrap w-full">
             <div className="flex ml-auto justify-center rounded-xl bg-rose-200 sm:w-1/2 md:w-1/2 lg:w-1/3">
                 <input 
                     type="text" 
                     value={searchTerm}
-                    onChange={onSearchChange}
+                    onChange={handleSearchChange}
                     placeholder="Search here" 
                     className="bg-rose-200 rounded-l-xl flex-grow px-5 py-2"
                 />

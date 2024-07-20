@@ -3,16 +3,18 @@ import Heading from "../Heading";
 import AchievementCard from "./AchievementCard";
 import SearchBar from "./SearchBar";
 import { useSelector } from 'react-redux';
+import { SearchContext } from '../../Context/SearchContext';
+import { useContext } from "react";
+
 
 
 const AchievementsSection = () => {
-  const achievements = useSelector((state) => state.achievements.achievements.slice(0,2)) 
+  const achievements = useSelector((state) => state.achievements.achievements) 
 
-  const [searchTerm, setSearchTerm] = useState("");
+  const {searchTerm} = useContext(SearchContext)
 
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
+
+ 
 
   const filteredAchievements = achievements.filter(
     (achievement) =>
@@ -23,10 +25,10 @@ const AchievementsSection = () => {
   return (
     <div className="container m-auto px-35 py-30">
       <Heading />
-      <SearchBar searchTerm={searchTerm} onSearchChange={handleSearchChange} />
+      <SearchBar />
 
       <div className="bg-gray-100 rounded-xl shadow-lg">
-      {achievements.map((item) => (
+      {filteredAchievements.map((item) => (
           <AchievementCard key={item.id} {...item} />
         ))}
       </div>
