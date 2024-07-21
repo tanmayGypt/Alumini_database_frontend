@@ -1,13 +1,19 @@
 // src/Page-Components/Networking-Opportunities/JobsSection.jsx
-import React from 'react';
+import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import JobCard from './JobCard';
 import SearchBar from './SearchBar';
 import dashboardImage from './dashboard.jpg'; 
 import { selectJobBoardJobs } from '../../features/jobsSlice';
+import { SearchContext } from '../../Context/SearchContext';
 
 const JobsSection = () => {
   const jobBoardJobs = useSelector(selectJobBoardJobs);
+  const { searchTerm } = useContext(SearchContext);
+
+  const filteredJobBoardJobs = jobBoardJobs.filter((item) =>
+    item.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="py-20">
@@ -43,8 +49,8 @@ const JobsSection = () => {
       
       {/* Job Cards Section */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mt-10 mb-8 lg:mx-40 md:mx-20 sm:mx-10 mx-10">
-        {jobBoardJobs.length > 0 ? (
-          jobBoardJobs.map((job) => (
+        {filteredJobBoardJobs.length > 0 ? (
+          filteredJobBoardJobs.map((job) => (
             <JobCard key={job.id} job={job} />
           ))
         ) : (
@@ -53,6 +59,6 @@ const JobsSection = () => {
       </div>
     </div>
   );
-}
+};
 
 export default JobsSection;

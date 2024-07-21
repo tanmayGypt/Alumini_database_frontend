@@ -4,14 +4,14 @@ const AchievementCard = ({ title, date, message, imageUrl }) => {
   return (
     <div className="bg-gray-100 rounded-xl p-6 mb-4">
       <div className="flex items-center flex-row mb-4">
-        <div className="p-2 rounded-lg overflow-hidden">
+        <div className="p-2 rounded-lg overflow-hidden w-1/4">
           <img
             src={imageUrl}
             alt="avatar"
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="ml-4">
+        <div className="ml-4 w-3/4">
           <h3 className="text-xl font-semibold text-red-600">{title}</h3>
           <p className="text-sm text-gray-500">Posted on {date}</p>
           <br />

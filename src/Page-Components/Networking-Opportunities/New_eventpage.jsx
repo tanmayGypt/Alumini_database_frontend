@@ -1,16 +1,26 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Card from "./Event_card";
 import SearchBar from "../Alumini-Achievements/SearchBar";
+import { SearchContext } from "../../Context/SearchContext";
 
 function New_eventpage() {
   const eventDetails = useSelector((state) => state.event.eventData);
+  const { searchTerm } = useContext(SearchContext);
+
+  const filteredEventDetails = eventDetails.filter((event) =>
+    event.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="py-12 px-4 md:px-8">
       <header className="App-header mb-8 text-center">
-        <img src="/eventimage.jpg" alt="Header" className="header-image mt-8 mb-4" />
+        <img
+          src="/eventimage.jpg"
+          alt="Header"
+          className="header-image mt-8 mb-4"
+        />
         <h1>
           CONNECT & GROW: ALUMNI <span className="highlight">EVENTS</span>{" "}
           & MENTORSHIP
@@ -27,18 +37,17 @@ function New_eventpage() {
       </div>
       <main>
         <section className="events-section text-center">
-          <button className="events-button mb-8 mx-auto block">Events and Reunions</button>
+          <button className="events-button mb-8 mx-auto block">
+            Events and Reunions
+          </button>
           <div className="flex flex-wrap justify-center md:justify-between">
-            {eventDetails.map((event, index) => (
+            {filteredEventDetails.map((event, index) => (
               <div key={index} className="w-full sm:w-1/2 lg:w-1/4 p-2">
-               <Link
+                <Link
                   to={`/Networking_Opportunities/EventDetailsPage?eventId=${event.id}`}
                   className="view-more-link"
                   style={{ textDecoration: "none", color: "inherit" }}
                 >
-                
-
-                
                   <Card
                     image={event.image}
                     title={event.title}

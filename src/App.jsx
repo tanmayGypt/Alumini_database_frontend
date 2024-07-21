@@ -29,11 +29,13 @@ import InterviewList from "./Page-Components/Interview-Experience/InterviewList"
 import InterviewDetail from "./Page-Components/Interview-Experience/InterviewDetail";
 import TabComponent from "./Page-Components/Alumni_portfolio/tabcomponent";
 import InterviewExp from "./Page-Components/Interview-Experience/InterviewPage";
+import { SearchContextProvider } from "../src/Context/SearchContextProvider";
 
 import Login from "./Page/Login";
 import Signup from "./Page/Signup";
 
 import MainPage from "./Page/Explore/MainPage";
+import MoreNews from "./Page-Components/News-Components/MoreNews";
 
 function App() {
   const location = useLocation();
@@ -45,6 +47,7 @@ function App() {
 
   return (
     <>
+    <SearchContextProvider>
       <NavBar />
       <Routes>
         <Route path="/" element={<Homepage />} />
@@ -67,9 +70,10 @@ function App() {
           element={<JobsSection />}
         />
         <Route path="/News" element={<News />} />
+        <Route path="/MoreNews" element={<MoreNews/>} />
         <Route path="/Mobile_App" element={<Mobile />} />
         <Route path="/registered_candidates" element={<Cards />} />
-        <Route path="/JobSection" element={<JobsSection />} />
+        <Route path="/JobSection" element={<JobsSection /> } />
         <Route
           path="/Networking_Opportunities/New_eventpage"
           element={<New_eventpage />}
@@ -93,6 +97,8 @@ function App() {
       <LoadingBar color="#9333ea" height={3} progress={progress} />
 
       <Footer />
+
+      </SearchContextProvider>
     </>
   );
 }

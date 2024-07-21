@@ -1,6 +1,13 @@
 import FilterButton from "./FilterButton";
 import { BiSearch } from "react-icons/bi";
-const SearchBar = ({ searchTerm, onSearchChange }) => {
+import { SearchContext } from '../../Context/SearchContext';
+import { useContext } from "react";
+
+const SearchBar = () => {
+  const {searchTerm , setSearchTerm} = useContext(SearchContext)
+  const handleSearchChange = (e) =>{
+    setSearchTerm(e.target.value)
+}
   return (
     <div className="flex w-full py-5 space-x-5">
       <div className="flex ml-auto justify-center rounded-xl bg-rose-200">
@@ -8,7 +15,7 @@ const SearchBar = ({ searchTerm, onSearchChange }) => {
           autoFocus
           type="text"
           value={searchTerm}
-          onChange={onSearchChange}
+          onChange={handleSearchChange}
           placeholder="Search here"
           className="bg-rose-200 rounded-s-xl flex-grow px-5 outline-none"
         />
