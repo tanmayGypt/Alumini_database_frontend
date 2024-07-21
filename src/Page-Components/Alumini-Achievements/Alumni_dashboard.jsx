@@ -9,7 +9,6 @@ import {
 import "./Alumni.css";
 import { useSelector } from "react-redux";
 
-
 const AlumniCarousel = () => {
   const alumniData = useSelector((state) => state.alumniData.alumniData);
 
@@ -19,20 +18,24 @@ const AlumniCarousel = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       if (!isHovering) {
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % alumniData.length);
+        setCurrentIndex((prevIndex) =>
+          prevIndex === alumniData.length - 1 ? 0 : prevIndex + 1
+        );
       }
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [currentIndex, isHovering]);
+  }, [currentIndex, isHovering, alumniData.length]);
 
   const nextSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % alumniData.length);
+    setCurrentIndex((prevIndex) =>
+      prevIndex === alumniData.length - 1 ? 0 : prevIndex + 1
+    );
   };
 
   const prevSlide = () => {
-    setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + alumniData.length) % alumniData.length
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? alumniData.length - 1 : prevIndex - 1
     );
   };
 
@@ -53,7 +56,10 @@ const AlumniCarousel = () => {
         </button>
         <div
           className="carousel-inner"
-          style={{ transform: `translateX(-${currentIndex * 33.33}%)` }}
+          style={{
+            transform: `translateX(-${currentIndex * (100 / alumniData.length)}%)`,
+            width: `${alumniData.length * 100}%`,
+          }}
         >
           {alumniData.map((alumnus, index) => (
             <div
@@ -61,10 +67,11 @@ const AlumniCarousel = () => {
               key={index}
               onMouseEnter={() => handleCardHover(true)}
               onMouseLeave={() => handleCardHover(false)}
+              style={{ width: `${100 / alumniData.length}%` }}
             >
               <div className="alumni-card">
                 <div className="alumni-photo">
-                  <FaUser /> {}
+                  <FaUser />
                 </div>
                 <div className="alumni-name">{alumnus.name}</div>
                 <div className="alumni-role">{alumnus.role}</div>
