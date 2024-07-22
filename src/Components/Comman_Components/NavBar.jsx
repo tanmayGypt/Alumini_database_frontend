@@ -31,7 +31,10 @@ const NavBar = () => {
         scopes: ["user.read"],
       });
       setAccount(loginResponse.account);
-      localStorage.setItem("msalAccount", JSON.stringify(loginResponse.account));
+      localStorage.setItem(
+        "msalAccount",
+        JSON.stringify(loginResponse.account)
+      );
     } catch (error) {
       console.error("Login failed:", error);
     }
@@ -153,8 +156,7 @@ const NavBar = () => {
               Contact Us
             </NavLink>
           </li>
-          
-          
+
           <li className="relative">
             <button
               onClick={toggleDropdown}
@@ -218,25 +220,15 @@ const NavBar = () => {
             )}
           </li>
 
-          {account ? (
-            <li>
-              <button
-                onClick={handleLogout}
-                className="nav-link-button"
-              >
-                Logout
-              </button>
-            </li>
-          ) : (
-            <li>
-              <button
-                onClick={handleLogin}
-                className="nav-link-button"
-              >
-                Login
-              </button>
-            </li>
-          )}
+          <li className="relative">
+            <NavLink
+              to="/login"
+              className="dropdown-link block px-4 py-2 text-sm text-gray-700"
+              activeClassName="active"
+            >
+              Login
+            </NavLink>
+          </li>
         </ul>
       </div>
     </nav>
