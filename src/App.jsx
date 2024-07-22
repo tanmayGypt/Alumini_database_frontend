@@ -37,6 +37,7 @@ import Signup from "./Page/Signup";
 import MainPage from "./Page/Explore/MainPage";
 import MoreNews from "./Page-Components/News-Components/MoreNews";
 import ForgetPassword from "./Page/ForgetPassword";
+import TabComponentStudent from "./Page-Components/Student_portfolio/Tab_component_student"
 
 function App() {
   const location = useLocation();
@@ -99,6 +100,7 @@ function App() {
         <LoadingBar color="#9333ea" height={3} progress={progress} />
 
         <Footer />
+        <TabComponentStudent/>
       </SearchContextProvider>
     </>
   );
