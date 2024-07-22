@@ -36,6 +36,7 @@ import Signup from "./Page/Signup";
 
 import MainPage from "./Page/Explore/MainPage";
 import MoreNews from "./Page-Components/News-Components/MoreNews";
+import ForgetPassword from "./Page/ForgetPassword";
 
 function App() {
   const location = useLocation();
@@ -47,57 +48,57 @@ function App() {
 
   return (
     <>
-    <SearchContextProvider>
-      <NavBar />
-      <Routes>
-        <Route path="/" element={<Homepage />} />
-        <Route
-          path="/Alumini-Achivements"
-          element={<Alumini_Achivements_Page />}
-        />
-        <Route path="/Alumini_Directory" element={<Alumini_Directory />} />
-        <Route path="/Contact" element={<Contact />} />
-        <Route
-          path="/Netwoking_Opportunities"
-          element={<Netwoking_Opportunities />}
-        />
-        <Route
-          path="/Networking_Opportunities/RegisterPage"
-          element={<RegisterPage />}
-        />
-        <Route
-          path="/Networking_Opportunities/JobsSection"
-          element={<JobsSection />}
-        />
-        <Route path="/News" element={<News />} />
-        <Route path="/MoreNews" element={<MoreNews/>} />
-        <Route path="/Mobile_App" element={<Mobile />} />
-        <Route path="/registered_candidates" element={<Cards />} />
-        <Route path="/JobSection" element={<JobsSection /> } />
-        <Route
-          path="/Networking_Opportunities/New_eventpage"
-          element={<New_eventpage />}
-        />
-        <Route path="/About" element={<AboutUs />} />
-        <Route
-          path="/Networking_Opportunities/EventDetailsPage"
-          element={<EventDetailsPage />}
-        />
-        <Route path="/Student_Registration" element={<Body />} />
-        <Route path="/JobRankForm" element={<JobPostingPage />} />
-        <Route path="/JobRanklist" element={<RanklistPage />} />
-        <Route path="/interview_experience" element={<InterviewList />} />
-        <Route path="/InterviewDetails" element={<InterviewDetail />} />
-        <Route path="/interview-experience" element={<InterviewExp />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/explore" element={<MainPage />} />
-        <Route path="/portfolio" element={<TabComponent />} />
-      </Routes>
-      <LoadingBar color="#9333ea" height={3} progress={progress} />
+      <SearchContextProvider>
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<Homepage />} />
+          <Route
+            path="/Alumini-Achivements"
+            element={<Alumini_Achivements_Page />}
+          />
+          <Route path="/Alumini_Directory" element={<Alumini_Directory />} />
+          <Route path="/Contact" element={<Contact />} />
+          <Route
+            path="/Netwoking_Opportunities"
+            element={<Netwoking_Opportunities />}
+          />
+          <Route
+            path="/Networking_Opportunities/RegisterPage"
+            element={<RegisterPage />}
+          />
+          <Route
+            path="/Networking_Opportunities/JobsSection"
+            element={<JobsSection />}
+          />
+          <Route path="/News" element={<News />} />
+          <Route path="/MoreNews" element={<MoreNews />} />
+          <Route path="/Mobile_App" element={<Mobile />} />
+          <Route path="/registered_candidates" element={<Cards />} />
+          <Route path="/JobSection" element={<JobsSection />} />
+          <Route
+            path="/Networking_Opportunities/New_eventpage"
+            element={<New_eventpage />}
+          />
+          <Route path="/About" element={<AboutUs />} />
+          <Route
+            path="/Networking_Opportunities/EventDetailsPage"
+            element={<EventDetailsPage />}
+          />
+          <Route path="/Student_Registration" element={<Body />} />
+          <Route path="/JobRankForm" element={<JobPostingPage />} />
+          <Route path="/JobRanklist" element={<RanklistPage />} />
+          <Route path="/interview_experience" element={<InterviewList />} />
+          <Route path="/InterviewDetails" element={<InterviewDetail />} />
+          <Route path="/interview-experience" element={<InterviewExp />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/explore" element={<MainPage />} />
+          <Route path="/portfolio" element={<TabComponent />} />
+          <Route path="/ForgetPassword" element={<ForgetPassword />} />
+        </Routes>
+        <LoadingBar color="#9333ea" height={3} progress={progress} />
 
-      <Footer />
-
+        <Footer />
       </SearchContextProvider>
     </>
   );

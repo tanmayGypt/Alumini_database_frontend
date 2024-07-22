@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { Oval } from 'react-loader-spinner';
+import React, { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Oval } from "react-loader-spinner";
 import ReCAPTCHA from "react-google-recaptcha";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
   const [recaptchaValue, setRecaptchaValue] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -32,12 +32,12 @@ const Login = () => {
     const { email, password } = formData;
 
     if (!email || !password) {
-      toast.error('Please fill in all required fields');
+      toast.error("Please fill in all required fields");
       return;
     }
 
     if (!validateEmail(email)) {
-      toast.error('Please enter a valid email');
+      toast.error("Please enter a valid email");
       return;
     }
 
@@ -45,11 +45,11 @@ const Login = () => {
 
     setTimeout(() => {
       setIsLoading(false);
-      toast.success('Login successful');
+      toast.success("Login successful");
       console.log(formData);
       setFormData({
-        email: '',
-        password: '',
+        email: "",
+        password: "",
       });
       setRecaptchaValue(null);
     }, 2000);
@@ -63,7 +63,7 @@ const Login = () => {
     <div className="h-full w-full flex items-center justify-center flex-col bg-gray-100 py-10 sm:py-20 px-4">
       <form
         className={`bg-white p-6 rounded-lg shadow-lg w-full max-w-screen-md ${
-          isLoading ? 'opacity-50' : ''
+          isLoading ? "opacity-50" : ""
         }`}
         onSubmit={handleSubmit}
       >
@@ -125,13 +125,13 @@ const Login = () => {
             type="submit"
             disabled={isLoading}
           >
-            {isLoading ? 'Submitting...' : 'Login'}
+            {isLoading ? "Submitting..." : "Login"}
           </button>
         </div>
 
         {/* Forgot Password */}
         <div className="flex justify-center mb-2">
-          <Link to="/forgot-password" className="text-blue-500 hover:underline">
+          <Link to="/ForgetPassword" className="text-blue-500 hover:underline">
             Forgot Password?
           </Link>
         </div>
@@ -139,7 +139,7 @@ const Login = () => {
         {/* Signup Link */}
         <div className="flex justify-center">
           <p className="text-sm">
-            Don't have an account?{' '}
+            Don't have an account?{" "}
             <Link to="/signup" className="text-blue-500 hover:underline ml-1">
               Signup
             </Link>
