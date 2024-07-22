@@ -7,7 +7,7 @@ const initialState = {
         title: "CONGRATULATIONS FOR QUALIFYING GATE-2023",
         date: "17th Jul, 2023",
         message: "BPIT FAMILY CONGRATULATES Ms. Sunanda & Mr. Krishna Kishor for Qualifying GATE-2023. Your hard work, dedication, and perseverance have paid off, and you should be extremely proud of your achievement. This success is a testament to your knowledge, skills, and the effort you put into your studies. Best wishes for your future endeavors!",
-        imageUrl: "https://pinnacle.works/wp-content/uploads/2022/06/dummy-image.jpg",
+        imageUrl: "https://images.pexels.com/photos/3861463/pexels-photo-3861463.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
       },
       {
         id: nanoid(),

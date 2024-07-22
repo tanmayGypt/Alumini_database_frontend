@@ -7,14 +7,14 @@ const initialState = {
           title: 'Alumni Award Winners Announced',
           date: '14th Jul, 2023',
           description: 'Our distinguished alumni have been recognized for their outstanding contributions in various fields.',
-          image: 'src/assets/medal.png'
+          image: 'https://images.pexels.com/photos/3861463/pexels-photo-3861463.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
         },
         {
           id: nanoid(),
           title: 'New Alumni Mentorship Program Launch',
           date: '14th Jul, 2023',
           description: 'We are excited to announce the launch of our new mentorship program, connecting students with experienced alumni.',
-          image: 'src/assets/congratulation.png'
+          image: 'https://images.pexels.com/photos/1467074/pexels-photo-1467074.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
         },
         {
           id: nanoid(),    

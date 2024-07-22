@@ -1,4 +1,4 @@
-table {
+ table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 150px;
@@ -61,4 +61,6 @@ select {
 .blue-star {
   color: blue;
   padding-left: 15px;
-}
+} 
+
+
