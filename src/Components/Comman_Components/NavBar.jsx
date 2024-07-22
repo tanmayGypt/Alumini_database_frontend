@@ -135,7 +135,7 @@ const NavBar = () => {
               News
             </NavLink>
           </li>
-          <li>
+          {/* <li>
             <NavLink
               to="/Mobile_App"
               className="nav-link flex px-2 sm:text-sm md:text-base"
@@ -143,7 +143,7 @@ const NavBar = () => {
             >
               Mobile App
             </NavLink>
-          </li>
+          </li> */}
           <li>
             <NavLink
               to="/Contact"

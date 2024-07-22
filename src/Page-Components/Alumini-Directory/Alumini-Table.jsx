@@ -563,7 +563,7 @@ const Alumni_Table = () => {
       Phone: "(987) 654-3210",
       Activities: "Student gov'",
       "Class Captain": "No",
-      "All Donations": "$200",
+      // "All Donations": "$200",
       "# Interactions": 10,
       "Last Interaction": "2023-04-20",
       Interactions: ["Meeting", "Email"],
@@ -579,7 +579,7 @@ const Alumni_Table = () => {
       Phone: "(555) 123-4567",
       Activities: "Drama Club",
       "Class Captain": "No",
-      "All Donations": "$300",
+      // "All Donations": "$300",
       "# Interactions": 12,
       "Last Interaction": "2023-03-10",
       Interactions: ["Email"],
@@ -595,7 +595,7 @@ const Alumni_Table = () => {
       Phone: "(444) 678-9101",
       Activities: "Sports",
       "Class Captain": "Yes",
-      "All Donations": "$400",
+      // "All Donations": "$400",
       "# Interactions": 8,
       "Last Interaction": "2023-02-25",
       Interactions: ["Phone"],
@@ -611,7 +611,7 @@ const Alumni_Table = () => {
       Phone: "(333) 789-0123",
       Activities: "Music",
       "Class Captain": "No",
-      "All Donations": "$100",
+      // "All Donations": "$100",
       "# Interactions": 5,
       "Last Interaction": "2023-01-15",
       Interactions: ["Meeting"],
@@ -627,7 +627,7 @@ const Alumni_Table = () => {
       Phone: "(222) 345-6789",
       Activities: "Science Club",
       "Class Captain": "Yes",
-      "All Donations": "$600",
+      // "All Donations": "$600",
       "# Interactions": 20,
       "Last Interaction": "2022-12-10",
       Interactions: ["Email", "Phone"],
@@ -643,7 +643,7 @@ const Alumni_Table = () => {
       Phone: "(111) 234-5678",
       Activities: "Math Club",
       "Class Captain": "No",
-      "All Donations": "$700",
+      // "All Donations": "$700",
       "# Interactions": 25,
       "Last Interaction": "2022-11-20",
       Interactions: ["Meeting", "Phone"],
@@ -716,15 +716,15 @@ const Alumni_Table = () => {
             <th>Full name</th>
             <th>Photo</th>
             <th>Class of</th>
-            <th>Major</th>
+            <th>Branch</th>
             <th>First name</th>
             <th>Last name</th>
             <th>Email</th>
             <th>Phone</th>
             <th>Activities</th>
             <th>Class Captain</th>
-            <th>All Donations</th>
-            <th># Interactions</th>
+            {/* <th>All Donations</th> */}
+            <th>Interactions</th>
             <th>Last Interaction</th>
             <th>Interactions</th>
           </tr>
@@ -770,7 +770,7 @@ const Alumni_Table = () => {
                   <span className="blue-star">★</span>
                 )}
               </td>
-              <td>{row["All Donations"]}</td>
+              {/* <td>{row["All Donations"]}</td> */}
               <td>{row["# Interactions"]}</td>
               <td>{row["Last Interaction"]}</td>
               <td>{row["Interactions"].join(", ")}</td>
