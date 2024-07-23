@@ -216,6 +216,15 @@ const NavBar = () => {
                     Ranklist
                   </NavLink>
                 </li>
+                <li className="relative">
+                  <NavLink
+                    to="/gallery"
+                    className="dropdown-link block px-4 py-2 text-sm text-gray-700"
+                    activeClassName="active"
+                  >
+                    Gallery
+                  </NavLink>
+                </li>
               </ul>
             )}
           </li>

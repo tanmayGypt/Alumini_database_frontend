@@ -37,7 +37,10 @@ import Signup from "./Page/Signup";
 import MainPage from "./Page/Explore/MainPage";
 import MoreNews from "./Page-Components/News-Components/MoreNews";
 import ForgetPassword from "./Page/ForgetPassword";
-import TabComponentStudent from "./Page-Components/Student_portfolio/Tab_component_student"
+import TabComponentStudent from "./Page-Components/Student_portfolio/Tab_component_student";
+import Gallery from "./Page/Gallery";
+import AlbumDetails from "./Page-Components/Gallery/AlbumDetails";
+
 
 function App() {
   const location = useLocation();
@@ -96,6 +99,9 @@ function App() {
           <Route path="/explore" element={<MainPage />} />
           <Route path="/portfolio" element={<TabComponent />} />
           <Route path="/ForgetPassword" element={<ForgetPassword />} />
+          <Route path="/gallery" element={<Gallery/>}/>
+          <Route path="/albums/:id" element={<AlbumDetails />} /> {/* Add this route */}
+
         </Routes>
         <LoadingBar color="#9333ea" height={3} progress={progress} />
 
