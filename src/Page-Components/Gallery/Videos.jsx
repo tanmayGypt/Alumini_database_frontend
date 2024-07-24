@@ -1,7 +1,8 @@
 import React from 'react';
+import LandingPage from './LandingPage';
 
 const Videos = () => {
-  return <div>Videos Content</div>;
+  return (<div> <LandingPage/> Videos Content</div>)
 };
 
 export default Videos;
