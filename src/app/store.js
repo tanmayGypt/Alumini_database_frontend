@@ -15,6 +15,5 @@ export const store = configureStore({
     interviews: interviewReducer,
     alumniData : alumniDataReducer,
     event : eventReducer,
-
   },
 });
