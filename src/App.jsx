@@ -44,7 +44,6 @@ import Albums from "./Page-Components/Gallery/Albums";
 import Videos from "./Page-Components/Gallery/Videos";
 import AllPhotos from "./Page-Components/Gallery/AllPhotos";
 
-
 function App() {
   const location = useLocation();
   const [progress, setProgress] = useAutoIncrementProgress();
@@ -102,19 +101,15 @@ function App() {
           <Route path="/explore" element={<MainPage />} />
           <Route path="/portfolio" element={<TabComponent />} />
           <Route path="/ForgetPassword" element={<ForgetPassword />} />
-          <Route path="/Gallery" element={<Gallery />}/>
-            <Route path="/Albums" element={<Albums />} />
-            <Route path="/Videos" element={<Videos />} />
-            <Route path="/AllPhotos" element={<AllPhotos />} />
-            <Route path="/albums/:id" element={<AlbumDetails />} />
-        
-          
-
+          <Route path="/Gallery" element={<Gallery />} />
+          <Route path="/Albums" element={<Albums />} />
+          <Route path="/Videos" element={<Videos />} />
+          <Route path="/AllPhotos" element={<AllPhotos />} />
+          <Route path="/albums/:id" element={<AlbumDetails />} />
         </Routes>
         <LoadingBar color="#9333ea" height={3} progress={progress} />
 
         <Footer />
-        <TabComponentStudent/>
       </SearchContextProvider>
     </>
   );
