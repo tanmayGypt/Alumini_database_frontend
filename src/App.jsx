@@ -43,6 +43,7 @@ import AlbumDetails from "./Page-Components/Gallery/AlbumDetails";
 import Albums from "./Page-Components/Gallery/Albums";
 import Videos from "./Page-Components/Gallery/Videos";
 import AllPhotos from "./Page-Components/Gallery/AllPhotos";
+import RegisteredCandidates from "./Page-Components/Registered-Candidates/Card";
 
 function App() {
   const location = useLocation();
@@ -106,6 +107,8 @@ function App() {
           <Route path="/Videos" element={<Videos />} />
           <Route path="/AllPhotos" element={<AllPhotos />} />
           <Route path="/albums/:id" element={<AlbumDetails />} />
+          <Route path="/candidates" element={<RegisteredCandidates />} />
+          <Route path="/student_portfolio" element={<TabComponentStudent />} />
         </Routes>
         <LoadingBar color="#9333ea" height={3} progress={progress} />
 
