@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Oval } from "react-loader-spinner";
-import ReCAPTCHA from "react-google-recaptcha";
+import axios from "axios"; // Import axios
 import { Link } from "react-router-dom";
 
 const Login = () => {
@@ -10,7 +10,6 @@ const Login = () => {
     email: "",
     password: "",
   });
-  const [recaptchaValue, setRecaptchaValue] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const validateEmail = (email) => {
@@ -26,7 +25,7 @@ const Login = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const { email, password } = formData;
@@ -43,20 +42,31 @@ const Login = () => {
 
     setIsLoading(true);
 
-    setTimeout(() => {
-      setIsLoading(false);
-      toast.success("Login successful");
-      console.log(formData);
+    try {
+      const response = await axios.post("https://alumnibackend.up.railway.app/login", {
+        email,
+        password,
+      });
+    
+      console.log('Response:', response); // Log the entire response
+    
+      if (response.data && response.data.token) {
+        localStorage.setItem("jwtToken", response.data.token);
+        toast.success("Login successful");
+      } else {
+        throw new Error('Token not found in response');
+      }
+    
       setFormData({
         email: "",
         password: "",
       });
-      setRecaptchaValue(null);
-    }, 2000);
-  };
-
-  const handleRecaptchaChange = (value) => {
-    setRecaptchaValue(value);
+    } catch (error) {
+      console.error('Error during login:', error); // Log the error
+      toast.error(error.response?.data?.message || "Login failed");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -107,14 +117,6 @@ const Login = () => {
             name="password"
             value={formData.password}
             onChange={handleChange}
-          />
-        </div>
-
-        {/* reCAPTCHA */}
-        <div className="flex justify-center mb-4">
-          <ReCAPTCHA
-            sitekey="YOUR_SITE_KEY" // Replace with actual site key
-            onChange={handleRecaptchaChange}
           />
         </div>
 
