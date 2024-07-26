@@ -4,6 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Oval } from "react-loader-spinner";
 import ReCAPTCHA from "react-google-recaptcha";
 import { Link } from "react-router-dom";
+import axios from 'axios';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -26,38 +27,60 @@ const Login = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const { email, password } = formData;
-
-    if (!email || !password) {
-      toast.error("Please fill in all required fields");
-      return;
-    }
-
-    if (!validateEmail(email)) {
-      toast.error("Please enter a valid email");
-      return;
-    }
-
-    setIsLoading(true);
-
-    setTimeout(() => {
-      setIsLoading(false);
-      toast.success("Login successful");
-      console.log(formData);
-      setFormData({
-        email: "",
-        password: "",
-      });
-      setRecaptchaValue(null);
-    }, 2000);
-  };
-
   const handleRecaptchaChange = (value) => {
     setRecaptchaValue(value);
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    const { email, password } = formData;
+  
+    // Validate input
+    // if (!email || !password) {
+    //   toast.error("Please fill in all required fields");
+    //   return;
+    // }
+  
+    // if (!validateEmail(email)) {
+    //   toast.error("Please enter a valid email");
+    //   return;
+    // }
+  
+    // if (!recaptchaValue) {
+    //   toast.error("Please complete the reCAPTCHA");
+    //   return;
+    // }
+  
+    setIsLoading(true);
+  
+    try {
+      const response = await axios.post('https://alumnibackend.up.railway.app/login', {
+        email,
+        password,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        
+      });
+  
+      const data = response.data;
+  
+      if (response.status === 200) {
+        localStorage.setItem("jwtToken", data.token);
+        toast.success("Login successful");
+      } else {
+        toast.error(data.message || "Login failed");
+      }
+    } catch (error) {
+      toast.error("An error occurred. Please try again later.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  
 
   return (
     <div className="h-full w-full flex items-center justify-center flex-col bg-gray-100 py-10 sm:py-20 px-4">
@@ -111,12 +134,12 @@ const Login = () => {
         </div>
 
         {/* reCAPTCHA */}
-        <div className="flex justify-center mb-4">
+        {/* <div className="flex justify-center mb-4">
           <ReCAPTCHA
             sitekey="YOUR_SITE_KEY" // Replace with actual site key
             onChange={handleRecaptchaChange}
           />
-        </div>
+        </div> */}
 
         {/* Submit button */}
         <div className="flex justify-center mb-4">
