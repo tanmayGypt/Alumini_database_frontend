@@ -48,6 +48,7 @@ import Networking1 from "./Admin_panel/Pages_component/Networking/Networking";
 import Student1 from "./Admin_panel/Pages_component/Students/Student";
 import News1 from "./Admin_panel/Pages_component/News/News";
 import RegisteredCandidates from "./Page-Components/Registered-Candidates/Card";
+import VerifyOTP from "./Page/VerifyOTP";
 
 function App() {
   const location = useLocation();
@@ -118,6 +119,7 @@ function App() {
           <Route path="/interview-experience" element={<InterviewExp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/verifyOTP" element={ <VerifyOTP/> } />
           <Route path="/explore" element={<MainPage />} />
           <Route path="/portfolio" element={<TabComponent />} />
           <Route path="/ForgetPassword" element={<ForgetPassword />} />
