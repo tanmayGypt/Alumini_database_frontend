@@ -37,7 +37,7 @@ import Signup from "./Page/Signup";
 import MainPage from "./Page/Explore/MainPage";
 import MoreNews from "./Page-Components/News-Components/MoreNews";
 import ForgetPassword from "./Page/ForgetPassword";
-// import TabComponentStudent from "./Page-Components/Student_portfolio/Tab_component_student";
+import TabComponentStudent from "./Page-Components/Student_portfolio/Tab_component_student";
 import Gallery from "./Page/Gallery";
 import AlbumDetails from "./Page-Components/Gallery/AlbumDetails";
 import Albums from "./Page-Components/Gallery/Albums";
@@ -50,8 +50,9 @@ import AllPhotos from "./Page-Components/Gallery/AllPhotos";
 // import Networking from "./Admin_panel/Pages_component/Networking/Networking";
 // import Student from "./Admin_panel/Pages_component/Students/Student";
 // import News1 from "./Admin_panel/Pages_component/News/News";
-
-
+// import Ranklist from "./Admin_panel/Pages_component/Ranklist/Ranklist";
+// import Jobs from "./Admin_panel/Pages_component/Jobs/Jobs";
+// import LoginPage from "./Admin_panel/Pages_component/Login_page/Login_page";
 
 import RegisteredCandidates from "./Page-Components/Registered-Candidates/Card";
 
@@ -122,21 +123,23 @@ function App() {
           <Route path="/student_portfolio" element={<TabComponentStudent />} />
         </Routes>
         <LoadingBar color="#9333ea" height={3} progress={progress} />
-
         <Footer />
-
         {/* <TabComponentStudent/> */}
+
+    
         {/* <Navbar1 />
       <Routes>
-       <Route path='/networking' element={<Networking />} />
-        <Route path='/alumni-directory' element={<AlumniDirectory />} />
-       <Route path='/achievements' element={<Achievements />} />
-       <Route path='/student' element={<Student />} />
-       <Route path='/news' element={<News1/>} />
+      <Route path='/achievements'element={<Achievements />} />
+          <Route path='/networking' element={<Networking />} />
+          <Route path='/alumni-directory' element={<AlumniDirectory />} />
+          <Route path='/student' element={<Student />} />
+          <Route path='/news' element={<News1 />} />
+          <Route path='/ranklist' element={<Ranklist />} />
+          <Route path='/jobs' element={<Jobs />} /> 
+          <Route path='/loginnew' element={<LoginPage />} /> 
        </Routes> */}
-
-
       </SearchContextProvider>
+        
     </>
   );
 }

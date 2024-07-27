@@ -1,35 +1,43 @@
 import { useState, useEffect } from 'react';
-import './News.css';
+import './Jobs.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-function News1() {
+// Loader component
+const Loader = () => (
+  <div className="loader"></div>
+);
+
+function Jobs() {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('name');
-  const [newsData, setNewsData] = useState([
-    { name: 'Alice Johnson', branch: 'Computer Science', classOf: '2020', newsRelated: 'Alice awarded Best Innovator 2023' },
-    { name: 'Bob Smith', branch: 'Mechanical Engineering', classOf: '2019', newsRelated: 'Bob led a new robotics project' },
-  ]);
+  const [jobsData, setJobsData] = useState([]);
   const [showForm, setShowForm] = useState(false);
-  const [newNews, setNewNews] = useState({
+  const [newJob, setNewJob] = useState({
     name: '',
     branch: '',
-    classOf: '',
-    newsRelated: ''
+    jobTitle: '',
+    skillsRequired: '',
+    jobDescription: '',
   });
   const [editIndex, setEditIndex] = useState(null);
   const [confirmMessage, setConfirmMessage] = useState('');
   const [confirmEditMessage, setConfirmEditMessage] = useState('');
   const [actionType, setActionType] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
-    // Simulate data loading
+    // Simulate data fetching
     setTimeout(() => {
-      setLoading(false);
-    }, 1000); // Adjust the timeout as needed
+      setJobsData([
+        { name: 'Alice Johnson', branch: 'Computer Science', jobTitle: 'Software Engineer', skillsRequired: 'JavaScript, React, Node.js', jobDescription: 'Developing frontend applications' },
+        { name: 'Bob Smith', branch: 'Electrical Engineering', jobTitle: 'Electrical Engineer', skillsRequired: 'Circuit Design, MATLAB', jobDescription: 'Designing electrical circuits' },
+        // Add more job data as needed
+      ]);
+      setLoading(false); // Set loading to false when data is loaded
+    }, 2000); // Adjust time as needed
   }, []);
 
   const handleSearchChange = (event) => {
@@ -43,44 +51,44 @@ function News1() {
   const handleDelete = (index) => {
     setActionType('delete');
     setEditIndex(index);
-    setConfirmMessage('Are you sure you want to delete this news?');
+    setConfirmMessage('Are you sure you want to delete this job entry?');
   };
 
   const handleEdit = (index) => {
     setActionType('edit');
     setEditIndex(index);
-    setConfirmEditMessage('Are you sure you want to edit this news?');
+    setConfirmEditMessage('Are you sure you want to edit this job entry?');
   };
 
   const handleFormChange = (event) => {
     const { name, value } = event.target;
-    setNewNews({ ...newNews, [name]: value });
+    setNewJob({ ...newJob, [name]: value });
   };
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
     if (actionType === 'add') {
-      setNewsData([...newsData, newNews]);
-      toast.success('News item added successfully!');
+      setJobsData([...jobsData, newJob]);
+      toast.success('Job added successfully!');
     } else if (actionType === 'edit') {
-      const updatedData = newsData.map((newsItem, i) => (i === editIndex ? newNews : newsItem));
-      setNewsData(updatedData);
-      toast.success('News item updated successfully!');
+      const updatedData = jobsData.map((entry, i) => (i === editIndex ? newJob : entry));
+      setJobsData(updatedData);
+      toast.success('Job updated successfully!');
     }
     resetForm();
   };
 
   const handleConfirmAction = () => {
     if (actionType === 'delete') {
-      const updatedData = newsData.filter((_, i) => i !== editIndex);
-      setNewsData(updatedData);
-      toast.success('News item deleted successfully!');
+      const updatedData = jobsData.filter((_, i) => i !== editIndex);
+      setJobsData(updatedData);
+      toast.success('Job deleted successfully!');
     }
     resetForm();
   };
 
   const handleConfirmEditAction = () => {
-    setNewNews(newsData[editIndex]);
+    setNewJob(jobsData[editIndex]);
     setShowForm(true);
     setConfirmEditMessage('');
   };
@@ -89,21 +97,23 @@ function News1() {
     setShowForm(false);
     setConfirmMessage('');
     setConfirmEditMessage('');
-    setNewNews({
+    setNewJob({
       name: '',
       branch: '',
-      classOf: '',
-      newsRelated: '',
+      jobTitle: '',
+      skillsRequired: '',
+      jobDescription: '',
     });
     setEditIndex(null);
     setActionType(null);
   };
 
-  const filteredData = newsData.filter(newsItem =>
-    newsItem.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    newsItem.branch.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    newsItem.classOf.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    newsItem.newsRelated.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredData = jobsData.filter(entry =>
+    entry.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    entry.branch.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    entry.jobTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    entry.skillsRequired.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    entry.jobDescription.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const sortedData = filteredData.sort((a, b) => {
@@ -113,8 +123,8 @@ function News1() {
   });
 
   return (
-    <div className='news'>
-      <h1>News</h1>
+    <div className='jobs'>
+      <h1>Jobs</h1>
       <div className='search-bar'>
         <input
           type='text'
@@ -126,22 +136,21 @@ function News1() {
         <select onChange={handleSortChange} value={sortBy} className='sort-select'>
           <option value='name'>Sort by Name</option>
           <option value='branch'>Sort by Branch</option>
-          <option value='classOf'>Sort by Class Of</option>
-          <option value='newsRelated'>Sort by News Related</option>
+          <option value='jobTitle'>Sort by Job Title</option>
+          <option value='skillsRequired'>Sort by Skills Required</option>
+          <option value='jobDescription'>Sort by Job Description</option>
         </select>
-        <button
-          className='add-button'
-          onClick={() => {
-            setNewNews({
-              name: '',
-              branch: '',
-              classOf: '',
-              newsRelated: '',
-            });
-            setShowForm(!showForm);
-            setActionType('add');
-          }}
-        >
+        <button className='add-button' onClick={() => {
+          setNewJob({
+            name: '',
+            branch: '',
+            jobTitle: '',
+            skillsRequired: '',
+            jobDescription: '',
+          });
+          setShowForm(!showForm);
+          setActionType('add');
+        }}>
           {showForm ? 'Cancel' : 'Add'}
         </button>
       </div>
@@ -163,13 +172,13 @@ function News1() {
       )}
 
       {showForm && !confirmMessage && !confirmEditMessage && (
-        <form onSubmit={handleFormSubmit} className='news-form'>
+        <form onSubmit={handleFormSubmit} className='jobs-form'>
           <label>
             Name:
             <input
               type='text'
               name='name'
-              value={newNews.name}
+              value={newJob.name}
               onChange={handleFormChange}
               required
             />
@@ -179,55 +188,66 @@ function News1() {
             <input
               type='text'
               name='branch'
-              value={newNews.branch}
+              value={newJob.branch}
               onChange={handleFormChange}
               required
             />
           </label>
           <label>
-            Class Of:
+            Job Title:
             <input
               type='text'
-              name='classOf'
-              value={newNews.classOf}
+              name='jobTitle'
+              value={newJob.jobTitle}
               onChange={handleFormChange}
               required
             />
           </label>
           <label>
-            News Related:
+            Skills Required:
             <input
               type='text'
-              name='newsRelated'
-              value={newNews.newsRelated}
+              name='skillsRequired'
+              value={newJob.skillsRequired}
               onChange={handleFormChange}
               required
             />
           </label>
-          <button type='submit'>{editIndex !== null ? 'Update News' : 'Add News'}</button>
+          <label>
+            Job Description:
+            <textarea
+              name='jobDescription'
+              value={newJob.jobDescription}
+              onChange={handleFormChange}
+              required
+            />
+          </label>
+          <button type='submit'>{actionType === 'add' ? 'Add Job' : 'Update Job'}</button>
         </form>
       )}
 
       {loading ? (
-        <div className="loader"></div>
+        <Loader />
       ) : (
-        <table className='news-table'>
+        <table className='jobs-table'>
           <thead>
             <tr>
               <th>Name</th>
               <th>Branch</th>
-              <th>Class Of</th>
-              <th>News Related</th>
+              <th>Job Title</th>
+              <th>Skills Required</th>
+              <th>Job Description</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {sortedData.map((newsItem, index) => (
+            {sortedData.map((entry, index) => (
               <tr key={index}>
-                <td>{newsItem.name}</td>
-                <td>{newsItem.branch}</td>
-                <td>{newsItem.classOf}</td>
-                <td>{newsItem.newsRelated}</td>
+                <td>{entry.name}</td>
+                <td>{entry.branch}</td>
+                <td>{entry.jobTitle}</td>
+                <td>{entry.skillsRequired}</td>
+                <td>{entry.jobDescription}</td>
                 <td>
                   <button
                     className='action-button'
@@ -253,4 +273,4 @@ function News1() {
   );
 }
 
-export default News1;
+export default Jobs;

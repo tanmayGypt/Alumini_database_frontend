@@ -1,17 +1,14 @@
-import  { useState } from "react";
+import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Oval } from "react-loader-spinner";
-import ReCAPTCHA from "react-google-recaptcha";
-import { Link } from "react-router-dom";
-import axios from "axios";
+// import { Link } from "react-router-dom";
 
-const Login = () => {
+function LoginPage() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const [recaptchaValue, setRecaptchaValue] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const validateEmail = (email) => {
@@ -27,7 +24,7 @@ const Login = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     const { email, password } = formData;
@@ -42,43 +39,17 @@ const Login = () => {
       return;
     }
 
-    if (!recaptchaValue) {
-      toast.error("Please complete the reCAPTCHA");
-      return;
-    }
-
     setIsLoading(true);
 
-    try {
-      const response = await axios.post('/login', {
-        Email: email,
-        Password: password,
-      });
-
-      if (response.status === 200) {
-        toast.success(response.data.message || "Login successful");
-      } else {
-        toast.error("An unexpected error occurred");
-      }
-    } catch (error) {
-      if (error.response) {
-        toast.error(error.response.data.error || "Login failed");
-      } else {
-        toast.error("Network error, please try again later");
-      }
-    } finally {
+    setTimeout(() => {
       setIsLoading(false);
+      toast.success("Login successful");
 
       setFormData({
         email: "",
         password: "",
       });
-      setRecaptchaValue(null);
-    }
-  };
-
-  const handleRecaptchaChange = (value) => {
-    setRecaptchaValue(value);
+    }, 2000);
   };
 
   return (
@@ -120,13 +91,6 @@ const Login = () => {
         </div>
 
         <div className="flex justify-center mb-4">
-          <ReCAPTCHA
-            sitekey="YOUR_SITE_KEY" // Replace with actual site key
-            onChange={handleRecaptchaChange}
-          />
-        </div>
-
-        <div className="flex justify-center mb-4">
           <button
             className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-2xl focus:outline-none focus:shadow-outline"
             type="submit"
@@ -136,20 +100,20 @@ const Login = () => {
           </button>
         </div>
 
-        <div className="flex justify-center mb-2">
+        {/* <div className="flex justify-center mb-2">
           <Link to="/ForgetPassword" className="text-blue-500 hover:underline">
             Forgot Password?
           </Link>
-        </div>
+        </div> */}
 
-        <div className="flex justify-center">
+        {/* <div className="flex justify-center">
           <p className="text-sm">
-            {" "}
+            {" Don't have an account?"}
             <Link to="/signup" className="text-blue-500 hover:underline ml-1">
               Signup
             </Link>
           </p>
-        </div>
+        </div> */}
       </form>
 
       {isLoading && (
@@ -170,6 +134,6 @@ const Login = () => {
       <ToastContainer />
     </div>
   );
-};
+}
 
-export default Login;
+export default LoginPage;

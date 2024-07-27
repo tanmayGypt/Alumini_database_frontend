@@ -1,15 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './Student.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Student() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [sortBy, setSortBy] = useState('fullName'); 
+  const [sortBy, setSortBy] = useState('fullName');
   const [studentData, setStudentData] = useState([
     { fullName: 'Alice Johnson', year: 'Sophomore', branch: 'Computer Science', gpa: '3.8', projects: 'AI Research' },
     { fullName: 'Bob Smith', year: 'Junior', branch: 'Mechanical Engineering', gpa: '3.6', projects: 'Robotics' },
-    
   ]);
   const [showForm, setShowForm] = useState(false);
   const [newStudent, setNewStudent] = useState({
@@ -20,6 +21,17 @@ function Student() {
     projects: ''
   });
   const [editIndex, setEditIndex] = useState(null);
+  const [confirmMessage, setConfirmMessage] = useState('');
+  const [confirmEditMessage, setConfirmEditMessage] = useState('');
+  const [actionType, setActionType] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate data loading
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000); // Adjust the timeout as needed
+  }, []);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -30,14 +42,15 @@ function Student() {
   };
 
   const handleDelete = (index) => {
-    const newStudentData = studentData.filter((_, i) => i !== index);
-    setStudentData(newStudentData);
+    setActionType('delete');
+    setEditIndex(index);
+    setConfirmMessage('Are you sure you want to delete this student?');
   };
 
   const handleEdit = (index) => {
+    setActionType('edit');
     setEditIndex(index);
-    setNewStudent(studentData[index]);
-    setShowForm(true);
+    setConfirmEditMessage('Are you sure you want to edit this student?');
   };
 
   const handleFormChange = (event) => {
@@ -47,15 +60,45 @@ function Student() {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    if (editIndex !== null) {
+    if (actionType === 'add') {
+      setStudentData([...studentData, newStudent]);
+      toast.success('Student added successfully!');
+    } else if (actionType === 'edit') {
       const updatedData = studentData.map((student, i) => (i === editIndex ? newStudent : student));
       setStudentData(updatedData);
-      setEditIndex(null);
-    } else {
-      setStudentData([...studentData, newStudent]);
+      toast.success('Student updated successfully!');
     }
-    setNewStudent({ fullName: '', year: '', branch: '', gpa: '', projects: '' });
+    resetForm();
+  };
+
+  const handleConfirmAction = () => {
+    if (actionType === 'delete') {
+      const updatedData = studentData.filter((_, i) => i !== editIndex);
+      setStudentData(updatedData);
+      toast.success('Student deleted successfully!');
+    }
+    resetForm();
+  };
+
+  const handleConfirmEditAction = () => {
+    setNewStudent(studentData[editIndex]);
+    setShowForm(true);
+    setConfirmEditMessage('');
+  };
+
+  const resetForm = () => {
     setShowForm(false);
+    setConfirmMessage('');
+    setConfirmEditMessage('');
+    setNewStudent({
+      fullName: '',
+      year: '',
+      branch: '',
+      gpa: '',
+      projects: ''
+    });
+    setEditIndex(null);
+    setActionType(null);
   };
 
   const filteredData = studentData.filter(student =>
@@ -73,9 +116,9 @@ function Student() {
   });
 
   return (
-    <div className='student'>
+    <div className='student-directory'>
       <h1>Student Directory</h1>
-      <div className='search-bar'>
+      <div className='search-bar11'>
         <input
           type='text'
           placeholder='Search...'
@@ -90,12 +133,41 @@ function Student() {
           <option value='gpa'>Sort by GPA</option>
           <option value='projects'>Sort by Projects</option>
         </select>
-        <button className='add-button' onClick={() => setShowForm(!showForm)}>
+        <button
+          className='add-button'
+          onClick={() => {
+            setNewStudent({
+              fullName: '',
+              year: '',
+              branch: '',
+              gpa: '',
+              projects: ''
+            });
+            setShowForm(!showForm);
+            setActionType('add');
+          }}
+        >
           {showForm ? 'Cancel' : 'Add'}
         </button>
       </div>
 
-      {showForm && (
+      {confirmMessage && (
+        <div className="confirm-message">
+          {confirmMessage}
+          <button type='button' onClick={handleConfirmAction}>Yes</button>
+          <button type='button' onClick={resetForm}>No</button>
+        </div>
+      )}
+
+      {confirmEditMessage && (
+        <div className="confirm-message">
+          {confirmEditMessage}
+          <button type='button' onClick={handleConfirmEditAction}>Yes</button>
+          <button type='button' onClick={resetForm}>No</button>
+        </div>
+      )}
+
+      {showForm && !confirmMessage && !confirmEditMessage && (
         <form onSubmit={handleFormSubmit} className='student-form'>
           <label>
             Full Name:
@@ -147,47 +219,53 @@ function Student() {
               required
             />
           </label>
-          <button type='submit'>{editIndex !== null ? 'Update Student' : 'Add Student'}</button>
+          <button type='submit'>{actionType === 'add' ? 'Add Student' : 'Update Student'}</button>
         </form>
       )}
 
-      <table className='student-table'>
-        <thead>
-          <tr>
-            <th>Full Name</th>
-            <th>Year</th>
-            <th>Branch</th>
-            <th>GPA</th>
-            <th>Projects</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {sortedData.map((student, index) => (
-            <tr key={index}>
-              <td>{student.fullName}</td>
-              <td>{student.year}</td>
-              <td>{student.branch}</td>
-              <td>{student.gpa}</td>
-              <td>{student.projects}</td>
-              <td>
-                <button
-                  className='action-button'
-                  onClick={() => handleEdit(index)}
-                >
-                  <FontAwesomeIcon icon={faEdit} />
-                </button>
-                <button
-                  className='action-button'
-                  onClick={() => handleDelete(index)}
-                >
-                  <FontAwesomeIcon icon={faTrash} />
-                </button>
-              </td>
+      {loading ? (
+        <div className="loader"></div>
+      ) : (
+        <table className='student-table1'>
+          <thead>
+            <tr>
+              <th>Full Name</th>
+              <th>Year</th>
+              <th>Branch</th>
+              <th>GPA</th>
+              <th>Projects</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {sortedData.map((student, index) => (
+              <tr key={index}>
+                <td>{student.fullName}</td>
+                <td>{student.year}</td>
+                <td>{student.branch}</td>
+                <td>{student.gpa}</td>
+                <td>{student.projects}</td>
+                <td>
+                  <button
+                    className='action-button'
+                    onClick={() => handleEdit(index)}
+                  >
+                    <FontAwesomeIcon icon={faEdit} />
+                  </button>
+                  <button
+                    className='action-button'
+                    onClick={() => handleDelete(index)}
+                  >
+                    <FontAwesomeIcon icon={faTrash} />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+
+      <ToastContainer />
     </div>
   );
 }

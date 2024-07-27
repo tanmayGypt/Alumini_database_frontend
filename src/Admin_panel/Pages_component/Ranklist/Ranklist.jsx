@@ -1,35 +1,44 @@
 import { useState, useEffect } from 'react';
-import './News.css';
+import './Ranklist.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-function News1() {
+// Loader component
+const Loader = () => (
+  <div className="loader"></div>
+);
+
+function Ranklist() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [sortBy, setSortBy] = useState('name');
-  const [newsData, setNewsData] = useState([
-    { name: 'Alice Johnson', branch: 'Computer Science', classOf: '2020', newsRelated: 'Alice awarded Best Innovator 2023' },
-    { name: 'Bob Smith', branch: 'Mechanical Engineering', classOf: '2019', newsRelated: 'Bob led a new robotics project' },
-  ]);
+  const [sortBy, setSortBy] = useState('rank');
+  const [sortDirection, setSortDirection] = useState('asc');
+  const [ranklistData, setRanklistData] = useState([]);
   const [showForm, setShowForm] = useState(false);
-  const [newNews, setNewNews] = useState({
+  const [newRank, setNewRank] = useState({
+    rank: '',
     name: '',
-    branch: '',
-    classOf: '',
-    newsRelated: ''
+    enrollment: '',
+    skills: '',
+    workExperience: '',
   });
   const [editIndex, setEditIndex] = useState(null);
   const [confirmMessage, setConfirmMessage] = useState('');
   const [confirmEditMessage, setConfirmEditMessage] = useState('');
   const [actionType, setActionType] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
-    // Simulate data loading
+    // Simulate data fetching
     setTimeout(() => {
-      setLoading(false);
-    }, 1000); // Adjust the timeout as needed
+      setRanklistData([
+        { rank: 1, name: 'Alice Johnson', enrollment: '12345678901', skills: 'React, Node.js', workExperience: '2 years' },
+        { rank: 2, name: 'Bob Smith', enrollment: '23456789012', skills: 'Python, Data Science', workExperience: '3 years' },
+        { rank: 3, name: 'Charlie Brown', enrollment: '34567890123', skills: 'Java, Spring', workExperience: '1 year' },
+      ]);
+      setLoading(false); // Set loading to false when data is loaded
+    }, 2000); // Adjust time as needed
   }, []);
 
   const handleSearchChange = (event) => {
@@ -37,50 +46,58 @@ function News1() {
   };
 
   const handleSortChange = (event) => {
-    setSortBy(event.target.value);
+    const newSortBy = event.target.value;
+    if (sortBy === newSortBy) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortBy(newSortBy);
+      setSortDirection('asc');
+    }
   };
 
   const handleDelete = (index) => {
     setActionType('delete');
     setEditIndex(index);
-    setConfirmMessage('Are you sure you want to delete this news?');
+    setConfirmMessage('Are you sure you want to delete this entry?');
   };
 
   const handleEdit = (index) => {
     setActionType('edit');
     setEditIndex(index);
-    setConfirmEditMessage('Are you sure you want to edit this news?');
+    setConfirmEditMessage('Are you sure you want to edit this entry?');
   };
 
   const handleFormChange = (event) => {
     const { name, value } = event.target;
-    setNewNews({ ...newNews, [name]: value });
+    setNewRank({ ...newRank, [name]: value });
   };
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
     if (actionType === 'add') {
-      setNewsData([...newsData, newNews]);
-      toast.success('News item added successfully!');
+      setRanklistData([...ranklistData, { ...newRank, rank: ranklistData.length + 1 }]);
+      toast.success('Entry added successfully!');
     } else if (actionType === 'edit') {
-      const updatedData = newsData.map((newsItem, i) => (i === editIndex ? newNews : newsItem));
-      setNewsData(updatedData);
-      toast.success('News item updated successfully!');
+      const updatedData = ranklistData.map((entry, i) =>
+        i === editIndex ? { ...newRank, rank: parseInt(newRank.rank) } : entry
+      );
+      setRanklistData(updatedData);
+      toast.success('Entry updated successfully!');
     }
     resetForm();
   };
 
   const handleConfirmAction = () => {
     if (actionType === 'delete') {
-      const updatedData = newsData.filter((_, i) => i !== editIndex);
-      setNewsData(updatedData);
-      toast.success('News item deleted successfully!');
+      const updatedData = ranklistData.filter((_, i) => i !== editIndex);
+      setRanklistData(updatedData);
+      toast.success('Entry deleted successfully!');
     }
     resetForm();
   };
 
   const handleConfirmEditAction = () => {
-    setNewNews(newsData[editIndex]);
+    setNewRank(ranklistData[editIndex]);
     setShowForm(true);
     setConfirmEditMessage('');
   };
@@ -89,32 +106,35 @@ function News1() {
     setShowForm(false);
     setConfirmMessage('');
     setConfirmEditMessage('');
-    setNewNews({
+    setNewRank({
+      rank: '',
       name: '',
-      branch: '',
-      classOf: '',
-      newsRelated: '',
+      enrollment: '',
+      skills: '',
+      workExperience: '',
     });
     setEditIndex(null);
     setActionType(null);
   };
 
-  const filteredData = newsData.filter(newsItem =>
-    newsItem.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    newsItem.branch.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    newsItem.classOf.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    newsItem.newsRelated.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredData = ranklistData.filter((entry) =>
+    entry.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    entry.enrollment.includes(searchTerm) ||
+    entry.skills.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    entry.workExperience.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const sortedData = filteredData.sort((a, b) => {
-    if (a[sortBy] < b[sortBy]) return -1;
-    if (a[sortBy] > b[sortBy]) return 1;
+    const aValue = a[sortBy];
+    const bValue = b[sortBy];
+    if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
+    if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
     return 0;
   });
 
   return (
-    <div className='news'>
-      <h1>News</h1>
+    <div className='ranklist'>
+      <h1>Ranklist</h1>
       <div className='search-bar'>
         <input
           type='text'
@@ -124,19 +144,21 @@ function News1() {
           className='search-input'
         />
         <select onChange={handleSortChange} value={sortBy} className='sort-select'>
+          <option value='rank'>Sort by Rank</option>
           <option value='name'>Sort by Name</option>
-          <option value='branch'>Sort by Branch</option>
-          <option value='classOf'>Sort by Class Of</option>
-          <option value='newsRelated'>Sort by News Related</option>
+          <option value='enrollment'>Sort by Enrollment No</option>
+          <option value='skills'>Sort by Skills</option>
+          <option value='workExperience'>Sort by Work Experience</option>
         </select>
         <button
           className='add-button'
           onClick={() => {
-            setNewNews({
+            setNewRank({
+              rank: '',
               name: '',
-              branch: '',
-              classOf: '',
-              newsRelated: '',
+              enrollment: '',
+              skills: '',
+              workExperience: '',
             });
             setShowForm(!showForm);
             setActionType('add');
@@ -163,71 +185,83 @@ function News1() {
       )}
 
       {showForm && !confirmMessage && !confirmEditMessage && (
-        <form onSubmit={handleFormSubmit} className='news-form'>
+        <form onSubmit={handleFormSubmit} className='ranklist-form'>
+          <label>
+            Rank:
+            <input
+              type='number'
+              name='rank'
+              value={newRank.rank}
+              onChange={handleFormChange}
+              required
+            />
+          </label>
           <label>
             Name:
             <input
               type='text'
               name='name'
-              value={newNews.name}
+              value={newRank.name}
               onChange={handleFormChange}
               required
             />
           </label>
           <label>
-            Branch:
+            Enrollment No:
             <input
               type='text'
-              name='branch'
-              value={newNews.branch}
+              name='enrollment'
+              value={newRank.enrollment}
               onChange={handleFormChange}
               required
             />
           </label>
           <label>
-            Class Of:
+            Skills:
             <input
               type='text'
-              name='classOf'
-              value={newNews.classOf}
+              name='skills'
+              value={newRank.skills}
               onChange={handleFormChange}
               required
             />
           </label>
           <label>
-            News Related:
+            Work Experience:
             <input
               type='text'
-              name='newsRelated'
-              value={newNews.newsRelated}
+              name='workExperience'
+              value={newRank.workExperience}
               onChange={handleFormChange}
               required
             />
           </label>
-          <button type='submit'>{editIndex !== null ? 'Update News' : 'Add News'}</button>
+          <button type='submit'>{actionType === 'add' ? 'Add Entry' : 'Update Entry'}</button>
         </form>
       )}
 
       {loading ? (
-        <div className="loader"></div>
+        <Loader />
       ) : (
-        <table className='news-table'>
+        <table className='ranklist-table'>
           <thead>
             <tr>
+              <th>Rank</th>
               <th>Name</th>
-              <th>Branch</th>
-              <th>Class Of</th>
-              <th>News Related</th>
+              <th>Enrollment No</th>
+              <th>Skills</th>
+              <th>Work Experience</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {sortedData.map((newsItem, index) => (
+            {sortedData.map((entry, index) => (
               <tr key={index}>
-                <td>{newsItem.name}</td>
-                <td>{newsItem.branch}</td>
-                <td>{newsItem.classOf}</td>
-                <td>{newsItem.newsRelated}</td>
+                <td>{entry.rank}</td>
+                <td>{entry.name}</td>
+                <td>{entry.enrollment}</td>
+                <td>{entry.skills}</td>
+                <td>{entry.workExperience}</td>
                 <td>
                   <button
                     className='action-button'
@@ -247,10 +281,10 @@ function News1() {
           </tbody>
         </table>
       )}
-
+      
       <ToastContainer />
     </div>
   );
 }
 
-export default News1;
+export default Ranklist;

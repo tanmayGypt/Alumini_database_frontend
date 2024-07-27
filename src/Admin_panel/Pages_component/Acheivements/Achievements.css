@@ -48,16 +48,17 @@
 
 .achievements-form {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 10px;
     margin-bottom: 20px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    padding: 10px;
+    padding: 20px;
     background-color: #f9f9f9;
 }
 
 .achievements-form label {
+    text-align: left;
     display: flex;
     flex-direction: column;
     margin-right: 20px;
@@ -69,7 +70,7 @@
     font-size: 16px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    width: 150px;
+    width: 100%; 
 }
 
 .achievements-form button {
@@ -77,11 +78,10 @@
     color: white;
     border: none;
     border-radius: 4px;
-    padding: 6px 10px; 
+    padding: 10px 20px; 
     cursor: pointer;
-    height: 34px;
-    font-size: 14px; 
-    margin-top: 2rem;
+    font-size: 16px; 
+    align-self: flex-start;
 }
 
 .achievements-form button:hover {
@@ -118,7 +118,7 @@
 }
 
 .action-button {
-    background: none;
+    background: white;
     border: none;
     cursor: pointer;
     font-size: 16px; 
@@ -126,6 +126,42 @@
     margin-right: 5px;
 }
 
-.action-button:hover {
-    color: #005f73;
+.confirm-message {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #ffcccc;
+    border: 1px solid #ff0000;
+    border-radius: 4px;
+    text-align: center;
 }
+
+.confirm-message button {
+    background-color: #0077b6;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.confirm-message button:hover {
+    background-color: #005f73;
+}
+
+.loader {
+    border: 8px solid rgba(0, 0, 0, 0.1);
+    border-top: 8px solid #0077b6;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
