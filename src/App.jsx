@@ -30,10 +30,8 @@ import InterviewDetail from "./Page-Components/Interview-Experience/InterviewDet
 import TabComponent from "./Page-Components/Alumni_portfolio/tabcomponent";
 import InterviewExp from "./Page-Components/Interview-Experience/InterviewPage";
 import { SearchContextProvider } from "../src/Context/SearchContextProvider";
-
 import Login from "./Page/Login";
 import Signup from "./Page/Signup";
-
 import MainPage from "./Page/Explore/MainPage";
 import MoreNews from "./Page-Components/News-Components/MoreNews";
 import ForgetPassword from "./Page/ForgetPassword";
@@ -43,18 +41,13 @@ import AlbumDetails from "./Page-Components/Gallery/AlbumDetails";
 import Albums from "./Page-Components/Gallery/Albums";
 import Videos from "./Page-Components/Gallery/Videos";
 import AllPhotos from "./Page-Components/Gallery/AllPhotos";
-
-// import Navbar1 from "./Admin_panel/Pages_component/Navbar/Navbarnew";
-// import Achievements from "./Admin_panel/Pages_component/Acheivements/Achievements";
-// import AlumniDirectory from "./Admin_panel/Pages_component/AlumniDirectory/AlumniDirectory";
-// import Networking from "./Admin_panel/Pages_component/Networking/Networking";
-// import Student from "./Admin_panel/Pages_component/Students/Student";
-// import News1 from "./Admin_panel/Pages_component/News/News";
-
-
-
+import Navbar1 from "./Admin_panel/Pages_component/Navbar/Navbarnew";
+import Achievements1 from "./Admin_panel/Pages_component/Acheivements/Achievements";
+import AlumniDirectory1 from "./Admin_panel/Pages_component/AlumniDirectory/AlumniDirectory";
+import Networking1 from "./Admin_panel/Pages_component/Networking/Networking";
+import Student1 from "./Admin_panel/Pages_component/Students/Student";
+import News1 from "./Admin_panel/Pages_component/News/News";
 import RegisteredCandidates from "./Page-Components/Registered-Candidates/Card";
-
 
 function App() {
   const location = useLocation();
@@ -64,6 +57,21 @@ function App() {
     setProgress(0);
   }, [location.pathname, setProgress]);
 
+  const Locations = location.pathname.split("/");
+  if (Locations[1].toLowerCase() === "admin") {
+    return (
+      <>
+        <Navbar1 />
+        <Routes>
+          <Route path="/admin/Achievements" element={<Achievements1 />} />
+          <Route path="/admin/AlumniDirectory" element={<AlumniDirectory1 />} />
+          <Route path="/admin/Networking" element={<Networking1 />} />
+          <Route path="/admin/Student" element={<Student1 />} />
+          <Route path="/admin/news" element={<News1 />} />
+        </Routes>
+      </>
+    );
+  }
   return (
     <>
       <SearchContextProvider>
@@ -122,20 +130,7 @@ function App() {
           <Route path="/student_portfolio" element={<TabComponentStudent />} />
         </Routes>
         <LoadingBar color="#9333ea" height={3} progress={progress} />
-
         <Footer />
-
-        {/* <TabComponentStudent/> */}
-        {/* <Navbar1 />
-      <Routes>
-       <Route path='/networking' element={<Networking />} />
-        <Route path='/alumni-directory' element={<AlumniDirectory />} />
-       <Route path='/achievements' element={<Achievements />} />
-       <Route path='/student' element={<Student />} />
-       <Route path='/news' element={<News1/>} />
-       </Routes> */}
-
-
       </SearchContextProvider>
     </>
   );
