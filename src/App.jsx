@@ -54,6 +54,7 @@ import AllPhotos from "./Page-Components/Gallery/AllPhotos";
 
 
 import RegisteredCandidates from "./Page-Components/Registered-Candidates/Card";
+import VerifyOTP from "./Page/VerifyOTP";
 
 
 function App() {
@@ -110,6 +111,7 @@ function App() {
           <Route path="/interview-experience" element={<InterviewExp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/verifyOTP" element={ <VerifyOTP/> } />
           <Route path="/explore" element={<MainPage />} />
           <Route path="/portfolio" element={<TabComponent />} />
           <Route path="/ForgetPassword" element={<ForgetPassword />} />
