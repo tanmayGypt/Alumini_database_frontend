@@ -30,10 +30,8 @@ import InterviewDetail from "./Page-Components/Interview-Experience/InterviewDet
 import TabComponent from "./Page-Components/Alumni_portfolio/tabcomponent";
 import InterviewExp from "./Page-Components/Interview-Experience/InterviewPage";
 import { SearchContextProvider } from "../src/Context/SearchContextProvider";
-
 import Login from "./Page/Login";
 import Signup from "./Page/Signup";
-
 import MainPage from "./Page/Explore/MainPage";
 import MoreNews from "./Page-Components/News-Components/MoreNews";
 import ForgetPassword from "./Page/ForgetPassword";
@@ -44,18 +42,19 @@ import Albums from "./Page-Components/Gallery/Albums";
 import Videos from "./Page-Components/Gallery/Videos";
 import AllPhotos from "./Page-Components/Gallery/AllPhotos";
 
-// import Navbar1 from "./Admin_panel/Pages_component/Navbar/Navbarnew";
-// import Achievements from "./Admin_panel/Pages_component/Acheivements/Achievements";
-// import AlumniDirectory from "./Admin_panel/Pages_component/AlumniDirectory/AlumniDirectory";
-// import Networking from "./Admin_panel/Pages_component/Networking/Networking";
-// import Student from "./Admin_panel/Pages_component/Students/Student";
-// import News1 from "./Admin_panel/Pages_component/News/News";
-// import Ranklist from "./Admin_panel/Pages_component/Ranklist/Ranklist";
-// import Jobs from "./Admin_panel/Pages_component/Jobs/Jobs";
-// import LoginPage from "./Admin_panel/Pages_component/Login_page/Login_page";
+import Navbar1 from "./Admin_panel/Pages_component/Navbar/Navbarnew";
+import Achievements from "./Admin_panel/Pages_component/Acheivements/Achievements";
+import AlumniDirectory from "./Admin_panel/Pages_component/AlumniDirectory/AlumniDirectory";
+import Networking from "./Admin_panel/Pages_component/Networking/Networking";
+import Student from "./Admin_panel/Pages_component/Students/Student";
+import News1 from "./Admin_panel/Pages_component/News/News";
+import Ranklist from "./Admin_panel/Pages_component/Ranklist/Ranklist";
+import Jobs from "./Admin_panel/Pages_component/Jobs/Jobs";
+import LoginPage from "./Admin_panel/Pages_component/Login_page/Login_page";
+
 
 import RegisteredCandidates from "./Page-Components/Registered-Candidates/Card";
-
+import VerifyOTP from "./Page/VerifyOTP";
 
 function App() {
   const location = useLocation();
@@ -65,6 +64,25 @@ function App() {
     setProgress(0);
   }, [location.pathname, setProgress]);
 
+  const Locations = location.pathname.split("/");
+  if (Locations[1].toLowerCase() === "admin") {
+    return (
+      <>
+        <Navbar1 />
+        <Routes>
+          <Route path="/admin/Achievements" element={<Achievements />} />
+          <Route path="/admin/AlumniDirectory" element={<AlumniDirectory />} />
+          <Route path="/admin/Networking" element={<Networking />} />
+          <Route path="/admin/Student" element={<Student />} />
+          <Route path="/admin/news" element={<News1 />} />
+          <Route path="/admin/ranklist" element={<Ranklist />} />
+          <Route path="/admin/jobs" element={<Jobs />} /> 
+          <Route path="/admin/loginnew" element={<LoginPage />} /> 
+           
+        </Routes>
+      </>
+    );
+  }
   return (
     <>
       <SearchContextProvider>
@@ -111,6 +129,7 @@ function App() {
           <Route path="/interview-experience" element={<InterviewExp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/verifyOTP" element={ <VerifyOTP/> } />
           <Route path="/explore" element={<MainPage />} />
           <Route path="/portfolio" element={<TabComponent />} />
           <Route path="/ForgetPassword" element={<ForgetPassword />} />
@@ -124,20 +143,9 @@ function App() {
         </Routes>
         <LoadingBar color="#9333ea" height={3} progress={progress} />
         <Footer />
+
         {/* <TabComponentStudent/> */}
 
-    
-        {/* <Navbar1 />
-      <Routes>
-      <Route path='/achievements'element={<Achievements />} />
-          <Route path='/networking' element={<Networking />} />
-          <Route path='/alumni-directory' element={<AlumniDirectory />} />
-          <Route path='/student' element={<Student />} />
-          <Route path='/news' element={<News1 />} />
-          <Route path='/ranklist' element={<Ranklist />} />
-          <Route path='/jobs' element={<Jobs />} /> 
-          <Route path='/loginnew' element={<LoginPage />} /> 
-       </Routes> */}
       </SearchContextProvider>
         
     </>

@@ -1,40 +1,34 @@
 import React, { useState } from 'react';
-import ReCAPTCHA from "react-google-recaptcha";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Oval } from 'react-loader-spinner';
-import axios from 'axios';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
-    FirstName: '',
-    LastName: '',
-    Fathername: '',
-    Email: '',
-    Password: '',
-    Branch: '',
-    Status: '',
-    EnrollmentNo: '',
-    BatchYear: '',
-    MobileNo: '',
-    Tenth: '',
-    Xllth: '',
-    Degree: '',
-    GithubProfile: '',
-    LinkedInProfile: '',
-    LeetCodeProfile: '',
-    CodeforceProfile: '',
-    CodeChefProfile: '',
-    InstagramProfile: '',
-    TwitterProfile: ''
+    firstName: '',
+    lastName: '',
+    fatherName: '',
+    password: '',
+    confirmPassword: '',
+    batchYear: '',
+    branch: '',
+    status: '',
+    mobileNo: '',
+    email: '',
+    enrollmentNo: '',
+    degree: 'B.Tech',
   });
-
-  const [recaptchaValue, setRecaptchaValue] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  const validateEnrollmentNumber = (enrollmentNo) => /^[A-Za-z0-9]+$/.test(enrollmentNo);
+  const validateName = (name) => /^[a-zA-Z\s]+$/.test(name);
+  const validateBatchYear = (batchYear) => /^\d{4}$/.test(batchYear);
+  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const validateMobileNumber = (mobileNo) => /^\d{10}$/.test(mobileNo);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevData => ({
+    setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
@@ -42,75 +36,93 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const { firstName, lastName, fatherName, password, confirmPassword, batchYear, branch, status, mobileNo, email, enrollmentNo, degree } = formData;
 
-    const {
-      FirstName, LastName, Fathername, Email, Password, Branch, Status,
-      EnrollmentNo, BatchYear, MobileNo, Tenth, Xllth, Degree
-    } = formData;
-
-    if (
-      !FirstName || !LastName || !Fathername || !Email || !Password ||
-      !Branch || !Status || !EnrollmentNo || !BatchYear || !MobileNo ||
-      !Tenth || !Xllth || !Degree
-    ) {
+    if (!firstName || !lastName || !fatherName || !password || !confirmPassword || !batchYear || !branch || !status || !mobileNo || !email || !enrollmentNo) {
       toast.error('Please fill in all required fields');
+      return;
+    }
+    if (!validateName(firstName) || !validateName(lastName) || !validateName(fatherName)) {
+      toast.error('Names must contain only letters and spaces');
+      return;
+    }
+    if (!validateEmail(email)) {
+      toast.error('Please enter a valid email address');
+      return;
+    }
+    if (password !== confirmPassword) {
+      toast.error('Passwords do not match');
+      return;
+    }
+    if (!validateBatchYear(batchYear)) {
+      toast.error('Batch Year must be a 4-digit number');
+      return;
+    }
+    if (!validateEnrollmentNumber(enrollmentNo)) {
+      toast.error('Enrollment number must be alphanumeric');
+      return;
+    }
+    if (!validateMobileNumber(mobileNo)) {
+      toast.error('Mobile number must be a 10-digit number');
       return;
     }
 
     setIsLoading(true);
 
     try {
-      const response = await axios.post('/signup', formData);
-      toast.success(response.data.message || 'Form submitted successfully');
-    } catch (error) {
-      if (error.response) {
-        const { status, data } = error.response;
-        switch (status) {
-          case 400:
-            toast.error(data.message || 'Invalid request payload');
-            break;
-          case 409:
-            toast.error(data.message || 'Email or enrollment number already exists');
-            break;
-          case 500:
-            toast.error(data.message || 'Internal server error');
-            break;
-          default:
-            toast.error('An unexpected error occurred');
-        }
-      } else {
-        toast.error('Network error');
+      const response = await fetch('https://alumnibackend.up.railway.app/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          FirstName: firstName,
+          LastName: lastName,
+          Fathername: fatherName,
+          Password: password,
+          Status: status,
+          Branch: branch,
+          BatchYear: parseInt(batchYear),
+          MobileNo: mobileNo,
+          Email: email,
+          EnrollmentNo: enrollmentNo,
+          Degree: degree,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Unknown error');
       }
+
+      const data = await response.json();
+
+      if (data.message === 'OTP sent successfully') {
+        toast.success('OTP sent successfully');
+        localStorage.setItem('signupData', JSON.stringify(formData));
+        window.location.href = '/verifyOTP';
+      } else {
+        toast.success('Signup successful');
+      }
+
+      setFormData({
+        firstName: '',
+        lastName: '',
+        fatherName: '',
+        password: '',
+        confirmPassword: '',
+        batchYear: '',
+        branch: '',
+        status: '',
+        mobileNo: '',
+        email: '',
+        enrollmentNo: '',
+        degree: 'B.Tech',
+      });
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error(`Signup failed. Please try again later. Error: ${error.message}`);
     } finally {
       setIsLoading(false);
-      setFormData({
-        FirstName: '',
-        LastName: '',
-        Fathername: '',
-        Email: '',
-        Password: '',
-        Branch: '',
-        Status: '',
-        EnrollmentNo: '',
-        BatchYear: '',
-        MobileNo: '',
-        Tenth: '',
-        Xllth: '',
-        Degree: '',
-        GithubProfile: '',
-        LinkedInProfile: '',
-        LeetCodeProfile: '',
-        CodeforceProfile: '',
-        CodeChefProfile: '',
-        InstagramProfile: '',
-        TwitterProfile: ''
-      });
-      setRecaptchaValue(null);
     }
-  };
-
-  const handleRecaptchaChange = (value) => {
-    setRecaptchaValue(value);
   };
 
   return (
@@ -119,80 +131,198 @@ const Signup = () => {
         <h2 className="text-2xl font-bold text-center mx-auto">Signup</h2>
         <p className='text-gray-500 text-xs py-3'>Please use the form below to sign up</p>
 
-        {Object.keys(formData).map((key) => (
-          (key !== 'Status' && key !== 'GithubProfile' && key !== 'LinkedInProfile' && key !== 'LeetCodeProfile' &&
-           key !== 'CodeforceProfile' && key !== 'CodeChefProfile' && key !== 'InstagramProfile' && key !== 'TwitterProfile') && (
-            <div className="flex flex-col sm:flex-row mb-2" key={key}>
-              <label className="block text-gray-700 pt-2 font-bold md:text-left mb-1 sm:w-1/3 sm:pr-4" htmlFor={key}>
-                {key.replace(/([A-Z])/g, ' $1').trim()} <span className="text-red-500">*</span>
-              </label>
-              <input
-                className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                id={key}
-                type={key === 'Password' ? 'password' : 'text'}
-                placeholder={`Your ${key.replace(/([A-Z])/g, ' $1').trim()}`}
-                name={key}
-                value={formData[key]}
-                onChange={handleChange}
-                required
-              />
-            </div>
-          )
-        ))}
-
         <div className="flex flex-col sm:flex-row mb-2">
-          <label className="block text-gray-700 pt-2 font-bold md:text-left mb-1 sm:w-1/3 sm:pr-4" htmlFor="Status">
-            Status <span className="text-red-500">*</span>
+          <label className="block text-gray-700 pt-2 font-bold md:text-left mb-1 sm:w-1/3 sm:pr-4" htmlFor="firstName">
+            First Name <span className="text-red-500">*</span>
           </label>
-          <select
-            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-            id="Status"
-            name="Status"
-            value={formData.Status}
+          <input
+            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full sm:w-2/3 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+            id="firstName"
+            name="firstName"
+            type="text"
+            value={formData.firstName}
             onChange={handleChange}
             required
-          >
-            <option value="">Select your status</option>
-            <option value="Student">Student</option>
-            <option value="Alumini">Alumini</option>
-          </select>
-        </div>
-
-        {['GithubProfile', 'LinkedInProfile', 'LeetCodeProfile', 'CodeforceProfile', 'CodeChefProfile', 'InstagramProfile', 'TwitterProfile'].map((key) => (
-          <div className="flex flex-col sm:flex-row mb-2" key={key}>
-            <label className="block text-gray-700 pt-2 font-bold md:text-left mb-1 sm:w-1/3 sm:pr-4" htmlFor={key}>
-              {key.replace(/([A-Z])/g, ' $1').trim()}
-            </label>
-            <input
-              className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-              id={key}
-              type="text"
-              placeholder={`Your ${key.replace(/([A-Z])/g, ' $1').trim()}`}
-              name={key}
-              value={formData[key]}
-              onChange={handleChange}
-            />
-          </div>
-        ))}
-
-        <div className="flex items-center justify-center mb-4">
-          <ReCAPTCHA
-            sitekey="YOUR_RECAPTCHA_SITE_KEY"
-            onChange={handleRecaptchaChange}
           />
         </div>
 
-        <div className="flex items-center justify-center">
-          <button
-            className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            type="submit"
-            disabled={isLoading}
-          >
-            {isLoading ? <Oval color="#fff" height={20} width={20} /> : 'Sign Up'}
-          </button>
+        <div className="flex flex-col sm:flex-row mb-2">
+          <label className="block text-gray-700 pt-2 font-bold md:text-left mb-1 sm:w-1/3 sm:pr-4" htmlFor="lastName">
+            Last Name <span className="text-red-500">*</span>
+          </label>
+          <input
+            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full sm:w-2/3 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+            id="lastName"
+            name="lastName"
+            type="text"
+            value={formData.lastName}
+            onChange={handleChange}
+            required
+          />
         </div>
+
+        <div className="flex flex-col sm:flex-row mb-2">
+          <label className="block text-gray-700 pt-2 font-bold md:text-left mb-1 sm:w-1/3 sm:pr-4" htmlFor="fatherName">
+            Father Name <span className="text-red-500">*</span>
+          </label>
+          <input
+            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full sm:w-2/3 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+            id="fatherName"
+            name="fatherName"
+            type="text"
+            value={formData.fatherName}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="flex flex-col sm:flex-row mb-2">
+          <label className="block text-gray-700 pt-2 font-bold md:text-left mb-1 sm:w-1/3 sm:pr-4" htmlFor="password">
+            Password <span className="text-red-500">*</span>
+          </label>
+          <input
+            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full sm:w-2/3 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+            id="password"
+            name="password"
+            type="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="flex flex-col sm:flex-row mb-2">
+          <label className="block text-gray-700 pt-2 font-bold md:text-left mb-1 sm:w-1/3 sm:pr-4" htmlFor="confirmPassword">
+            Confirm Password <span className="text-red-500">*</span>
+          </label>
+          <input
+            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full sm:w-2/3 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+            id="confirmPassword"
+            name="confirmPassword"
+            type="password"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="flex flex-col sm:flex-row mb-2">
+          <label className="block text-gray-700 pt-2 font-bold md:text-left mb-1 sm:w-1/3 sm:pr-4" htmlFor="batchYear">
+            Batch Year <span className="text-red-500">*</span>
+          </label>
+          <input
+            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full sm:w-2/3 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+            id="batchYear"
+            name="batchYear"
+            type="text"
+            value={formData.batchYear}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="flex flex-col sm:flex-row mb-2">
+          <label className="block text-gray-700 pt-2 font-bold md:text-left mb-1 sm:w-1/3 sm:pr-4" htmlFor="branch">
+            Branch <span className="text-red-500">*</span>
+          </label>
+          <input
+            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full sm:w-2/3 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+            id="branch"
+            name="branch"
+            type="text"
+            value={formData.branch}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="flex flex-col sm:flex-row mb-2">
+          <label className="block text-gray-700 pt-2 font-bold md:text-left mb-1 sm:w-1/3 sm:pr-4" htmlFor="status">
+            Status <span className="text-red-500">*</span>
+          </label>
+          <input
+            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full sm:w-2/3 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+            id="status"
+            name="status"
+            type="text"
+            value={formData.status}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="flex flex-col sm:flex-row mb-2">
+          <label className="block text-gray-700 pt-2 font-bold md:text-left mb-1 sm:w-1/3 sm:pr-4" htmlFor="mobileNo">
+            Mobile No <span className="text-red-500">*</span>
+          </label>
+          <input
+            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full sm:w-2/3 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+            id="mobileNo"
+            name="mobileNo"
+            type="text"
+            value={formData.mobileNo}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="flex flex-col sm:flex-row mb-2">
+          <label className="block text-gray-700 pt-2 font-bold md:text-left mb-1 sm:w-1/3 sm:pr-4" htmlFor="email">
+            Email <span className="text-red-500">*</span>
+          </label>
+          <input
+            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full sm:w-2/3 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+            id="email"
+            name="email"
+            type="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="flex flex-col sm:flex-row mb-2">
+          <label className="block text-gray-700 pt-2 font-bold md:text-left mb-1 sm:w-1/3 sm:pr-4" htmlFor="enrollmentNo">
+            Enrollment No <span className="text-red-500">*</span>
+          </label>
+          <input
+            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full sm:w-2/3 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+            id="enrollmentNo"
+            name="enrollmentNo"
+            type="text"
+            value={formData.enrollmentNo}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="flex flex-col sm:flex-row mb-2">
+          <label className="block text-gray-700 pt-2 font-bold md:text-left mb-1 sm:w-1/3 sm:pr-4" htmlFor="degree">
+            Degree <span className="text-red-500">*</span>
+          </label>
+          <input
+            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full sm:w-2/3 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+            id="degree"
+            name="degree"
+            type="text"
+            value={formData.degree}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="flex items-center justify-center mt-4">
+          {isLoading ? (
+            <Oval color="#00BFFF" height={30} width={30} />
+          ) : (
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+              Signup
+            </button>
+          )}
+        </div>
+
+        <ToastContainer />
       </form>
-      <ToastContainer />
     </div>
   );
 };
