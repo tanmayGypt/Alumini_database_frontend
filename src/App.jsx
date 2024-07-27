@@ -37,13 +37,24 @@ import Signup from "./Page/Signup";
 import MainPage from "./Page/Explore/MainPage";
 import MoreNews from "./Page-Components/News-Components/MoreNews";
 import ForgetPassword from "./Page/ForgetPassword";
-import TabComponentStudent from "./Page-Components/Student_portfolio/Tab_component_student";
+// import TabComponentStudent from "./Page-Components/Student_portfolio/Tab_component_student";
 import Gallery from "./Page/Gallery";
 import AlbumDetails from "./Page-Components/Gallery/AlbumDetails";
 import Albums from "./Page-Components/Gallery/Albums";
 import Videos from "./Page-Components/Gallery/Videos";
 import AllPhotos from "./Page-Components/Gallery/AllPhotos";
+
+// import Navbar1 from "./Admin_panel/Pages_component/Navbar/Navbarnew";
+// import Achievements from "./Admin_panel/Pages_component/Acheivements/Achievements";
+// import AlumniDirectory from "./Admin_panel/Pages_component/AlumniDirectory/AlumniDirectory";
+// import Networking from "./Admin_panel/Pages_component/Networking/Networking";
+// import Student from "./Admin_panel/Pages_component/Students/Student";
+// import News1 from "./Admin_panel/Pages_component/News/News";
+
+
+
 import RegisteredCandidates from "./Page-Components/Registered-Candidates/Card";
+
 
 function App() {
   const location = useLocation();
@@ -113,6 +124,18 @@ function App() {
         <LoadingBar color="#9333ea" height={3} progress={progress} />
 
         <Footer />
+
+        {/* <TabComponentStudent/> */}
+        {/* <Navbar1 />
+      <Routes>
+       <Route path='/networking' element={<Networking />} />
+        <Route path='/alumni-directory' element={<AlumniDirectory />} />
+       <Route path='/achievements' element={<Achievements />} />
+       <Route path='/student' element={<Student />} />
+       <Route path='/news' element={<News1/>} />
+       </Routes> */}
+
+
       </SearchContextProvider>
     </>
   );

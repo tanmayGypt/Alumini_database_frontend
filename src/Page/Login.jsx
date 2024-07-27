@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Oval } from "react-loader-spinner";
-import axios from "axios"; // Import axios
+import ReCAPTCHA from "react-google-recaptcha";
 import { Link } from "react-router-dom";
+import axios from 'axios';
 
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const [recaptchaValue, setRecaptchaValue] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const validateEmail = (email) => {
@@ -25,49 +27,60 @@ const Login = () => {
     }));
   };
 
+  const handleRecaptchaChange = (value) => {
+    setRecaptchaValue(value);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const { email, password } = formData;
-
-    if (!email || !password) {
-      toast.error("Please fill in all required fields");
-      return;
-    }
-
-    if (!validateEmail(email)) {
-      toast.error("Please enter a valid email");
-      return;
-    }
-
+  
+    // Validate input
+    // if (!email || !password) {
+    //   toast.error("Please fill in all required fields");
+    //   return;
+    // }
+  
+    // if (!validateEmail(email)) {
+    //   toast.error("Please enter a valid email");
+    //   return;
+    // }
+  
+    // if (!recaptchaValue) {
+    //   toast.error("Please complete the reCAPTCHA");
+    //   return;
+    // }
+  
     setIsLoading(true);
-
+  
     try {
-      const response = await axios.post("https://alumnibackend.up.railway.app/login", {
+      const response = await axios.post('https://alumnibackend.up.railway.app/login', {
         email,
         password,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        
       });
-    
-      console.log('Response:', response); // Log the entire response
-    
-      if (response.data && response.data.token) {
-        localStorage.setItem("jwtToken", response.data.token);
+  
+      const data = response.data;
+  
+      if (response.status === 200) {
+        localStorage.setItem("jwtToken", data.token);
         toast.success("Login successful");
       } else {
-        throw new Error('Token not found in response');
+        toast.error(data.message || "Login failed");
       }
-    
-      setFormData({
-        email: "",
-        password: "",
-      });
     } catch (error) {
-      console.error('Error during login:', error); // Log the error
-      toast.error(error.response?.data?.message || "Login failed");
+      toast.error("An error occurred. Please try again later.");
     } finally {
       setIsLoading(false);
     }
   };
+  
+  
 
   return (
     <div className="h-full w-full flex items-center justify-center flex-col bg-gray-100 py-10 sm:py-20 px-4">
@@ -119,6 +132,14 @@ const Login = () => {
             onChange={handleChange}
           />
         </div>
+
+        {/* reCAPTCHA */}
+        {/* <div className="flex justify-center mb-4">
+          <ReCAPTCHA
+            sitekey="YOUR_SITE_KEY" // Replace with actual site key
+            onChange={handleRecaptchaChange}
+          />
+        </div> */}
 
         {/* Submit button */}
         <div className="flex justify-center mb-4">
