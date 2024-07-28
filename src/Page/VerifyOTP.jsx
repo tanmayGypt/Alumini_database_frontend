@@ -19,6 +19,7 @@ const VerifyOtp = () => {
 
     try {
       const signupData = JSON.parse(localStorage.getItem('signupData'));
+      signupData.batchYear = parseInt(signupData.batchYear)
       const response = await fetch('https://alumnibackend.up.railway.app/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -43,7 +44,7 @@ const VerifyOtp = () => {
       }
 
       toast.success('OTP verified successfully!');
-      navigate('/dashboard');
+      navigate('/login');
     } catch (error) {
       console.error('OTP Verification Error:', error);
       toast.error(`OTP verification failed: ${error.message}`);
