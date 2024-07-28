@@ -90,7 +90,7 @@ const Signup = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Unknown error');
+        throw new Error(errorData.error || 'Unknown error');
       }
 
       const data = await response.json();
@@ -214,7 +214,7 @@ const Signup = () => {
             className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full sm:w-2/3 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
             id="batchYear"
             name="batchYear"
-            type="text"
+            type="number"
             value={formData.batchYear}
             onChange={handleChange}
             required
@@ -253,7 +253,7 @@ const Signup = () => {
 
         <div className="flex flex-col sm:flex-row mb-2">
           <label className="block text-gray-700 pt-2 font-bold md:text-left mb-1 sm:w-1/3 sm:pr-4" htmlFor="mobileNo">
-            Mobile No <span className="text-red-500">*</span>
+            Mobile Number <span className="text-red-500">*</span>
           </label>
           <input
             className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full sm:w-2/3 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
@@ -283,7 +283,7 @@ const Signup = () => {
 
         <div className="flex flex-col sm:flex-row mb-2">
           <label className="block text-gray-700 pt-2 font-bold md:text-left mb-1 sm:w-1/3 sm:pr-4" htmlFor="enrollmentNo">
-            Enrollment No <span className="text-red-500">*</span>
+            Enrollment Number <span className="text-red-500">*</span>
           </label>
           <input
             className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full sm:w-2/3 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
@@ -300,29 +300,32 @@ const Signup = () => {
           <label className="block text-gray-700 pt-2 font-bold md:text-left mb-1 sm:w-1/3 sm:pr-4" htmlFor="degree">
             Degree <span className="text-red-500">*</span>
           </label>
-          <input
-            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full sm:w-2/3 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+          <select
+            className="bg-gray-200 border-2 border-gray-200 rounded w-full sm:w-2/3 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
             id="degree"
             name="degree"
-            type="text"
             value={formData.degree}
             onChange={handleChange}
             required
-          />
+          >
+            <option value="B.Tech">B.Tech</option>
+            <option value="M.Tech">M.Tech</option>
+            <option value="MCA">MCA</option>
+            <option value="PhD">PhD</option>
+          </select>
         </div>
 
-        <div className="flex items-center justify-center mt-4">
-          {isLoading ? (
-            <Oval color="#00BFFF" height={30} width={30} />
-          ) : (
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-              Signup
-            </button>
-          )}
+        <div className="flex items-center justify-center">
+          <button
+            className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+            type="submit"
+            disabled={isLoading}
+          >
+            {isLoading ? <Oval height={20} width={20} color="white" /> : 'Signup'}
+          </button>
         </div>
-
-        <ToastContainer />
       </form>
+      <ToastContainer />
     </div>
   );
 };
