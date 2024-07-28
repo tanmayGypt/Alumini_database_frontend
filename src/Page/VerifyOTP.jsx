@@ -1,20 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Oval } from 'react-loader-spinner';
+import { useNavigate } from 'react-router-dom';
 
-const VerifyOTP = () => {
+const VerifyOtp = () => {
   const [otp, setOtp] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [signupData, setSignupData] = useState(null);
-
-  useEffect(() => {
-    // Retrieve signup data from localStorage
-    const storedData = localStorage.getItem('signupData');
-    if (storedData) {
-      setSignupData(JSON.parse(storedData));
-    }
-  }, []);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setOtp(e.target.value);
@@ -24,79 +17,45 @@ const VerifyOTP = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    if (!signupData) {
-      toast.error('No signup data found.');
-      setIsLoading(false);
-      return;
-    }
-
     try {
-      const response = await fetch('https://alumnibackend.up.railway.app/verifyOTP', {
+      const signupData = JSON.parse(localStorage.getItem('signupData'));
+      const response = await fetch('https://alumnibackend.up.railway.app/signup', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Email': signupData.email, // email from local storage
-          'OTP': otp, // Include OTP from input
-        },
-        body: JSON.stringify({
-          FirstName: signupData.firstName,
-          LastName: signupData.lastName,
-          Fathername: signupData.fatherName,
-          Password: signupData.password,
-          Status: signupData.status,
-          Branch: signupData.branch,
-          BatchYear: parseInt(signupData.batchYear),
-          MobileNo: signupData.mobileNo,
-          Email: signupData.email,
-          EnrollmentNo: signupData.enrollmentNo,
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...signupData, otp }),
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        if (data.message === 'OTP verified successfully') {
-          toast.success('OTP verified successfully');
-          localStorage.removeItem('signupData');
-          window.location.href = '/login';
-        } else {
-          toast.error(data.message || 'Unexpected response message');
-        }
+      const contentType = response.headers.get('content-type');
+      let data;
+      if (contentType && contentType.includes('application/json')) {
+        data = await response.json();
       } else {
-        switch (response.status) {
-          case 400:
-            toast.error(data.message || 'Bad Request: Email and OTP are required');
-            break;
-          case 401:
-            if (data.message === 'Invalid OTP') {
-              toast.error('Invalid OTP');
-            } else if (data.message === 'OTP has expired') {
-              toast.error('OTP has expired');
-            } else {
-              toast.error('Unauthorized: Invalid OTP or OTP has expired');
-            }
-            break;
-          case 500:
-            toast.error(data.error || 'Internal Server Error');
-            break;
-          default:
-            toast.error('An unexpected error occurred');
-            break;
-        }
+        data = await response.text();
       }
+
+      if (!response.ok) {
+        console.error('Error response:', {
+          status: response.status,
+          statusText: response.statusText,
+          data: data,
+        });
+        throw new Error(data.error || data || 'Unknown error');
+      }
+
+      toast.success('OTP verified successfully!');
+      navigate('/dashboard');
     } catch (error) {
-      console.error('Error:', error);
-      toast.error(`OTP verification failed. Please try again later. Error: ${error.message}`);
+      console.error('OTP Verification Error:', error);
+      toast.error(`OTP verification failed: ${error.message}`);
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="h-full w-full flex mt-20 items-center justify-center flex-col bg-gray-100 py-10 sm:py-20 px-4">
+    <div className="h-full w-full flex items-center justify-center flex-col bg-gray-100 py-10 sm:py-20 px-4">
       <form className={`bg-white p-6 rounded-lg shadow-lg w-full max-w-screen-md ${isLoading ? 'opacity-50' : ''}`} onSubmit={handleSubmit}>
         <h2 className="text-2xl font-bold text-center mx-auto">Verify OTP</h2>
-        <p className='text-gray-500 text-xs py-3'>Please enter the OTP sent to your email</p>
 
         <div className="flex flex-col sm:flex-row mb-2">
           <label className="block text-gray-700 pt-2 font-bold md:text-left mb-1 sm:w-1/3 sm:pr-4" htmlFor="otp">
@@ -109,25 +68,36 @@ const VerifyOTP = () => {
             type="text"
             value={otp}
             onChange={handleChange}
-            placeholder="Enter OTP"
             required
           />
         </div>
 
-        <div className="flex items-center justify-center mt-4">
-          {isLoading ? (
-            <Oval color="#00BFFF" height={30} width={30} />
-          ) : (
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-              Verify OTP
-            </button>
-          )}
+        <div className="flex items-center justify-between">
+          <button
+            className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            type="submit"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <Oval
+                height={20}
+                width={20}
+                color="#fff"
+                visible={true}
+                ariaLabel="oval-loading"
+                secondaryColor="#4f46e5"
+                strokeWidth={2}
+                strokeWidthSecondary={2}
+              />
+            ) : (
+              'Verify OTP'
+            )}
+          </button>
         </div>
-
-        <ToastContainer />
       </form>
+      <ToastContainer />
     </div>
   );
 };
 
-export default VerifyOTP;
+export default VerifyOtp;
