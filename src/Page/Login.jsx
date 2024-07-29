@@ -55,7 +55,7 @@ const Login = () => {
     setIsLoading(true);
   
     try {
-      const response = await axios.post('https://alumnibackend.up.railway.app/login', {
+      const response = await axios.post('/api/login', {
         email,
         password,
       }, {
