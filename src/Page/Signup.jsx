@@ -70,7 +70,7 @@ const Signup = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('https://alumnibackend.up.railway.app/signup', {
+      const response = await fetch('/api/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
