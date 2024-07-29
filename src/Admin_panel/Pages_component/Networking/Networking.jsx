@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './Networking.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Networking() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -20,6 +22,16 @@ function Networking() {
     date: '',
   });
   const [editIndex, setEditIndex] = useState(null);
+  const [confirmMessage, setConfirmMessage] = useState('');
+  const [actionType, setActionType] = useState(null);
+  const [isLoading, setIsLoading] = useState(true); // Add loading state
+
+  useEffect(() => {
+    // Simulate data loading
+    setTimeout(() => {
+      setIsLoading(false); // Set loading to false after data is "loaded"
+    }, 1000); // Adjust the timeout duration as needed
+  }, []);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -36,14 +48,31 @@ function Networking() {
   };
 
   const handleDelete = (index) => {
-    const newNetworkingData = networkingData.filter((_, i) => i !== index);
-    setNetworkingData(newNetworkingData);
+    setActionType('delete');
+    setEditIndex(index);
+    setConfirmMessage('Are you sure you want to delete this event?');
   };
 
   const handleEdit = (index) => {
+    setActionType('edit');
     setEditIndex(index);
-    setNewEvent(networkingData[index]);
-    setShowForm(true);
+    setConfirmMessage('Are you sure you want to edit this event?');
+  };
+
+  const handleAddNew = () => {
+    setShowForm(!showForm);
+    setActionType(showForm ? null : 'add');
+    if (showForm) {
+      resetForm();
+    } else {
+      setNewEvent({
+        name: '',
+        position: '',
+        eventName: '',
+        location: '',
+        date: '',
+      });
+    }
   };
 
   const handleFormChange = (event) => {
@@ -53,15 +82,35 @@ function Networking() {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    if (editIndex !== null) {
+    if (actionType === 'add') {
+      setNetworkingData([...networkingData, newEvent]);
+      toast.success('Event added successfully!');
+    } else if (actionType === 'edit') {
       const updatedData = networkingData.map((event, i) => (i === editIndex ? newEvent : event));
       setNetworkingData(updatedData);
-      setEditIndex(null);
-    } else {
-      setNetworkingData([...networkingData, newEvent]);
+      toast.success('Event updated successfully!');
     }
+    resetForm();
+  };
+
+  const handleConfirmAction = () => {
+    if (actionType === 'delete') {
+      const newNetworkingData = networkingData.filter((_, i) => i !== editIndex);
+      setNetworkingData(newNetworkingData);
+      toast.success('Event deleted successfully!');
+    } else if (actionType === 'edit') {
+      setNewEvent(networkingData[editIndex]);
+      setShowForm(true);
+    }
+    setConfirmMessage('');
+  };
+
+  const resetForm = () => {
     setNewEvent({ name: '', position: '', eventName: '', location: '', date: '' });
     setShowForm(false);
+    setEditIndex(null);
+    setActionType(null);
+    setConfirmMessage('');
   };
 
   const filteredData = networkingData.filter(event =>
@@ -98,12 +147,20 @@ function Networking() {
           <option value='location'>Sort by Location</option>
           <option value='date'>Sort by Date</option>
         </select>
-        <button className='add-button' onClick={() => setShowForm(!showForm)}>
+        <button className='add-button' onClick={handleAddNew}>
           {showForm ? 'Cancel' : 'Add'}
         </button>
       </div>
 
-      {showForm && (
+      {confirmMessage && (
+        <div className="confirm-dialog">
+          {confirmMessage}
+          <button type='button' onClick={handleConfirmAction}>Yes</button>
+          <button type='button' onClick={resetForm}>No</button>
+        </div>
+      )}
+
+      {showForm && !confirmMessage && (
         <form onSubmit={handleFormSubmit} className='networking-form'>
           <label>
             Name:
@@ -155,47 +212,53 @@ function Networking() {
               required
             />
           </label>
-          <button type='submit'>{editIndex !== null ? 'Update Event' : 'Add Event'}</button>
+          <button type='submit'>{actionType === 'add' ? 'Add Event' : 'Update Event'}</button>
         </form>
       )}
 
-      <table className='networking-table'>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Position</th>
-            <th>Event Name</th>
-            <th>Location</th>
-            <th>Date</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {sortedData.map((event, index) => (
-            <tr key={index}>
-              <td>{event.name}</td>
-              <td>{event.position}</td>
-              <td>{event.eventName}</td>
-              <td>{event.location}</td>
-              <td>{event.date}</td>
-              <td>
-                <button
-                  className='action-button'
-                  onClick={() => handleEdit(index)}
-                >
-                  <FontAwesomeIcon icon={faEdit} />
-                </button>
-                <button
-                  className='action-button'
-                  onClick={() => handleDelete(index)}
-                >
-                  <FontAwesomeIcon icon={faTrash} />
-                </button>
-              </td>
+      {isLoading ? ( 
+        <div className="loader"></div>
+      ) : (
+        <table className='networking-table'>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Position</th>
+              <th>Event Name</th>
+              <th>Location</th>
+              <th>Date</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {sortedData.map((event, index) => (
+              <tr key={index}>
+                <td>{event.name}</td>
+                <td>{event.position}</td>
+                <td>{event.eventName}</td>
+                <td>{event.location}</td>
+                <td>{event.date}</td>
+                <td>
+                  <button
+                    className='action-button'
+                    onClick={() => handleEdit(index)}
+                  >
+                    <FontAwesomeIcon icon={faEdit} />
+                  </button>
+                  <button
+                    className='action-button'
+                    onClick={() => handleDelete(index)}
+                  >
+                    <FontAwesomeIcon icon={faTrash} />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+
+      <ToastContainer />
     </div>
   );
 }

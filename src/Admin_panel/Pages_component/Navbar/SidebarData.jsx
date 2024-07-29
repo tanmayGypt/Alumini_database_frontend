@@ -1,9 +1,8 @@
-
+// SidebarData.js
 import * as FaIcons from 'react-icons/fa';
 import * as IoIcons from 'react-icons/io';
 
 export const SidebarData = [
-
   {
     title: 'Achievements',
     path: '/achievements',
@@ -32,6 +31,24 @@ export const SidebarData = [
     title: 'News',
     path: '/news',
     icon: <FaIcons.FaNewspaper />,
+    cName: 'nav-text'
+  },
+  {
+    title: 'Ranklist',
+    path: '/ranklist',
+    icon: <FaIcons.FaListAlt />,
+    cName: 'nav-text'
+  },
+  {
+    title: 'Jobs',
+    path: '/jobs',
+    icon: <IoIcons.IoMdBriefcase />,
+    cName: 'nav-text'
+  },
+  {
+    title: 'Login',
+    path: '/loginnew',
+    icon: <FaIcons.FaSignInAlt />,
     cName: 'nav-text'
   }
 ];
