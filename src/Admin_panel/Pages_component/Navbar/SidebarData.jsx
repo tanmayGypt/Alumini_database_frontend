@@ -6,7 +6,7 @@ export const SidebarData = [
 
   {
     title: 'Achievements',
-    path: '/achievements',
+    path: '/admin/Achievements',
     icon: <IoIcons.IoIosPaper />,
     cName: 'nav-text'
   },
