@@ -10,8 +10,8 @@ function Networking() {
   const [sortBy, setSortBy] = useState('date');
   const [sortDirection, setSortDirection] = useState('asc');
   const [networkingData, setNetworkingData] = useState([
-    { name: 'Event A', position: 'Speaker', eventName: 'Tech Meetup', location: 'New York', date: '2024-09-10' },
-    { name: 'Event B', position: 'Panelist', eventName: 'Innovation Summit', location: 'San Francisco', date: '2024-10-05' },
+    { name: 'Piyush', position: 'Speaker', eventName: 'Tech Meetup', location: 'New York', date: '2024-09-10' },
+    { name: 'Rohan', position: 'Panelist', eventName: 'Innovation Summit', location: 'San Francisco', date: '2024-10-05' },
   ]);
   const [showForm, setShowForm] = useState(false);
   const [newEvent, setNewEvent] = useState({
