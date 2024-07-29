@@ -1,59 +1,55 @@
-import { createSlice, nanoid } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from 'axios';
 
 const initialState = {
-    achievements :[
-      {
-        id: nanoid(),
-        title: "CONGRATULATIONS FOR QUALIFYING GATE-2023",
-        date: "17th Jul, 2023",
-        message: "BPIT FAMILY CONGRATULATES Ms. Sunanda & Mr. Krishna Kishor for Qualifying GATE-2023. Your hard work, dedication, and perseverance have paid off, and you should be extremely proud of your achievement. This success is a testament to your knowledge, skills, and the effort you put into your studies. Best wishes for your future endeavors!",
-        imageUrl: "https://images.pexels.com/photos/3861463/pexels-photo-3861463.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-      },
-      {
-        id: nanoid(),
-        title: "BPIT FAMILY CHEERS CAT-2024 SUCCESS",
-        date: "18th Jul, 2023",
-        message: "BPIT FAMILY CHEERS Ms. Rina & Mr. Ravi Sharma for their excellent performance in CAT-2024. Your diligence and hard work have yielded great results. Heartiest congratulations on your success. May you achieve even greater milestones!",
-        imageUrl: "https://pinnacle.works/wp-content/uploads/2022/06/dummy-image.jpg"
-      },
-      {
-        id: nanoid(),
-        title: "ACHIEVEMENT IN CAT-2023",
-        date: "19th Jul, 2023",
-        message: "Congratulations to Mr. Amit & Ms. Sneha for clearing CAT-2023. Your perseverance and determination are truly inspiring. Wishing you all the best for your future academic and professional pursuits!",
-        imageUrl: "https://pinnacle.works/wp-content/uploads/2022/06/dummy-image.jpg",
-      },
-      {
-        id: nanoid(),
-        title: "SUCCESS IN GATE-2024",
-        date: "20th Jul, 2023",
-        message: "Heartiest congratulations to Mr. Arjun & Ms. Priya for their success in GATE-2024. Your dedication and commitment have led you to this achievement. May you continue to reach new heights in your career!",
-        imageUrl: "https://pinnacle.works/wp-content/uploads/2022/06/dummy-image.jpg",
-      },
-    ]
-    
-}
+    achievements: [],
+    status: 'idle',
+    error: null
+};
+
+const JWTtoken = localStorage.getItem('jwtToken');
+console.log('JWT Token:', JWTtoken); // Log the JWT token to verify
+
+
+// Thunk to fetch all achievements
+// Thunk to fetch all achievements
+export const fetchAllAchievements = createAsyncThunk(
+  'achievements/fetchAllAchievements',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get('/api/achievement', {
+        headers: {
+          'Authorization': `Bearer ${JWTtoken}`
+        }
+      });
+      console.log('API Response:', response.data); // Log the API response
+      return response.data;
+    } catch (error) {
+      console.error('API Error:', error.response.data); // Log the API error
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 
 const achievementsSlice = createSlice({
     name: 'achievements',
     initialState,
-    reducers: {
-      addAchievement: {
-        reducer: (state, action) => {
-          state.achievements.push(action.payload);
-        },
-        prepare: (title, date, message, imageUrl) => ({
-          payload: {
-            id: nanoid(),
-            title,
-            date,
-            message,
-            imageUrl
-          }
-        })
-      },
-    },
-  });
-  
-  export const { addAchievement } = achievementsSlice.actions;
-  export default achievementsSlice.reducer;
+    reducers: {},
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchAllAchievements.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(fetchAllAchievements.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.achievements = action.payload;
+            })
+            .addCase(fetchAllAchievements.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+            });
+    }
+});
+
+export default achievementsSlice.reducer;

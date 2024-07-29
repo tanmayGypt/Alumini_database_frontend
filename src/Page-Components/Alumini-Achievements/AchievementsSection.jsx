@@ -1,26 +1,30 @@
-import { useState } from "react";
+// src/components/AchievementsSection.js
+import { useEffect, useContext } from "react";
 import Heading from "../Heading";
 import AchievementCard from "./AchievementCard";
 import SearchBar from "./SearchBar";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchAllAchievements } from '../../features/achievementSlice';
 import { SearchContext } from '../../Context/SearchContext';
-import { useContext } from "react";
-
-
 
 const AchievementsSection = () => {
-  const achievements = useSelector((state) => state.achievements.achievements) 
+  const dispatch = useDispatch();
+  const achievements = useSelector((state) => state.achievements.achievements);
+  const status = useSelector((state) => state.achievements.status);
+  const { searchTerm } = useContext(SearchContext);
 
-  const {searchTerm} = useContext(SearchContext)
-
-
- 
+  useEffect(() => {
+    if (status === 'idle') {
+      dispatch(fetchAllAchievements());
+    }
+  }, [status, dispatch]);
 
   const filteredAchievements = achievements.filter(
     (achievement) =>
-      achievement.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      achievement.message.toLowerCase().includes(searchTerm.toLowerCase())
+      achievement.Title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      achievement.Description.toLowerCase().includes(searchTerm.toLowerCase())
   );
+  console.log(achievements);
 
   return (
     <div className="container m-auto px-35 py-30">
@@ -28,8 +32,13 @@ const AchievementsSection = () => {
       <SearchBar />
 
       <div className="bg-gray-100 rounded-xl shadow-lg">
-      {filteredAchievements.map((item) => (
-          <AchievementCard key={item.id} {...item} />
+        {filteredAchievements.map((item) => (
+          <AchievementCard 
+          key={item.AchievementID}
+          title={item.Title}
+          date={item.DateAchieved}
+          description={item.Description}
+        />
         ))}
       </div>
     </div>
