@@ -45,16 +45,17 @@
 
 .news-form {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 10px;
     margin-bottom: 20px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    padding: 10px;
+    padding: 20px;
     background-color: #f9f9f9;
 }
 
 .news-form label {
+    text-align: left;
     display: flex;
     flex-direction: column;
     margin-right: 20px;
@@ -65,24 +66,22 @@
     font-size: 16px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    width: 200px; 
+    width: 100%;
 }
 
 .news-form button {
-    background-color: #0076B6; 
-    color: white; 
+    background-color: #0077b6;
+    color: white;
     border: none;
     border-radius: 4px;
-    padding: 10px 15px;
+    padding: 10px 20px; 
     cursor: pointer;
-    padding: 6px 15px 4px 10px ;
-    height: 34px;
-    font-size: 16px;
-    margin-top: 1.5rem;
+    font-size: 16px; 
+    align-self: flex-start;
 }
 
 .news-form button:hover {
-    background-color: #45a049; 
+    background-color: #005f73;
 }
 
 .news-table {
@@ -127,3 +126,19 @@
 .delete-button:hover {
     background-color: #0076B6;
 }
+/* Add this CSS to your News.css file */
+.loader {
+    border: 8px solid rgba(0, 0, 0, 0.1);
+    border-top: 8px solid #0077b6; /* You can change the color as needed */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  

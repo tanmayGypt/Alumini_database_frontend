@@ -41,12 +41,18 @@ import AlbumDetails from "./Page-Components/Gallery/AlbumDetails";
 import Albums from "./Page-Components/Gallery/Albums";
 import Videos from "./Page-Components/Gallery/Videos";
 import AllPhotos from "./Page-Components/Gallery/AllPhotos";
+
 import Navbar1 from "./Admin_panel/Pages_component/Navbar/Navbarnew";
-import Achievements1 from "./Admin_panel/Pages_component/Acheivements/Achievements";
-import AlumniDirectory1 from "./Admin_panel/Pages_component/AlumniDirectory/AlumniDirectory";
-import Networking1 from "./Admin_panel/Pages_component/Networking/Networking";
-import Student1 from "./Admin_panel/Pages_component/Students/Student";
+import Achievements from "./Admin_panel/Pages_component/Acheivements/Achievements";
+import AlumniDirectory from "./Admin_panel/Pages_component/AlumniDirectory/AlumniDirectory";
+import Networking from "./Admin_panel/Pages_component/Networking/Networking";
+import Student from "./Admin_panel/Pages_component/Students/Student";
 import News1 from "./Admin_panel/Pages_component/News/News";
+import Ranklist from "./Admin_panel/Pages_component/Ranklist/Ranklist";
+import Jobs from "./Admin_panel/Pages_component/Jobs/Jobs";
+import LoginPage from "./Admin_panel/Pages_component/Login_page/Login_page";
+
+
 import RegisteredCandidates from "./Page-Components/Registered-Candidates/Card";
 import VerifyOTP from "./Page/VerifyOTP";
 
@@ -64,11 +70,15 @@ function App() {
       <>
         <Navbar1 />
         <Routes>
-          <Route path="/admin/Achievements" element={<Achievements1 />} />
-          <Route path="/admin/AlumniDirectory" element={<AlumniDirectory1 />} />
-          <Route path="/admin/Networking" element={<Networking1 />} />
-          <Route path="/admin/Student" element={<Student1 />} />
+          <Route path="/admin/Achievements" element={<Achievements />} />
+          <Route path="/admin/AlumniDirectory" element={<AlumniDirectory />} />
+          <Route path="/admin/Networking" element={<Networking />} />
+          <Route path="/admin/Student" element={<Student />} />
           <Route path="/admin/news" element={<News1 />} />
+          <Route path="/admin/ranklist" element={<Ranklist />} />
+          <Route path="/admin/jobs" element={<Jobs />} /> 
+          <Route path="/admin/loginnew" element={<LoginPage />} /> 
+           
         </Routes>
       </>
     );
@@ -133,7 +143,11 @@ function App() {
         </Routes>
         <LoadingBar color="#9333ea" height={3} progress={progress} />
         <Footer />
+
+        {/* <TabComponentStudent/> */}
+
       </SearchContextProvider>
+        
     </>
   );
 }

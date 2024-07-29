@@ -1,16 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './Achievements.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Achievements() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [sortBy, setSortBy] = useState('name'); 
-  const [sortDirection, setSortDirection] = useState('asc'); 
+  const [sortBy, setSortBy] = useState('name');
+  const [sortDirection, setSortDirection] = useState('asc');
   const [achievementsData, setAchievementsData] = useState([
     { name: 'John Doe', class: '2020', branch: 'Computer Science', position: 'Team Leader', achievements: 'Developed an AI project' },
     { name: 'Jane Smith', class: '2019', branch: 'Electrical Engineering', position: 'Researcher', achievements: 'Published 3 papers' },
-  
   ]);
   const [showForm, setShowForm] = useState(false);
   const [newAchievement, setNewAchievement] = useState({
@@ -21,6 +22,17 @@ function Achievements() {
     achievements: '',
   });
   const [editIndex, setEditIndex] = useState(null);
+  const [confirmMessage, setConfirmMessage] = useState('');
+  const [confirmEditMessage, setConfirmEditMessage] = useState('');
+  const [actionType, setActionType] = useState(null);
+  const [isLoading, setIsLoading] = useState(true); 
+
+  useEffect(() => {
+ 
+    setTimeout(() => {
+      setIsLoading(false); 
+    }, 1000); 
+  }, []);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -29,23 +41,24 @@ function Achievements() {
   const handleSortChange = (event) => {
     const newSortBy = event.target.value;
     if (sortBy === newSortBy) {
-      
       setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
     } else {
       setSortBy(newSortBy);
-      setSortDirection('asc'); 
+      setSortDirection('asc');
     }
   };
 
   const handleDelete = (index) => {
-    const newAchievementsData = achievementsData.filter((_, i) => i !== index);
-    setAchievementsData(newAchievementsData);
+    setActionType('delete');
+    setEditIndex(index);
+    setConfirmMessage('Are you sure you want to delete this achievement?');
   };
 
   const handleEdit = (index) => {
+    setActionType('edit');
     setEditIndex(index);
-    setNewAchievement(achievementsData[index]);
-    setShowForm(true);
+    setNewAchievement(achievementsData[index]); 
+    setConfirmEditMessage('Are you sure you want to edit this achievement?');
   };
 
   const handleFormChange = (event) => {
@@ -55,17 +68,48 @@ function Achievements() {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    if (editIndex !== null) {
-   
-      const updatedData = achievementsData.map((entry, i) => (i === editIndex ? newAchievement : entry));
-      setAchievementsData(updatedData);
-      setEditIndex(null);
-    } else {
-     
+    if (actionType === 'add') {
       setAchievementsData([...achievementsData, newAchievement]);
+      toast.success('New achievement added successfully!');
+    } else if (actionType === 'edit') {
+    
+      const updatedData = achievementsData.map((item, i) =>
+        i === editIndex ? newAchievement : item
+      );
+      setAchievementsData(updatedData);
+      toast.success('Achievement updated successfully!');
     }
-    setNewAchievement({ name: '', class: '', branch: '', position: '', achievements: '' });
+    resetForm();
+  };
+
+  const handleConfirmAction = () => {
+    if (actionType === 'delete' && editIndex !== null) {
+     
+      setAchievementsData(achievementsData.filter((_, i) => i !== editIndex));
+      toast.success('Achievement deleted successfully!');
+    }
+    resetForm();
+  };
+
+  const handleConfirmEditAction = () => {
+  
+    setShowForm(true);
+    setConfirmEditMessage('');
+  };
+
+  const resetForm = () => {
     setShowForm(false);
+    setConfirmMessage('');
+    setConfirmEditMessage('');
+    setNewAchievement({
+      name: '',
+      class: '',
+      branch: '',
+      position: '',
+      achievements: '',
+    });
+    setEditIndex(null);
+    setActionType(null);
   };
 
   const filteredData = achievementsData.filter(entry =>
@@ -102,12 +146,35 @@ function Achievements() {
           <option value='position'>Sort by Position</option>
           <option value='achievements'>Sort by Achievements</option>
         </select>
-        <button className='add-button' onClick={() => setShowForm(!showForm)}>
+        <button
+          className='add-button'
+          onClick={() => {
+            setNewAchievement({ name: '', class: '', branch: '', position: '', achievements: '' });
+            setShowForm(!showForm);
+            setActionType('add');
+          }}
+        >
           {showForm ? 'Cancel' : 'Add'}
         </button>
       </div>
 
-      {showForm && (
+      {confirmMessage && (
+        <div className="confirm-message">
+          {confirmMessage}
+          <button type='button' onClick={handleConfirmAction}>Yes</button>
+          <button type='button' onClick={resetForm}>No</button>
+        </div>
+      )}
+
+      {confirmEditMessage && (
+        <div className="confirm-message">
+          {confirmEditMessage}
+          <button type='button' onClick={handleConfirmEditAction}>Yes</button>
+          <button type='button' onClick={resetForm}>No</button>
+        </div>
+      )}
+
+      {showForm && !confirmMessage && !confirmEditMessage && (
         <form onSubmit={handleFormSubmit} className='achievements-form'>
           <label>
             Name:
@@ -158,47 +225,55 @@ function Achievements() {
               required
             />
           </label>
-          <button type='submit'>{editIndex !== null ? 'Update Achievement' : 'Add Achievement'}</button>
+          <button type='submit'>
+            {actionType === 'add' ? 'Add Achievement' : 'Update Achievement'}
+          </button>
         </form>
       )}
 
-      <table className='achievements-table'>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Class</th>
-            <th>Branch</th>
-            <th>Position</th>
-            <th>Achievements</th>
-            <th>Actions</th> 
-          </tr>
-        </thead>
-        <tbody>
-          {sortedData.map((entry, index) => (
-            <tr key={index}>
-              <td>{entry.name}</td>
-              <td>{entry.class}</td>
-              <td>{entry.branch}</td>
-              <td>{entry.position}</td>
-              <td>{entry.achievements}</td>
-              <td>
-                <button
-                  className='action-button'
-                  onClick={() => handleEdit(index)}
-                >
-                  <FontAwesomeIcon icon={faEdit} />
-                </button>
-                <button
-                  className='action-button'
-                  onClick={() => handleDelete(index)}
-                >
-                  <FontAwesomeIcon icon={faTrash} />
-                </button>
-              </td>
+      {isLoading ? ( 
+        <div className="loader"></div>
+      ) : ( 
+        <table className='achievements-table'>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Class</th>
+              <th>Branch</th>
+              <th>Position</th>
+              <th>Achievements</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {sortedData.map((entry, index) => (
+              <tr key={index}>
+                <td>{entry.name}</td>
+                <td>{entry.class}</td>
+                <td>{entry.branch}</td>
+                <td>{entry.position}</td>
+                <td>{entry.achievements}</td>
+                <td>
+                  <button
+                    className='action-button'
+                    onClick={() => handleEdit(filteredData.findIndex(e => e === entry))}
+                  >
+                    <FontAwesomeIcon icon={faEdit} />
+                  </button>
+                  <button
+                    className='action-button'
+                    onClick={() => handleDelete(filteredData.findIndex(e => e === entry))}
+                  >
+                    <FontAwesomeIcon icon={faTrash} />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+
+      <ToastContainer />
     </div>
   );
 }

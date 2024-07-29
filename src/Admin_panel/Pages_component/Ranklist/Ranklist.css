@@ -1,36 +1,37 @@
-.alumni-directory {
+.ranklist {
     padding: 20px;
-}
-
-.alumni-directory h1 {
+  }
+  
+  .ranklist h1 {
     text-align: center;
     font-size: 2rem;
     color: #0077b6;
     font-weight: 500;
-}
-
-.search-bar {
+  }
+  
+  .search-bar {
     margin-bottom: 20px;
     display: flex;
     align-items: center;
-}
-
-.search-input {
-    padding: 10px;
+  }
+  
+  .search-input {
+    padding: 8px;
     font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
     margin-right: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-.sort-select {
-    padding: 10px;
+    width: 200px;
+  }
+  
+  .sort-select {
+    padding: 8px;
     font-size: 16px;
     border: 1px solid #ddd;
     border-radius: 4px;
-}
-
-.add-button {
+  }
+  
+  .add-button {
     background-color: #0077b6;
     color: white;
     border: none;
@@ -39,13 +40,13 @@
     cursor: pointer;
     font-size: 16px;
     margin-left: 10px;
-}
-
-.add-button:hover {
+  }
+  
+  .add-button:hover {
     background-color: #005f73;
-}
-
-.alumni-form {
+  }
+  
+  .ranklist-form {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -54,24 +55,24 @@
     border-radius: 4px;
     padding: 20px;
     background-color: #f9f9f9;
-}
-
-.alumni-form label {
+  }
+  
+  .ranklist-form label {
     text-align: left;
     display: flex;
     flex-direction: column;
-    margin-bottom: 10px;
-}
-
-.alumni-form input {
+    margin-right: 20px;
+  }
+  
+  .ranklist-form input {
     padding: 8px;
     font-size: 16px;
     border: 1px solid #ddd;
     border-radius: 4px;
     width: 100%; 
-}
-
-.alumni-form button {
+  }
+  
+  .ranklist-form button {
     background-color: #0077b6;
     color: white;
     border: none;
@@ -80,79 +81,39 @@
     cursor: pointer;
     font-size: 16px; 
     align-self: flex-start;
-}
-
-.alumni-form button:hover {
+  }
+  .ranklist-form button:hover{
     background-color: #005f73;
-}
-
-.alumni-table {
+  }
+  .ranklist-table {
     width: 100%;
     border-collapse: collapse;
-}
-
-.alumni-table th, .alumni-table td {
+    margin-bottom: 20px;
+  }
+  
+  .ranklist-table th,
+  .ranklist-table td {
+    padding: 12px 15px;
+    text-align: left;
     border: 1px solid #ddd;
-    padding: 8px;
-}
-
-.alumni-table th {
+  }
+  
+  .ranklist-table th {
     background-color: #f2f2f2;
-    text-align: left;
-}
-
-.alumni-table tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-    text-align: left;
-}
-
-.alumni-table tbody tr:nth-child(odd) {
-    background-color: #f9f9f9;
-    text-align: left;
-}
-
-.alumni-table tbody tr:hover {
-    background-color: #f1f1f1;
-}
-
-.action-button {
+  }
+  
+  .action-button {
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 18px;
+  }
+  
+  .action-button:hover {
     color: #0077b6;
-    margin-right: 5px;
-}
-
-
-
-.confirm-message {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 4px;
-    text-align: center;
-}
-
-.confirm-message button {
-    background-color: #0077b6;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 5px 10px;
-    cursor: pointer;
-    font-size: 14px;
-    margin-right: 10px;
-}
-
-.confirm-message button:hover {
-    background-color: #005f73;
-}
-
-.loader {
+  }
+  .loader {
     border: 8px solid rgba(0, 0, 0, 0.1);
-    border-top: 8px solid #0077b6;
+    border-top: 8px solid #0077b6; /* You can change the color as needed */
     border-radius: 50%;
     width: 50px;
     height: 50px;

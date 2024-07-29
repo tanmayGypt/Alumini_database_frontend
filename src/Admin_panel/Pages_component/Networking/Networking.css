@@ -45,9 +45,39 @@
     background-color: #005f73;
 }
 
+.confirm-dialog {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    z-index: 1000;
+}
+
+.confirm-dialog p {
+    margin: 0 0 10px;
+}
+
+.confirm-dialog button {
+    background-color: #0077b6;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.confirm-dialog button:hover {
+    background-color: #005f73;
+}
+
 .networking-form {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 10px;
     margin-bottom: 20px;
     border: 1px solid #ddd;
@@ -57,6 +87,7 @@
 }
 
 .networking-form label {
+    text-align: left;
     display: flex;
     flex-direction: column;
     margin-right: 20px;
@@ -67,7 +98,7 @@
     font-size: 16px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    width: 150px;
+    width: 100%;
 }
 
 .networking-form button {
@@ -75,11 +106,10 @@
     color: white;
     border: none;
     border-radius: 4px;
-    padding: 6px 15px 4px 10px ;
+    padding: 10px 20px; 
     cursor: pointer;
-    font-size: 16px;
-    height: 34px;
-    margin-top: 1.5rem;
+    font-size: 16px; 
+    align-self: flex-start;
 }
 
 .networking-form button:hover {
@@ -92,27 +122,13 @@
 }
 
 .networking-table th, .networking-table td {
+    padding: 10px;
     border: 1px solid #ddd;
-    padding: 8px;
+    text-align: left;
 }
 
 .networking-table th {
-    background-color: #f2f2f2;
-    text-align: left;
-}
-
-.networking-table tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-    text-align: left;
-}
-
-.networking-table tbody tr:nth-child(odd) {
-    background-color: #f9f9f9;
-    text-align: left;
-}
-
-.networking-table tbody tr:hover {
-    background-color: #f1f1f1;
+    background-color: #f4f4f4;
 }
 
 .action-button {
@@ -126,4 +142,20 @@
 
 .action-button:hover {
     color: #005f73;
+    background: none;
 }
+.loader {
+    border: 8px solid rgba(0, 0, 0, 0.1);
+    border-top: 8px solid #0077b6;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
