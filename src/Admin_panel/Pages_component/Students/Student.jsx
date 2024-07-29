@@ -9,8 +9,8 @@ function Student() {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('fullName');
   const [studentData, setStudentData] = useState([
-    { fullName: 'Alice Johnson', year: 'Sophomore', branch: 'Computer Science', gpa: '3.8', projects: 'AI Research' },
-    { fullName: 'Bob Smith', year: 'Junior', branch: 'Mechanical Engineering', gpa: '3.6', projects: 'Robotics' },
+    { fullName: 'Alice Johnson', year: 'Sophomore', branch: 'Computer Science', gpa: '3.8', linkedin: 'alice.linkedin.com' },
+    { fullName: 'Bob Smith', year: 'Junior', branch: 'Mechanical Engineering', gpa: '3.6', linkedin: 'bob.linkedin.com' },
   ]);
   const [showForm, setShowForm] = useState(false);
   const [newStudent, setNewStudent] = useState({
@@ -18,7 +18,7 @@ function Student() {
     year: '',
     branch: '',
     gpa: '',
-    projects: ''
+    linkedin: ''
   });
   const [editIndex, setEditIndex] = useState(null);
   const [confirmMessage, setConfirmMessage] = useState('');
@@ -95,7 +95,7 @@ function Student() {
       year: '',
       branch: '',
       gpa: '',
-      projects: ''
+      linkedin: ''
     });
     setEditIndex(null);
     setActionType(null);
@@ -106,7 +106,7 @@ function Student() {
     student.year.toLowerCase().includes(searchTerm.toLowerCase()) ||
     student.branch.toLowerCase().includes(searchTerm.toLowerCase()) ||
     student.gpa.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    student.projects.toLowerCase().includes(searchTerm.toLowerCase())
+    student.linkedin.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const sortedData = filteredData.sort((a, b) => {
@@ -131,7 +131,7 @@ function Student() {
           <option value='year'>Sort by Year</option>
           <option value='branch'>Sort by Branch</option>
           <option value='gpa'>Sort by GPA</option>
-          <option value='projects'>Sort by Projects</option>
+          <option value='linkedin'>Sort by LinkedIn</option>
         </select>
         <button
           className='add-button'
@@ -141,7 +141,7 @@ function Student() {
               year: '',
               branch: '',
               gpa: '',
-              projects: ''
+              linkedin: ''
             });
             setShowForm(!showForm);
             setActionType('add');
@@ -210,11 +210,11 @@ function Student() {
             />
           </label>
           <label>
-            Projects:
+            LinkedIn Profile:
             <input
               type='text'
-              name='projects'
-              value={newStudent.projects}
+              name='linkedin'
+              value={newStudent.linkedin}
               onChange={handleFormChange}
               required
             />
@@ -233,7 +233,7 @@ function Student() {
               <th>Year</th>
               <th>Branch</th>
               <th>GPA</th>
-              <th>Projects</th>
+              <th>LinkedIn Profile</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -244,7 +244,7 @@ function Student() {
                 <td>{student.year}</td>
                 <td>{student.branch}</td>
                 <td>{student.gpa}</td>
-                <td>{student.projects}</td>
+                <td>{student.linkedin}</td>
                 <td>
                   <button
                     className='action-button'
