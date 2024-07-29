@@ -10,7 +10,7 @@ function AlumniDirectory() {
   const [sortBy, setSortBy] = useState('fullName');
   const [alumniData, setAlumniData] = useState([
     {
-      fullName: 'piyush Doe',
+      fullName: 'Piyush Doe',
       classOf: '2070',
       email: 'john.doe@example.com',
       branch: 'Computer Science',
@@ -18,22 +18,21 @@ function AlumniDirectory() {
       company: 'Tech Corp',
     },
     {
-      fullName: 'kiran joshi',
+      fullName: 'Kiran',
       classOf: '2026',
       email: 'johny.doe@example.com',
       branch: 'Computer Science and core',
       phoneNumber: '123-456-0000',
-      company: 'Tech Corparate',
+      company: 'Tech Corporate',
     },
     {
-      fullName: 'lane Smith',
+      fullName: 'Lane Smith',
       classOf: '2019',
       email: 'jane.smith@example.com',
       branch: 'Electrical Engineering',
       phoneNumber: '987-654-3210',
       company: 'Innovate Ltd',
     },
-   
   ]);
   const [showForm, setShowForm] = useState(false);
   const [newAlumnus, setNewAlumnus] = useState({
@@ -52,8 +51,8 @@ function AlumniDirectory() {
 
   useEffect(() => {
     setTimeout(() => {
-      setIsLoading(false); 
-    }, 1000); 
+      setIsLoading(false);
+    }, 1000);
   }, []);
 
   const handleSearchChange = (event) => {
@@ -73,7 +72,7 @@ function AlumniDirectory() {
   const handleEdit = (index) => {
     setActionType('edit');
     setEditIndex(index);
-    setNewAlumnus({ ...alumniData[index] }); 
+    setNewAlumnus({ ...alumniData[index] });
     setShowForm(true);
     setConfirmEditMessage('Are you sure you want to edit this alumnus?');
   };
@@ -88,7 +87,7 @@ function AlumniDirectory() {
     if (actionType === 'add') {
       setAlumniData([...alumniData, newAlumnus]);
       toast.success('New alumnus added successfully!');
-    } else if (actionType === 'edit') {
+    } else if (actionType === 'edit' && editIndex !== null) {
       const updatedData = alumniData.map((alumnus, i) =>
         i === editIndex ? newAlumnus : alumnus
       );
@@ -99,7 +98,7 @@ function AlumniDirectory() {
   };
 
   const handleConfirmAction = () => {
-    if (actionType === 'delete') {
+    if (actionType === 'delete' && editIndex !== null) {
       const updatedData = alumniData.filter((_, i) => i !== editIndex);
       setAlumniData(updatedData);
       toast.success('Alumnus deleted successfully!');

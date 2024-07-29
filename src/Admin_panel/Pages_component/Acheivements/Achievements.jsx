@@ -10,15 +10,15 @@ function Achievements() {
   const [sortBy, setSortBy] = useState('name');
   const [sortDirection, setSortDirection] = useState('asc');
   const [achievementsData, setAchievementsData] = useState([
-    { name: 'John Doe', class: '2020', branch: 'Computer Science', position: 'Team Leader', achievements: 'Developed an AI project' },
-    { name: 'Jane Smith', class: '2019', branch: 'Electrical Engineering', position: 'Researcher', achievements: 'Published 3 papers' },
+    { name: 'John Doe', class: '2020', branch: 'Computer Science', Date: '2024-09-1', achievements: 'Developed an AI project' },
+    { name: 'Jane Smith', class: '2019', branch: 'Electrical Engineering', Date: '2024-07-5', achievements: 'Published 3 papers' },
   ]);
   const [showForm, setShowForm] = useState(false);
   const [newAchievement, setNewAchievement] = useState({
     name: '',
     class: '',
     branch: '',
-    position: '',
+    Date: '',
     achievements: '',
   });
   const [editIndex, setEditIndex] = useState(null);
@@ -105,7 +105,7 @@ function Achievements() {
       name: '',
       class: '',
       branch: '',
-      position: '',
+      Date: '',
       achievements: '',
     });
     setEditIndex(null);
@@ -143,13 +143,13 @@ function Achievements() {
           <option value='name'>Sort by Name</option>
           <option value='class'>Sort by Class</option>
           <option value='branch'>Sort by Branch</option>
-          <option value='position'>Sort by Position</option>
+          <option value='position'>Sort by Date</option>
           <option value='achievements'>Sort by Achievements</option>
         </select>
         <button
           className='add-button'
           onClick={() => {
-            setNewAchievement({ name: '', class: '', branch: '', position: '', achievements: '' });
+            setNewAchievement({ name: '', class: '', branch: '', Date: '', achievements: '' });
             setShowForm(!showForm);
             setActionType('add');
           }}
@@ -207,10 +207,10 @@ function Achievements() {
             />
           </label>
           <label>
-            Position:
+            Date:
             <input
-              type='text'
-              name='position'
+              type='date'
+              name='Date'
               value={newAchievement.position}
               onChange={handleFormChange}
               required
@@ -240,7 +240,7 @@ function Achievements() {
               <th>Name</th>
               <th>Class</th>
               <th>Branch</th>
-              <th>Position</th>
+              <th>Date</th>
               <th>Achievements</th>
               <th>Actions</th>
             </tr>
@@ -251,7 +251,7 @@ function Achievements() {
                 <td>{entry.name}</td>
                 <td>{entry.class}</td>
                 <td>{entry.branch}</td>
-                <td>{entry.position}</td>
+                <td>{entry.Date}</td>
                 <td>{entry.achievements}</td>
                 <td>
                   <button
