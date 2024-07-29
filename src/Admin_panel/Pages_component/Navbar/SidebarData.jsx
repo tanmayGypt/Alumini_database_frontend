@@ -11,43 +11,43 @@ export const SidebarData = [
   },
   {
     title: 'Networking',
-    path: '/networking',
+    path: '/admin/Networking',
     icon: <FaIcons.FaNetworkWired />,
     cName: 'nav-text'
   },
   {
     title: 'Alumni Directory',
-    path: '/alumni-directory',
+    path: '/admin/AlumniDirectory',
     icon: <IoIcons.IoMdPeople />,
     cName: 'nav-text'
   },
   {
     title: 'Student',
-    path: '/student',
+    path: '/admin/Student',
     icon: <IoIcons.IoMdSchool />,
     cName: 'nav-text'
   },
   {
     title: 'News',
-    path: '/news',
+    path: '/admin/news',
     icon: <FaIcons.FaNewspaper />,
     cName: 'nav-text'
   },
   {
     title: 'Ranklist',
-    path: '/ranklist',
+    path: '/admin/ranklist',
     icon: <FaIcons.FaListAlt />,
     cName: 'nav-text'
   },
   {
     title: 'Jobs',
-    path: '/jobs',
+    path: '/admin/jobs',
     icon: <IoIcons.IoMdBriefcase />,
     cName: 'nav-text'
   },
   {
     title: 'Login',
-    path: '/loginnew',
+    path: '/admin/loginnew',
     icon: <FaIcons.FaSignInAlt />,
     cName: 'nav-text'
   }

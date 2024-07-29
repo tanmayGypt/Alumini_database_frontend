@@ -240,16 +240,20 @@ const Signup = () => {
           <label className="block text-gray-700 pt-2 font-bold md:text-left mb-1 sm:w-1/3 sm:pr-4" htmlFor="status">
             Status <span className="text-red-500">*</span>
           </label>
-          <input
-            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full sm:w-2/3 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+          <select
+            className="bg-gray-200 border-2 border-gray-200 rounded w-full sm:w-2/3 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
             id="status"
             name="status"
-            type="text"
             value={formData.status}
             onChange={handleChange}
             required
-          />
+          >
+            <option value="" disabled>Select status</option>
+            <option value="student">Student</option>
+            <option value="alumni">Alumni</option>
+          </select>
         </div>
+
 
         <div className="flex flex-col sm:flex-row mb-2">
           <label className="block text-gray-700 pt-2 font-bold md:text-left mb-1 sm:w-1/3 sm:pr-4" htmlFor="mobileNo">
