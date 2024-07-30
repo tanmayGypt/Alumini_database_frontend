@@ -4,34 +4,38 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Requests from '../Request/Requests';
 
 function AlumniDirectory() {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('fullName');
   const [alumniData, setAlumniData] = useState([
     {
-      fullName: 'Piyush Doe',
+      fullName: 'piyush Doe',
       classOf: '2070',
       email: 'john.doe@example.com',
       branch: 'Computer Science',
       phoneNumber: '123-456-7890',
       company: 'Tech Corp',
+      requests: [] 
     },
     {
-      fullName: 'Kiran',
+      fullName: 'kiran joshi',
       classOf: '2026',
       email: 'johny.doe@example.com',
       branch: 'Computer Science and core',
       phoneNumber: '123-456-0000',
-      company: 'Tech Corporate',
+      company: 'Tech Corparate',
+      requests: [] 
     },
     {
-      fullName: 'Lane Smith',
+      fullName: 'lane Smith',
       classOf: '2019',
       email: 'jane.smith@example.com',
       branch: 'Electrical Engineering',
       phoneNumber: '987-654-3210',
       company: 'Innovate Ltd',
+      requests: [] 
     },
   ]);
   const [showForm, setShowForm] = useState(false);
@@ -48,6 +52,11 @@ function AlumniDirectory() {
   const [confirmEditMessage, setConfirmEditMessage] = useState('');
   const [actionType, setActionType] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [requests, setRequests] = useState([
+    { id: 1, name: 'Sumit', email: 'sumit@example.com', class: '2023', branch: 'Computer Science', approved: false },
+    { id: 2, name: 'Rohan', email: 'rohan@example.com', class: '2024', branch: 'Mechanical Engineering', approved: false }
+  ]);
+  const [showRequests, setShowRequests] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
@@ -87,7 +96,7 @@ function AlumniDirectory() {
     if (actionType === 'add') {
       setAlumniData([...alumniData, newAlumnus]);
       toast.success('New alumnus added successfully!');
-    } else if (actionType === 'edit' && editIndex !== null) {
+    } else if (actionType === 'edit') {
       const updatedData = alumniData.map((alumnus, i) =>
         i === editIndex ? newAlumnus : alumnus
       );
@@ -98,7 +107,7 @@ function AlumniDirectory() {
   };
 
   const handleConfirmAction = () => {
-    if (actionType === 'delete' && editIndex !== null) {
+    if (actionType === 'delete') {
       const updatedData = alumniData.filter((_, i) => i !== editIndex);
       setAlumniData(updatedData);
       toast.success('Alumnus deleted successfully!');
@@ -126,6 +135,23 @@ function AlumniDirectory() {
     setEditIndex(null);
     setActionType(null);
   };
+
+  const handleApproval = (id) => {
+    const updatedRequests = requests.map(request =>
+      request.id === id ? { ...request, approved: true } : request
+    );
+    setRequests(updatedRequests);
+    toast.success('Request approved!');
+  };
+
+  const handleRejection = (id) => {
+    const updatedRequests = requests.map(request =>
+      request.id === id ? { ...request, approved: false } : request
+    );
+    setRequests(updatedRequests);
+    toast.success('Request rejected!');
+  };
+
 
   const filteredData = alumniData.filter(alumnus =>
     alumnus.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -178,21 +204,24 @@ function AlumniDirectory() {
         >
           {showForm ? 'Cancel' : 'Add'}
         </button>
+        <button className='view-button' onClick={() => setShowRequests(!showRequests)}>
+          {showRequests ? 'Hide Requests' : 'View Requests'}
+        </button>
       </div>
 
       {confirmMessage && (
         <div className="confirm-message">
           {confirmMessage}
-          <button type='button' onClick={handleConfirmAction}>Yes</button>
-          <button type='button' onClick={resetForm}>No</button>
+          <button type='button' onClick={handleConfirmAction}>OK</button>
+          <button type='button' onClick={resetForm}>Cancel</button>
         </div>
       )}
 
       {confirmEditMessage && (
         <div className="confirm-message">
           {confirmEditMessage}
-          <button type='button' onClick={handleConfirmEditAction}>Yes</button>
-          <button type='button' onClick={resetForm}>No</button>
+          <button type='button' onClick={handleConfirmEditAction}>OK</button>
+          <button type='button' onClick={resetForm}>Cancel</button>
         </div>
       )}
 
@@ -266,45 +295,51 @@ function AlumniDirectory() {
         <div className='loader'></div>
       ) : (
         <table className='alumni-table'>
-          <thead>
-            <tr>
-              <th>Full Name</th>
-              <th>Class Of</th>
-              <th>Email</th>
-              <th>Branch</th>
-              <th>Phone Number</th>
-              <th>Company</th>
-              <th>Actions</th>
+        <thead>
+          <tr>
+            <th>Full Name</th>
+            <th>Class Of</th>
+            <th>Email</th>
+            <th>Branch</th>
+            <th>Phone Number</th>
+            <th>Company</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {sortedData.map((alumnus, index) => (
+            <tr key={index}>
+              <td>{alumnus.fullName}</td>
+              <td>{alumnus.classOf}</td>
+              <td>{alumnus.email}</td>
+              <td>{alumnus.branch}</td>
+              <td>{alumnus.phoneNumber}</td>
+              <td>{alumnus.company}</td>
+              <td>
+                <button
+                  className='action-button'
+                  onClick={() => handleEdit(index)}
+                >
+                  <FontAwesomeIcon icon={faEdit} />
+                </button>
+                <button
+                  className='action-button'
+                  onClick={() => handleDelete(index)}
+                >
+                  <FontAwesomeIcon icon={faTrash} />
+                </button>
+              
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {sortedData.map((alumnus, index) => (
-              <tr key={index}>
-                <td>{alumnus.fullName}</td>
-                <td>{alumnus.classOf}</td>
-                <td>{alumnus.email}</td>
-                <td>{alumnus.branch}</td>
-                <td>{alumnus.phoneNumber}</td>
-                <td>{alumnus.company}</td>
-                <td>
-                  <button
-                    className='action-button'
-                    onClick={() => handleEdit(index)}
-                  >
-                    <FontAwesomeIcon icon={faEdit} />
-                  </button>
-                  <button
-                    className='action-button'
-                    onClick={() => handleDelete(index)}
-                  >
-                    <FontAwesomeIcon icon={faTrash} />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+          ))}
+        </tbody>
+      </table>
+      
       )}
+
+{showRequests && (
+            <Requests requests={requests} onApprove={handleApproval} onReject={handleRejection} />
+          )}
 
       <ToastContainer />
     </div>
