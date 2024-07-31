@@ -4,6 +4,7 @@
 
 .achievements h1 {
     text-align: center;
+    margin-bottom: 10px;
     font-size: 2rem;
     color: #0077b6;
     font-weight: 500;
@@ -91,6 +92,7 @@
 .achievements-table {
     width: 100%;
     border-collapse: collapse;
+    margin-bottom: 15px;
 }
 
 .achievements-table th, .achievements-table td {
@@ -118,7 +120,6 @@
 }
 
 .action-button {
-    background: white;
     border: none;
     cursor: pointer;
     font-size: 16px; 
@@ -126,13 +127,16 @@
     margin-right: 5px;
 }
 
+.action-button:hover {
+    background: none;
+}
 .confirm-message {
     margin-bottom: 10px;
     padding: 10px;
+    text-align: center;
     background-color: #ffcccc;
     border: 1px solid #ff0000;
     border-radius: 4px;
-    text-align: center;
 }
 
 .confirm-message button {
@@ -143,6 +147,7 @@
     padding: 5px 10px;
     cursor: pointer;
     font-size: 14px;
+    margin-left: 8px;
     margin-right: 10px;
 }
 
@@ -164,4 +169,23 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
-  
+  .view-requests-button {
+    background-color: #0077b6; 
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+.view-requests-button:hover {
+    background-color: #005f73; 
+}
+
+.view-requests-button:focus {
+    outline: none; 
+    
+}
+

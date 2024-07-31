@@ -50,5 +50,11 @@ export const SidebarData = [
     path: '/admin/loginnew',
     icon: <FaIcons.FaSignInAlt />,
     cName: 'nav-text'
+  },
+  {
+    title: 'Requests',
+    path: 'admin/requests',
+    icon: <IoIcons.IoIosListBox />,
+    cName: 'nav-text'
   }
 ];

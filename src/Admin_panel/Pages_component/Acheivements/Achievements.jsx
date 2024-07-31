@@ -4,34 +4,35 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Requests from '../Request/Requests';
 
 function Achievements() {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('name');
   const [sortDirection, setSortDirection] = useState('asc');
   const [achievementsData, setAchievementsData] = useState([
-    { name: 'John Doe', class: '2020', branch: 'Computer Science', Date: '2024-09-1', achievements: 'Developed an AI project' },
-    { name: 'Jane Smith', class: '2019', branch: 'Electrical Engineering', Date: '2024-07-5', achievements: 'Published 3 papers' },
+    { name: 'John Doe', class: '2020', branch: 'Computer Science', date: '2024-05-01', achievements: 'Developed an AI project' },
+    { name: 'Jane Smith', class: '2019', branch: 'Electrical Engineering', date: '2024-04-15', achievements: 'Published 3 papers' },
   ]);
   const [showForm, setShowForm] = useState(false);
   const [newAchievement, setNewAchievement] = useState({
     name: '',
     class: '',
     branch: '',
-    Date: '',
+    date: '',
     achievements: '',
   });
   const [editIndex, setEditIndex] = useState(null);
   const [confirmMessage, setConfirmMessage] = useState('');
   const [confirmEditMessage, setConfirmEditMessage] = useState('');
   const [actionType, setActionType] = useState(null);
-  const [isLoading, setIsLoading] = useState(true); 
+  const [isLoading, setIsLoading] = useState(true);
+  const [showRequests, setShowRequests] = useState(false); // State to toggle Requests component
 
   useEffect(() => {
- 
     setTimeout(() => {
-      setIsLoading(false); 
-    }, 1000); 
+      setIsLoading(false);
+    }, 1000);
   }, []);
 
   const handleSearchChange = (event) => {
@@ -57,7 +58,7 @@ function Achievements() {
   const handleEdit = (index) => {
     setActionType('edit');
     setEditIndex(index);
-    setNewAchievement(achievementsData[index]); 
+    setNewAchievement(achievementsData[index]);
     setConfirmEditMessage('Are you sure you want to edit this achievement?');
   };
 
@@ -72,7 +73,7 @@ function Achievements() {
       setAchievementsData([...achievementsData, newAchievement]);
       toast.success('New achievement added successfully!');
     } else if (actionType === 'edit') {
-    
+      // Update the achievement at the correct index
       const updatedData = achievementsData.map((item, i) =>
         i === editIndex ? newAchievement : item
       );
@@ -84,7 +85,7 @@ function Achievements() {
 
   const handleConfirmAction = () => {
     if (actionType === 'delete' && editIndex !== null) {
-     
+      // Delete the achievement at the correct index
       setAchievementsData(achievementsData.filter((_, i) => i !== editIndex));
       toast.success('Achievement deleted successfully!');
     }
@@ -92,7 +93,7 @@ function Achievements() {
   };
 
   const handleConfirmEditAction = () => {
-  
+    // Close confirmation and show the form
     setShowForm(true);
     setConfirmEditMessage('');
   };
@@ -105,7 +106,7 @@ function Achievements() {
       name: '',
       class: '',
       branch: '',
-      Date: '',
+      date: '',
       achievements: '',
     });
     setEditIndex(null);
@@ -115,7 +116,6 @@ function Achievements() {
   const filteredData = achievementsData.filter(entry =>
     entry.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     entry.branch.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    entry.position.toLowerCase().includes(searchTerm.toLowerCase()) ||
     entry.achievements.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -143,34 +143,40 @@ function Achievements() {
           <option value='name'>Sort by Name</option>
           <option value='class'>Sort by Class</option>
           <option value='branch'>Sort by Branch</option>
-          <option value='position'>Sort by Date</option>
+          <option value='date'>Sort by Date</option>
           <option value='achievements'>Sort by Achievements</option>
         </select>
         <button
           className='add-button'
           onClick={() => {
-            setNewAchievement({ name: '', class: '', branch: '', Date: '', achievements: '' });
+            setNewAchievement({ name: '', class: '', branch: '', date: '', achievements: '' });
             setShowForm(!showForm);
             setActionType('add');
           }}
         >
           {showForm ? 'Cancel' : 'Add'}
         </button>
+        <button
+          className='view-requests-button' // New button for viewing requests
+          onClick={() => setShowRequests(!showRequests)}
+        >
+          {showRequests ? 'Hide Requests' : 'View Requests'}
+        </button>
       </div>
 
       {confirmMessage && (
         <div className="confirm-message">
           {confirmMessage}
-          <button type='button' onClick={handleConfirmAction}>Yes</button>
-          <button type='button' onClick={resetForm}>No</button>
+          <button type='button' onClick={handleConfirmAction}>OK</button>
+          <button type='button' onClick={resetForm}>Cancel</button>
         </div>
       )}
 
       {confirmEditMessage && (
         <div className="confirm-message">
           {confirmEditMessage}
-          <button type='button' onClick={handleConfirmEditAction}>Yes</button>
-          <button type='button' onClick={resetForm}>No</button>
+          <button type='button' onClick={handleConfirmEditAction}>OK</button>
+          <button type='button' onClick={resetForm}>Cancel</button>
         </div>
       )}
 
@@ -210,8 +216,8 @@ function Achievements() {
             Date:
             <input
               type='date'
-              name='Date'
-              value={newAchievement.position}
+              name='date'
+              value={newAchievement.date}
               onChange={handleFormChange}
               required
             />
@@ -231,9 +237,9 @@ function Achievements() {
         </form>
       )}
 
-      {isLoading ? ( 
+      {isLoading ? (
         <div className="loader"></div>
-      ) : ( 
+      ) : (
         <table className='achievements-table'>
           <thead>
             <tr>
@@ -251,7 +257,7 @@ function Achievements() {
                 <td>{entry.name}</td>
                 <td>{entry.class}</td>
                 <td>{entry.branch}</td>
-                <td>{entry.Date}</td>
+                <td>{entry.date}</td>
                 <td>{entry.achievements}</td>
                 <td>
                   <button
@@ -273,6 +279,8 @@ function Achievements() {
         </table>
       )}
 
+      {showRequests && <Requests />} 
+      
       <ToastContainer />
     </div>
   );

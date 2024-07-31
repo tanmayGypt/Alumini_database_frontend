@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Requests from '../Request/Requests';
 
 function News1() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -24,6 +25,11 @@ function News1() {
   const [confirmEditMessage, setConfirmEditMessage] = useState('');
   const [actionType, setActionType] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [requests, setRequests] = useState([
+    { id: 1, name: 'Sumit', email: 'sumit@example.com', class: '2023', branch: 'Computer Science', approved: false },
+    { id: 2, name: 'Rohan', email: 'rohan@example.com', class: '2024', branch: 'Mechanical Engineering', approved: false }
+  ]);
+  const [showRequests, setShowRequests] = useState(false);
 
   useEffect(() => {
     // Simulate data loading
@@ -98,6 +104,21 @@ function News1() {
     setEditIndex(null);
     setActionType(null);
   };
+  const handleApproval = (id) => {
+    const updatedRequests = requests.map(request =>
+      request.id === id ? { ...request, approved: true } : request
+    );
+    setRequests(updatedRequests);
+    toast.success('Request approved!');
+  };
+
+  const handleRejection = (id) => {
+    const updatedRequests = requests.map(request =>
+      request.id === id ? { ...request, approved: false } : request
+    );
+    setRequests(updatedRequests);
+    toast.success('Request rejected!');
+  };
 
   const filteredData = newsData.filter(newsItem =>
     newsItem.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -144,21 +165,24 @@ function News1() {
         >
           {showForm ? 'Cancel' : 'Add'}
         </button>
+        <button className='view-button' onClick={() => setShowRequests(!showRequests)}>
+          {showRequests ? 'Hide Requests' : 'View Requests'}
+        </button>
       </div>
 
       {confirmMessage && (
         <div className="confirm-message">
           {confirmMessage}
-          <button type='button' onClick={handleConfirmAction}>Yes</button>
-          <button type='button' onClick={resetForm}>No</button>
+          <button type='button' onClick={handleConfirmAction}>OK</button>
+          <button type='button' onClick={resetForm}>Cancel</button>
         </div>
       )}
 
       {confirmEditMessage && (
         <div className="confirm-message">
           {confirmEditMessage}
-          <button type='button' onClick={handleConfirmEditAction}>Yes</button>
-          <button type='button' onClick={resetForm}>No</button>
+          <button type='button' onClick={handleConfirmEditAction}>OK</button>
+          <button type='button' onClick={resetForm}>Cancel</button>
         </div>
       )}
 
@@ -247,7 +271,9 @@ function News1() {
           </tbody>
         </table>
       )}
-
+{showRequests && (
+            <Requests requests={requests} onApprove={handleApproval} onReject={handleRejection} />
+          )}
       <ToastContainer />
     </div>
   );

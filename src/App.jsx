@@ -1,3 +1,4 @@
+import  { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -13,7 +14,6 @@ import Contact from "./Page/Contact";
 import Netwoking_Opportunities from "./Page/Netwoking_Opportunities";
 import LoadingBar from "react-top-loading-bar";
 import useAutoIncrementProgress from "./hooks/useAutoIncrementProgress";
-import { useEffect } from "react";
 import News from "./Page/News";
 import Mobile from "./Page/Mobile";
 import Cards from "./Page-Components/Registered-Candidates/Card";
@@ -51,7 +51,8 @@ import News1 from "./Admin_panel/Pages_component/News/News";
 import Ranklist from "./Admin_panel/Pages_component/Ranklist/Ranklist";
 import Jobs from "./Admin_panel/Pages_component/Jobs/Jobs";
 import LoginPage from "./Admin_panel/Pages_component/Login_page/Login_page";
-
+import RequestForm from "./Admin_panel/Pages_component/Request/RequestForm";
+import Requests from "./Admin_panel/Pages_component/Request/Requests";
 
 import RegisteredCandidates from "./Page-Components/Registered-Candidates/Card";
 import VerifyOTP from "./Page/VerifyOTP";
@@ -59,6 +60,11 @@ import VerifyOTP from "./Page/VerifyOTP";
 function App() {
   const location = useLocation();
   const [progress, setProgress] = useAutoIncrementProgress();
+  const [requests, setRequests] = useState([]);
+
+  const handleRequestSubmit = (request) => {
+    setRequests([...requests, { ...request, id: requests.length + 1, approved: false }]);
+  };
 
   useEffect(() => {
     setProgress(0);
@@ -78,7 +84,8 @@ function App() {
           <Route path="/admin/ranklist" element={<Ranklist />} />
           <Route path="/admin/jobs" element={<Jobs />} /> 
           <Route path="/admin/loginnew" element={<LoginPage />} /> 
-           
+          <Route path="/admin/requests" element={<Requests requests={requests} />} />
+          <Route path='/submit-request' element={<RequestForm onRequestSubmit={handleRequestSubmit} />} />
         </Routes>
       </>
     );

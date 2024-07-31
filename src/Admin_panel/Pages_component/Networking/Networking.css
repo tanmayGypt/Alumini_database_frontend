@@ -4,6 +4,7 @@
 
 .networking h1 {
     text-align: center;
+    margin-bottom: 10px;
     font-size: 2rem;
     color: #0077b6;
     font-weight: 500;
@@ -50,9 +51,9 @@
     border: 1px solid #ddd;
     padding: 20px;
     margin-bottom: 20px;
+    text-align: center;
     border-radius: 4px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
     z-index: 1000;
 }
 
@@ -69,6 +70,7 @@
     cursor: pointer;
     font-size: 16px;
     margin-right: 10px;
+    margin-left: 8px;
 }
 
 .confirm-dialog button:hover {
@@ -119,6 +121,7 @@
 .networking-table {
     width: 100%;
     border-collapse: collapse;
+    margin-bottom: 15px;
 }
 
 .networking-table th, .networking-table td {
@@ -142,7 +145,6 @@
 
 .action-button:hover {
     color: #005f73;
-    background: none;
 }
 .loader {
     border: 8px solid rgba(0, 0, 0, 0.1);
@@ -158,4 +160,22 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
-  
+  .view-button {
+    background-color: #0077b6; 
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+.view-button:hover {
+    background-color: #005f73; 
+}
+
+.view-button:focus {
+    outline: none; 
+    
+}
