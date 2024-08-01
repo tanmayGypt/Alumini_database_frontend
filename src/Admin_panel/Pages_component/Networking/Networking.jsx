@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios'; 
 import './Networking.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
@@ -10,10 +11,7 @@ function Networking() {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('date');
   const [sortDirection, setSortDirection] = useState('asc');
-  const [networkingData, setNetworkingData] = useState([
-    { name: 'Piyush', position: 'Speaker', eventName: 'Tech Meetup', location: 'New York', date: '2024-09-10' },
-    { name: 'Tarun', position: 'Panelist', eventName: 'Innovation Summit', location: 'San Francisco', date: '2024-10-05' },
-  ]);
+  const [networkingData, setNetworkingData] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [newEvent, setNewEvent] = useState({
     name: '',
@@ -27,16 +25,23 @@ function Networking() {
   const [actionType, setActionType] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showRequests, setShowRequests] = useState(false);
-  const [requests, setRequests] = useState([
-    { id: 1, name: 'Sumit', email: 'sumit@example.com', class: '2023', branch: 'Computer Science', approved: false },
-    { id: 2, name: 'Rohan', email: 'rohan@example.com', class: '2024', branch: 'Mechanical Engineering', approved: false }
-  ]);
+  const [requests, setRequests] = useState([]);
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
+    fetchNetworkingData(); // Fetch networking data on component mount
   }, []);
+
+  const fetchNetworkingData = async () => {
+    try {
+      const response = await axios.get('/admin/alumniattending');
+      setNetworkingData(response.data);
+    } catch (error) {
+      console.error('Error fetching networking data:', error);
+      toast.error('Failed to fetch networking data.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -56,6 +61,17 @@ function Networking() {
     setActionType('delete');
     setEditIndex(index);
     setConfirmMessage('Are you sure you want to delete this event?');
+  };
+
+  const deleteEvent = async (eventID) => {
+    try {
+      await axios.delete(`/event/${eventID}`);
+      setNetworkingData(networkingData.filter((_, i) => i !== editIndex));
+      toast.success('Event deleted successfully!');
+    } catch (error) {
+      console.error('Error deleting event:', error);
+      toast.error('Failed to delete event.');
+    }
   };
 
   const handleEdit = (index) => {
@@ -85,24 +101,36 @@ function Networking() {
     setNewEvent({ ...newEvent, [name]: value });
   };
 
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
     if (actionType === 'add') {
-      setNetworkingData([...networkingData, newEvent]);
-      toast.success('Event added successfully!');
+      try {
+        const response = await axios.post('/admin/alumniattending', newEvent);
+        setNetworkingData([...networkingData, response.data]);
+        toast.success('Event added successfully!');
+      } catch (error) {
+        console.error('Error adding event:', error);
+        toast.error('Failed to add event.');
+      }
     } else if (actionType === 'edit') {
-      const updatedData = networkingData.map((event, i) => (i === editIndex ? newEvent : event));
-      setNetworkingData(updatedData);
-      toast.success('Event updated successfully!');
+      try {
+        await axios.put(`/admin/alumniattending/${networkingData[editIndex].EventID}`, newEvent);
+        const updatedData = networkingData.map((event, i) =>
+          i === editIndex ? { ...event, ...newEvent } : event
+        );
+        setNetworkingData(updatedData);
+        toast.success('Event updated successfully!');
+      } catch (error) {
+        console.error('Error updating event:', error);
+        toast.error('Failed to update event.');
+      }
     }
     resetForm();
   };
 
   const handleConfirmAction = () => {
     if (actionType === 'delete') {
-      const newNetworkingData = networkingData.filter((_, i) => i !== editIndex);
-      setNetworkingData(newNetworkingData);
-      toast.success('Event deleted successfully!');
+      deleteEvent(networkingData[editIndex].EventID);
     } else if (actionType === 'edit') {
       setNewEvent(networkingData[editIndex]);
       setShowForm(true);
@@ -118,7 +146,8 @@ function Networking() {
     setConfirmMessage('');
   };
 
-  const handleApproval = (id) => {
+  const handleApproval = async (id) => {
+    // Implement API call for approval if needed
     const updatedRequests = requests.map(request =>
       request.id === id ? { ...request, approved: true } : request
     );
@@ -126,7 +155,8 @@ function Networking() {
     toast.success('Request approved!');
   };
 
-  const handleRejection = (id) => {
+  const handleRejection = async (id) => {
+    // Implement API call for rejection if needed
     const updatedRequests = requests.map(request =>
       request.id === id ? { ...request, approved: false } : request
     );
@@ -135,10 +165,10 @@ function Networking() {
   };
 
   const filteredData = networkingData.filter(event =>
-    event.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    event.position.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    event.eventName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    event.location.toLowerCase().includes(searchTerm.toLowerCase())
+    event.FirstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    event.Position.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    event.Title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    event.Location.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const sortedData = filteredData.sort((a, b) => {
@@ -155,11 +185,11 @@ function Networking() {
       <div className='search-bar'>
         <input type='text' placeholder='Search...' value={searchTerm} onChange={handleSearchChange} className='search-input' />
         <select onChange={handleSortChange} value={sortBy} className='sort-select'>
-          <option value='name'>Sort by Name</option>
-          <option value='position'>Sort by Position</option>
-          <option value='eventName'>Sort by Event Name</option>
-          <option value='location'>Sort by Location</option>
-          <option value='date'>Sort by Date</option>
+          <option value='FirstName'>Sort by Name</option>
+          <option value='Position'>Sort by Position</option>
+          <option value='Title'>Sort by Event Name</option>
+          <option value='Location'>Sort by Location</option>
+          <option value='EventDateTime'>Sort by Date</option>
         </select>
         <button className='add-button' onClick={handleAddNew}>
           {showForm ? 'Cancel' : 'Add'}
@@ -218,11 +248,11 @@ function Networking() {
             <tbody>
               {sortedData.map((event, index) => (
                 <tr key={index}>
-                  <td>{event.name}</td>
-                  <td>{event.position}</td>
-                  <td>{event.eventName}</td>
-                  <td>{event.location}</td>
-                  <td>{event.date}</td>
+                  <td>{event.FirstName}</td>
+                  <td>{event.Position}</td>
+                  <td>{event.Title}</td>
+                  <td>{event.Location}</td>
+                  <td>{new Date(event.EventDateTime).toLocaleDateString()}</td>
                   <td>
                     <button className='action-button' onClick={() => handleEdit(index)}>
                       <FontAwesomeIcon icon={faEdit} />
