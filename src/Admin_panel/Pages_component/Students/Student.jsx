@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 import './Student.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
@@ -8,10 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 function Student() {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('fullName');
-  const [studentData, setStudentData] = useState([
-    { fullName: 'Alice Johnson', year: 'Sophomore', branch: 'Computer Science', gpa: '3.8', linkedin: 'alice.linkedin.com' },
-    { fullName: 'Bob Smith', year: 'Junior', branch: 'Mechanical Engineering', gpa: '3.6', linkedin: 'bob.linkedin.com' },
-  ]);
+  const [studentData, setStudentData] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [newStudent, setNewStudent] = useState({
     fullName: '',
@@ -27,11 +25,22 @@ function Student() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate data loading
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000); // Adjust the timeout as needed
+    fetchStudentData();
   }, []);
+
+
+  const fetchStudentData = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get('/alumni/achievements?status=student');
+      setStudentData(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching student data:", error);
+      setLoading(false);
+      toast.error('Failed to fetch student data.');
+    }
+  };
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -58,30 +67,52 @@ function Student() {
     setNewStudent({ ...newStudent, [name]: value });
   };
 
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
-    if (actionType === 'add') {
-      setStudentData([...studentData, newStudent]);
-      toast.success('Student added successfully!');
-    } else if (actionType === 'edit') {
-      const updatedData = studentData.map((student, i) => (i === editIndex ? newStudent : student));
-      setStudentData(updatedData);
-      toast.success('Student updated successfully!');
+    try {
+      if (actionType === 'add') {
+        await axios.post('/alumni', {
+          ...newStudent,
+          Status: "student"
+        });
+        toast.success('Student added successfully!');
+      } else if (actionType === 'edit') {
+        const student = studentData[editIndex];
+        await axios.put(`/alumni/${student.AlumniID}`, newStudent);
+        toast.success('Student updated successfully!');
+      }
+      fetchStudentData();
+      resetForm();
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast.error('Failed to save student.');
     }
-    resetForm();
   };
 
-  const handleConfirmAction = () => {
-    if (actionType === 'delete') {
-      const updatedData = studentData.filter((_, i) => i !== editIndex);
-      setStudentData(updatedData);
-      toast.success('Student deleted successfully!');
+  const handleConfirmAction = async () => {
+    try {
+      if (actionType === 'delete') {
+        const student = studentData[editIndex];
+        await axios.delete(`/alumni/${student.AlumniID}`);
+        toast.success('Student deleted successfully!');
+      }
+      fetchStudentData();
+      resetForm();
+    } catch (error) {
+      console.error("Error confirming action:", error);
+      toast.error('Failed to delete student.');
     }
-    resetForm();
   };
 
   const handleConfirmEditAction = () => {
-    setNewStudent(studentData[editIndex]);
+    const student = studentData[editIndex];
+    setNewStudent({
+      fullName: student.FirstName + ' ' + student.LastName,
+      year: student.BatchYear,
+      branch: student.Branch,
+      gpa: student.Tenth, 
+      linkedin: student.LinkedInProfile
+    });
     setShowForm(true);
     setConfirmEditMessage('');
   };
@@ -102,11 +133,11 @@ function Student() {
   };
 
   const filteredData = studentData.filter(student =>
-    student.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    student.year.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    student.branch.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    student.gpa.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    student.linkedin.toLowerCase().includes(searchTerm.toLowerCase())
+    `${student.FirstName} ${student.LastName}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    student.BatchYear.toString().includes(searchTerm.toLowerCase()) ||
+    student.Branch.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    student.Tenth.toString().includes(searchTerm.toLowerCase()) ||
+    student.LinkedInProfile.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const sortedData = filteredData.sort((a, b) => {
@@ -118,7 +149,7 @@ function Student() {
   return (
     <div className='student-directory'>
       <h1>Student Directory</h1>
-      <div className='search-bar11'>
+      <div className='search-bar'>
         <input
           type='text'
           placeholder='Search...'
@@ -128,10 +159,10 @@ function Student() {
         />
         <select onChange={handleSortChange} value={sortBy} className='sort-select'>
           <option value='fullName'>Sort by Full Name</option>
-          <option value='year'>Sort by Year</option>
-          <option value='branch'>Sort by Branch</option>
-          <option value='gpa'>Sort by GPA</option>
-          <option value='linkedin'>Sort by LinkedIn</option>
+          <option value='BatchYear'>Sort by Year</option>
+          <option value='Branch'>Sort by Branch</option>
+          <option value='Tenth'>Sort by GPA</option>
+          <option value='LinkedInProfile'>Sort by LinkedIn</option>
         </select>
         <button
           className='add-button'
@@ -226,7 +257,7 @@ function Student() {
       {loading ? (
         <div className="loader"></div>
       ) : (
-        <table className='student-table1'>
+        <table className='student-table'>
           <thead>
             <tr>
               <th>Full Name</th>
@@ -240,11 +271,11 @@ function Student() {
           <tbody>
             {sortedData.map((student, index) => (
               <tr key={index}>
-                <td>{student.fullName}</td>
-                <td>{student.year}</td>
-                <td>{student.branch}</td>
-                <td>{student.gpa}</td>
-                <td>{student.linkedin}</td>
+                <td>{`${student.FirstName} ${student.LastName}`}</td>
+                <td>{student.BatchYear}</td>
+                <td>{student.Branch}</td>
+                <td>{student.Tenth}</td>
+                <td>{student.LinkedInProfile}</td>
                 <td>
                   <button
                     className='action-button'

@@ -4,36 +4,43 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 import Requests from '../Request/Requests';
 
 function Achievements() {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('name');
   const [sortDirection, setSortDirection] = useState('asc');
-  const [achievementsData, setAchievementsData] = useState([
-    { name: 'John Doe', class: '2020', branch: 'Computer Science', date: '2024-05-01', achievements: 'Developed an AI project' },
-    { name: 'Jane Smith', class: '2019', branch: 'Electrical Engineering', date: '2024-04-15', achievements: 'Published 3 papers' },
-  ]);
+  const [achievementsData, setAchievementsData] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [newAchievement, setNewAchievement] = useState({
-    name: '',
-    class: '',
-    branch: '',
-    date: '',
-    achievements: '',
+    AlumniID: 1, //set as default
+    title: '',
+    description: '',
+    dateAchieved: '',
   });
   const [editIndex, setEditIndex] = useState(null);
   const [confirmMessage, setConfirmMessage] = useState('');
   const [confirmEditMessage, setConfirmEditMessage] = useState('');
   const [actionType, setActionType] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [showRequests, setShowRequests] = useState(false); // State to toggle Requests component
+  const [showRequests, setShowRequests] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
+    fetchAchievements();
   }, []);
+
+  const fetchAchievements = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get('/admin/achievements');
+      setAchievementsData(response.data);
+      setIsLoading(false);
+    } catch (error) {
+      toast.error('Failed to fetch achievements');
+      setIsLoading(false);
+    }
+  };
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -67,33 +74,41 @@ function Achievements() {
     setNewAchievement({ ...newAchievement, [name]: value });
   };
 
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
-    if (actionType === 'add') {
-      setAchievementsData([...achievementsData, newAchievement]);
-      toast.success('New achievement added successfully!');
-    } else if (actionType === 'edit') {
-      // Update the achievement at the correct index
-      const updatedData = achievementsData.map((item, i) =>
-        i === editIndex ? newAchievement : item
-      );
-      setAchievementsData(updatedData);
-      toast.success('Achievement updated successfully!');
+    try {
+      if (actionType === 'add') {
+        const response = await axios.post('/achievement', newAchievement);
+        setAchievementsData([...achievementsData, response.data]);
+        toast.success('New achievement added successfully!');
+      } else if (actionType === 'edit') {
+        const response = await axios.put(`/achievement/${newAchievement.AchievementID}`, newAchievement);
+        const updatedData = achievementsData.map((item, i) =>
+          i === editIndex ? response.data : item
+        );
+        setAchievementsData(updatedData);
+        toast.success('Achievement updated successfully!');
+      }
+    } catch (error) {
+      toast.error('Failed to save achievement');
     }
     resetForm();
   };
 
-  const handleConfirmAction = () => {
+  const handleConfirmAction = async () => {
     if (actionType === 'delete' && editIndex !== null) {
-      // Delete the achievement at the correct index
-      setAchievementsData(achievementsData.filter((_, i) => i !== editIndex));
-      toast.success('Achievement deleted successfully!');
+      try {
+        await axios.delete(`/achievement/${achievementsData[editIndex].AchievementID}`);
+        setAchievementsData(achievementsData.filter((_, i) => i !== editIndex));
+        toast.success('Achievement deleted successfully!');
+      } catch (error) {
+        toast.error('Failed to delete achievement');
+      }
     }
     resetForm();
   };
 
   const handleConfirmEditAction = () => {
-    // Close confirmation and show the form
     setShowForm(true);
     setConfirmEditMessage('');
   };
@@ -103,20 +118,20 @@ function Achievements() {
     setConfirmMessage('');
     setConfirmEditMessage('');
     setNewAchievement({
-      name: '',
-      class: '',
-      branch: '',
-      date: '',
-      achievements: '',
+      AlumniID: 1,
+      title: '',
+      description: '',
+      dateAchieved: '',
     });
     setEditIndex(null);
     setActionType(null);
   };
 
   const filteredData = achievementsData.filter(entry =>
-    entry.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    entry.branch.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    entry.achievements.toLowerCase().includes(searchTerm.toLowerCase())
+    entry.FirstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    entry.LastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    entry.Branch.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    entry.Title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const sortedData = [...filteredData].sort((a, b) => {
@@ -140,16 +155,16 @@ function Achievements() {
           className='search-input'
         />
         <select onChange={handleSortChange} value={sortBy} className='sort-select'>
-          <option value='name'>Sort by Name</option>
-          <option value='class'>Sort by Class</option>
-          <option value='branch'>Sort by Branch</option>
-          <option value='date'>Sort by Date</option>
-          <option value='achievements'>Sort by Achievements</option>
+          <option value='FirstName'>Sort by First Name</option>
+          <option value='LastName'>Sort by Last Name</option>
+          <option value='Branch'>Sort by Branch</option>
+          <option value='Title'>Sort by Title</option>
+          <option value='dateAchieved'>Sort by Date</option>
         </select>
         <button
           className='add-button'
           onClick={() => {
-            setNewAchievement({ name: '', class: '', branch: '', date: '', achievements: '' });
+            setNewAchievement({ AlumniID: 1, title: '', description: '', dateAchieved: '' });
             setShowForm(!showForm);
             setActionType('add');
           }}
@@ -157,7 +172,7 @@ function Achievements() {
           {showForm ? 'Cancel' : 'Add'}
         </button>
         <button
-          className='view-requests-button' // New button for viewing requests
+          className='view-requests-button'
           onClick={() => setShowRequests(!showRequests)}
         >
           {showRequests ? 'Hide Requests' : 'View Requests'}
@@ -183,50 +198,30 @@ function Achievements() {
       {showForm && !confirmMessage && !confirmEditMessage && (
         <form onSubmit={handleFormSubmit} className='achievements-form'>
           <label>
-            Name:
+            Title:
             <input
               type='text'
-              name='name'
-              value={newAchievement.name}
+              name='title'
+              value={newAchievement.title}
               onChange={handleFormChange}
               required
             />
           </label>
           <label>
-            Class:
-            <input
-              type='text'
-              name='class'
-              value={newAchievement.class}
+            Description:
+            <textarea
+              name='description'
+              value={newAchievement.description}
               onChange={handleFormChange}
               required
             />
           </label>
           <label>
-            Branch:
-            <input
-              type='text'
-              name='branch'
-              value={newAchievement.branch}
-              onChange={handleFormChange}
-              required
-            />
-          </label>
-          <label>
-            Date:
+            Date Achieved:
             <input
               type='date'
-              name='date'
-              value={newAchievement.date}
-              onChange={handleFormChange}
-              required
-            />
-          </label>
-          <label>
-            Achievements:
-            <textarea
-              name='achievements'
-              value={newAchievement.achievements}
+              name='dateAchieved'
+              value={newAchievement.dateAchieved.split('T')[0]} // Format date for input
               onChange={handleFormChange}
               required
             />
@@ -243,32 +238,32 @@ function Achievements() {
         <table className='achievements-table'>
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Class</th>
+              <th>First Name</th>
+              <th>Last Name</th>
               <th>Branch</th>
+              <th>Title</th>
               <th>Date</th>
-              <th>Achievements</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {sortedData.map((entry, index) => (
               <tr key={index}>
-                <td>{entry.name}</td>
-                <td>{entry.class}</td>
-                <td>{entry.branch}</td>
-                <td>{entry.date}</td>
-                <td>{entry.achievements}</td>
+                <td>{entry.FirstName}</td>
+                <td>{entry.LastName}</td>
+                <td>{entry.Branch}</td>
+                <td>{entry.Title}</td>
+                <td>{entry.DateAchieved.split('T')[0]}</td> {/* Format date */}
                 <td>
                   <button
                     className='action-button'
-                    onClick={() => handleEdit(filteredData.findIndex(e => e === entry))}
+                    onClick={() => handleEdit(achievementsData.findIndex(e => e === entry))}
                   >
                     <FontAwesomeIcon icon={faEdit} />
                   </button>
                   <button
                     className='action-button'
-                    onClick={() => handleDelete(filteredData.findIndex(e => e === entry))}
+                    onClick={() => handleDelete(achievementsData.findIndex(e => e === entry))}
                   >
                     <FontAwesomeIcon icon={faTrash} />
                   </button>
@@ -279,8 +274,8 @@ function Achievements() {
         </table>
       )}
 
-      {showRequests && <Requests />} 
-      
+      {showRequests && <Requests />}
+
       <ToastContainer />
     </div>
   );
