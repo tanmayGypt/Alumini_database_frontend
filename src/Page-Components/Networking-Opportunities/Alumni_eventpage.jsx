@@ -3,6 +3,7 @@ import "./test.css";
 import Card from "./Event_card";
 import { useSelector } from "react-redux";
 
+
 function Alumini_Eventpage() {
   const eventDetails = useSelector((state) => state.event.eventData);
 
@@ -31,7 +32,7 @@ function Alumini_Eventpage() {
                 title={event.title}
                 date={event.date}
                 location={event.location}
-                link={`/event/${event.id}`}
+                link={event.link}
               />
             ))}
           </div>
