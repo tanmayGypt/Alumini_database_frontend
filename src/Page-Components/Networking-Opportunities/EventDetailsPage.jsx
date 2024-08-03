@@ -1,17 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchEvents } from "../../features/eventSlice"; // Corrected import
 
 function EventDetailsPage() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const eventId = queryParams.get("eventId");
+  const eventId = parseInt(queryParams.get("eventId"), 10);
 
-  // Use useSelector to get eventDetails from the Redux store
-  const eventDetails = useSelector((state) => state.event.eventData);
-  const event = eventDetails.find((event) => event.id === parseInt(eventId));
+  const dispatch = useDispatch();
+  const eventDetails = useSelector((state) => state.events.eventData); // Updated selector
+  const status = useSelector((state) => state.events.status); // Updated selector
+  const event = eventDetails.find((event) => event.id === eventId);
 
-  if (!event) return <div className="min-h-screen flex items-center justify-center bg-gray-100">Event not found</div>;
+  useEffect(() => {
+    if (!event && status === 'idle') {
+      dispatch(fetchEvents());
+    }
+  }, [eventId, event, status, dispatch]);
+
+  if (status === 'loading') {
+    return <div className="min-h-screen flex items-center justify-center bg-gray-100">Loading...</div>;
+  }
+
+  if (!event) {
+    return <div className="min-h-screen flex items-center justify-center bg-gray-100">Event not found</div>;
+  }
 
   return (
     <div className="min-h-screen pt-20 flex items-center justify-center bg-gray-100">
