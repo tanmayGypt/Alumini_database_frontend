@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import  { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import NewsCard from './NewsCard';
 import SearchBar from './SearchBar';
