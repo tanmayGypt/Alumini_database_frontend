@@ -7,7 +7,7 @@ function Card({ image, title, date, location, link }) {
       <h3>{title}</h3>
       <p>Date: {date}</p>
       <p>Location: {location}</p>
-      <Link to="/Networking_Opportunities/RegisterPage" className="register-button">
+      <Link to={link} className="register-button">
         Register Now
       </Link>
     </div>

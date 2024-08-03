@@ -1,15 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchEventDetails } from "../../features/eventSlice";
 
 function EventDetailsPage() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const eventId = queryParams.get("eventId");
 
-  // Use useSelector to get eventDetails from the Redux store
+  const dispatch = useDispatch();
   const eventDetails = useSelector((state) => state.event.eventData);
   const event = eventDetails.find((event) => event.id === parseInt(eventId));
+
+  useEffect(() => {
+    if (!event) {
+      dispatch(fetchEventDetails(eventId));
+    }
+  }, [dispatch, eventId, event]);
 
   if (!event) return <div className="min-h-screen flex items-center justify-center bg-gray-100">Event not found</div>;
 

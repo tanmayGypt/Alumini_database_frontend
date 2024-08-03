@@ -1,24 +1,23 @@
 import React, { useState } from 'react';
-import ReCAPTCHA from "react-google-recaptcha";
-import {FaLinkedin } from 'react-icons/fa';
-import { ToastContainer,toast } from 'react-toastify';
+import ReCAPTCHA from 'react-google-recaptcha';
+import { FaLinkedin } from 'react-icons/fa';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Oval } from 'react-loader-spinner';
-
+import axios from 'axios';
 
 const Form = () => {
-
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [contact, setContact] = useState('');
   const [subject, setSubject] = useState('');
   const [recaptchaValue, setRecaptchaValue] = useState(null);
-  const [isLoading,setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(String(email).toLocaleLowerCase());
+    return re.test(String(email).toLowerCase());
   };
 
   const validateContact = (contact) => {
@@ -26,7 +25,7 @@ const Form = () => {
     return re.test(contact);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!name || !email || !contact || !subject || !message) {
@@ -45,7 +44,7 @@ const Form = () => {
     }
 
     if (message.length > 300) {
-      toast.error('Subject should not exceed 300 characters');
+      toast.error('Message should not exceed 300 characters');
       return;
     }
 
@@ -56,19 +55,48 @@ const Form = () => {
 
     setIsLoading(true);
 
-    setTimeout(() => {
-      setIsLoading(false);
+    // Retrieve JWT token from local storage
+    const token = localStorage.getItem('jwtToken');
+
+    // Define the request body
+    const requestBody = {
+      Name: name,
+      Email: email,
+      Contact: contact,
+      Subject: subject,
+      Message: message
+    };
+
+    try {
+      const response = await axios.post('/api/contactUS', requestBody, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      // Handle success
       toast.success('Form submitted successfully');
-      console.log({ name, email, contact, subject, message, /*recaptchaValue*/ });
+      console.log('Success:', response.data);
+      // Reset form fields
       setContact('');
       setEmail('');
       setMessage('');
       setName('');
       setSubject('');
       setRecaptchaValue(null);
-    }, 2000);
+    } catch (error) {
+      // Handle error
+      if (error.response) {
+        toast.error(`Error: ${error.response.data.error}`);
+      } else {
+        toast.error('Request failed');
+        console.error('Request failed:', error.message);
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
-  
 
   const handleRecaptchaChange = (value) => {
     setRecaptchaValue(value);
@@ -76,15 +104,11 @@ const Form = () => {
 
   return (
     <div className="h-full w-full flex items-center justify-center flex-col bg-gray-100 py-10 sm:py-20 px-4">
-
-      <form className = {`bg-white p-6 rounded-lg shadow-lg w-full max-w-screen-md ${isLoading? 'opacity-50':''}`}
-      onSubmit={handleSubmit}
-      >
-        
+      <form className={`bg-white p-6 rounded-lg shadow-lg w-full max-w-screen-md ${isLoading ? 'opacity-50' : ''}`} onSubmit={handleSubmit}>
         <h2 className="text-2xl font-bold">Contact Us</h2>
-        <p className='text-gray-500 text-xs py-3 '>Pls use the form below to contact us</p>
+        <p className='text-gray-500 text-xs py-3 '>Please use the form below to contact us</p>
 
-        {/* name */}
+        {/* Name */}
         <div className="flex flex-col sm:flex-row mb-2">
           <label className="block text-gray-700 pt-2 font-bold md:text-left mb-1 sm:w-1/3 sm:pr-4" htmlFor="name">
             Name <span className="text-red-500">*</span>
@@ -96,14 +120,13 @@ const Form = () => {
             placeholder="Your name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-          
           />
         </div>
 
-        {/* email */}
+        {/* Email */}
         <div className="flex flex-col sm:flex-row mb-2">
           <label className="block text-gray-700 pt-2 font-bold md:text-left mb-1 md:w-1/3 pr-4" htmlFor="email">
-            Personel Email Id <span className="text-red-500">*</span>
+            Personal Email Id <span className="text-red-500">*</span>
           </label>
           <input
             className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
@@ -112,14 +135,13 @@ const Form = () => {
             placeholder="Your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-          
           />
         </div>
 
-        {/* Contact num */}
+        {/* Contact Number */}
         <div className="flex flex-col sm:flex-row mb-2">
           <label className="block text-gray-700 pt-2 font-bold md:text-left mb-1 sm:w-1/3 sm:pr-4" htmlFor="contact">
-          Contact No <span className="text-red-500">*</span>
+            Contact No <span className="text-red-500">*</span>
           </label>
           <input
             className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
@@ -128,14 +150,13 @@ const Form = () => {
             placeholder="Your Contact No"
             value={contact}
             onChange={(e) => setContact(e.target.value)}
-          
           />
         </div>
 
         {/* Subject */}
         <div className="flex flex-col sm:flex-row mb-2">
           <label className="block text-gray-700 pt-2 font-bold md:text-left mb-1 sm:w-1/3 sm:pr-4" htmlFor="subject">
-          Subject <span className="text-red-500">*</span>
+            Subject <span className="text-red-500">*</span>
           </label>
           <input
             className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
@@ -144,57 +165,51 @@ const Form = () => {
             placeholder="Subject"
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
-            
           />
         </div>
 
         {/* Message */}
         <div className="flex flex-col sm:flex-row mb-2">
           <label className="block text-gray-700 pt-2 font-bold md:text-left mb-1 sm:w-1/3 sm:pr-4" htmlFor="message">
-          Message <span className="text-red-500">*</span>
+            Message <span className="text-red-500">*</span>
           </label>
           <textarea
             className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
             id="message"
-            placeholder="Your message upto 300 characters"
+            placeholder="Your message up to 300 characters"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             rows="6"
-          
           />
         </div>
 
         {/* reCAPTCHA and Submit button */}
         <div className="flex flex-row mb-2">
           <div className="block pt-2 mb-1 sm:w-1/3 sm:pr-4"></div>
-          <div
-            className=" appearance-none rounded w-full mt-1 text-gray-700 leading-tight focus:outline-none focus:bg-white">
-                <ReCAPTCHA
-                    sitekey="YOUR_SITE_KEY" // Replace with actual site key
-                    onChange={handleRecaptchaChange}
-                />
-
-                <button
-                    className="bg-green-500 hover:bg-green-700 mt-2 text-white font-bold py-2 px-4 rounded-2xl focus:outline-none focus:shadow-outline"
-                    type="submit"
-                    disabled={isLoading}
-                    >
-                    {isLoading ? 'Submitting...' : 'Submit'}
-                </button>
-            </div>
+          <div className="appearance-none rounded w-full mt-1 text-gray-700 leading-tight focus:outline-none focus:bg-white">
+            <ReCAPTCHA
+              sitekey="YOUR_SITE_KEY" // Replace with your actual site key
+              onChange={handleRecaptchaChange}
+            />
+            <button
+              className="bg-green-500 hover:bg-green-700 mt-2 text-white font-bold py-2 px-4 rounded-2xl focus:outline-none focus:shadow-outline"
+              type="submit"
+              disabled={isLoading}
+            >
+              {isLoading ? 'Submitting...' : 'Submit'}
+            </button>
+          </div>
         </div>
       </form>
-      <br/>
+      <br />
 
-      {/* Load button */}
+      {/* Loading spinner */}
       {isLoading && (
         <div className='flex justify-center items-center h-full w-full absolute top-0 left-0'>
           <Oval
-            height = {40}
+            height={40}
             width={40}
             color="#4fa94d"
-            wrapperStyle={{}}
-            wrapperClass=""
             visible={true}
             ariaLabel="oval-loading"
             secondaryColor="#4fa94d"
@@ -208,14 +223,14 @@ const Form = () => {
 
       {/* Icons and Links */}
       <div className="flex flex-row">
-          <a href="https://bpitindia.com/" target="_blank" rel="noopener noreferrer" className="mr-4 flex flex-row">
-            <img className="w-10 mr-1" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIADcAOAMBEQACEQEDEQH/xAAbAAEAAgMBAQAAAAAAAAAAAAAAAQYDBAcFAv/EACoQAAIBBAAFAwMFAAAAAAAAAAECAwAEBREGEiExUQcTQSKRoRQVMmGB/8QAGQEBAAMBAQAAAAAAAAAAAAAAAAIEBQMB/8QAKREAAgEDAgUCBwAAAAAAAAAAAAECAxEhBBIFEzFBccHRFCIkQkNRgf/aAAwDAQACEQMRAD8A7jQCgFAKAUAoBQCgFAKAUAoBQCgKhxB6iYfAZWXG3sF888QUsYo1K9QCO7DzVqlo6lWO6NiLkkZsbx5isjYQXkEN4sc1+tgodFB9xlBBP1fx0e/4rhqab07Sn3LOm089Tu2fam34Rvz52SPOyYiLHTSzrbfqVYSIFdObl6bPffn71JUls3372K982NR+MbRuHbXO21pcS2txKsJQ8qvG5k9vRBOujdDon/an8PLmOm3le1xfFzZTiJTf3uNexnTIWsAuBCzLqaInXMjb13BHXXX71F0flU74eBcw43id8nb4+e0xN0UvrdrhGZ0ARBy65jvoTzdAN9jXs6GxtOXR2CZ94XiX93ixlxHjbmO1yMbPFMzKQuhvTAHYJAOu/alSjy3JN5QTuc89Q+Ds9l+LLu9x9mktvIsYVzcRrvSAHoWB7ir2l1VGnSUZPJF05N3SJxOFv8FgsTa5SFYZn4mglVRIr7XkA39JPyDWfxOtCrODg/16mzwaLjz7r8cvQtGVuse3qJJFc5VLQDDcjulysbKfd3rfwdda7QUuRdK+fQx+54+Qvdem8MVysNlGmUiisyEEXuwpcryyhD5Ucx6a+exrvCP1GM4d/Nuh4+hcxj7CwS+zU16Z5ri3CNeXEiaEQ2VVeUBQuzvoOu/mqe+UrQSwuxKxo8A3tonp5ipXuoFjgs0SVzIAI2A6hj8H+jXTUxfxElbueR6E+l08M3AmIWKVHaK3CSBWBKMPg+DTWJqvLyI9D0MlwlgsrePeZDHpNcPoM5dhvQ0Ox8CqEqMJO7RoUOJauhBU6c7L+GG24J4ctbiK4t8XGksTh0YSP0YHYPfyKKhTTukTnxfWzi4SqYfj2LBoeK6mcTQDVARoeKAmgFAKAUAoBQCgFAKAUAoBQCgFAKA//9k=" alt="Bpit" />
-            <span className='py-3 text-xs'>Bhagwan Parshuram Institute Of Technology, New Delhi</span>
-          </a>
-          <a className='py-2' href="https://www.linkedin.com/school/bhagwan-parshuram-institute-of-technology/" target="_blank" rel="noopener noreferrer">
-            <FaLinkedin size={24} /> 
-          </a>
-        </div>
+        <a href="https://bpitindia.com/" target="_blank" rel="noopener noreferrer" className="mr-4 flex flex-row">
+          <img className="w-10 mr-1" src="https://bpitindia.com/img/favicon.png" alt="BPIT Logo" />
+          <span className='text-black'>BPIT</span>
+        </a>
+        <a href="https://www.linkedin.com/in/vani-rastogi-471105260/" target="_blank" rel="noopener noreferrer" className="text-black">
+          <FaLinkedin size={24} />
+        </a>
+      </div>
     </div>
   );
 };
