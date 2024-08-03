@@ -21,7 +21,7 @@ function News1() {
   useEffect(() => {
     const fetchNewsData = async () => {
       try {
-        const response = await axios.get('/admin/news');
+        const response = await axios.get('/api/admin/news');
         setNewsData(response.data);
       } catch (error) {
         toast.error('Failed to fetch news data.');

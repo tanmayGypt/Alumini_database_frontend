@@ -33,7 +33,7 @@ function Achievements() {
   const fetchAchievements = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get('/admin/achievements');
+      const response = await axios.get('/api/admin/achievements');
       setAchievementsData(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -78,7 +78,7 @@ function Achievements() {
     event.preventDefault();
     try {
       if (actionType === 'add') {
-        const response = await axios.post('/achievement', newAchievement);
+        const response = await axios.post('/api/achievement', newAchievement);
         setAchievementsData([...achievementsData, response.data]);
         toast.success('New achievement added successfully!');
       } else if (actionType === 'edit') {
@@ -98,7 +98,7 @@ function Achievements() {
   const handleConfirmAction = async () => {
     if (actionType === 'delete' && editIndex !== null) {
       try {
-        await axios.delete(`/achievement/${achievementsData[editIndex].AchievementID}`);
+        await axios.delete(`/api/achievement/${achievementsData[editIndex].AchievementID}`);
         setAchievementsData(achievementsData.filter((_, i) => i !== editIndex));
         toast.success('Achievement deleted successfully!');
       } catch (error) {
