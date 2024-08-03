@@ -52,14 +52,21 @@ function New_eventpage() {
         <button className="events-button text-center">Events and Reunions</button>
         <div className="events-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
           {filteredEventDetails.map((event) => (
-            <Card
-              key={event.EventID}
-              // image={event.image}
-              title={event.Title}
-              date={event.EventDateTime}
-              location={event.Location}
-              // link={event.link}
-            />
+            <div key={event.EventID} className="w-full sm:w-1/2 lg:w-1/4 p-2">
+              <Link
+                to={`/Networking_Opportunities/EventDetailsPage?eventId=${event.EventID}`} // Corrected string interpolation
+                className="view-more-link"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <Card
+                  image={event.image} // Ensure this property exists
+                  title={event.Title}
+                  date={event.EventDateTime}
+                  location={event.Location}
+                  // link={event.link} // Ensure this property exists if needed
+                />
+              </Link>
+            </div>
           ))}
         </div>
         <div className="flex justify-center mt-8">
