@@ -8,8 +8,8 @@ import { SearchContext } from "../../Context/SearchContext";
 
 function New_eventpage() {
   const dispatch = useDispatch();
-  const eventDetails = useSelector((state) => state.events.eventData); // Updated selector
-  const status = useSelector((state) => state.events.status); // Updated selector
+  const eventDetails = useSelector((state) => state.event.eventData); // Updated selector
+  const status = useSelector((state) => state.event.status); // Updated selector
   const { searchTerm } = useContext(SearchContext);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ function New_eventpage() {
   }, [status, dispatch]);
 
   const filteredEventDetails = eventDetails.filter((event) =>
-    event.title.toLowerCase().includes(searchTerm.toLowerCase())
+    event.Title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   if (status === 'loading') {
@@ -53,12 +53,12 @@ function New_eventpage() {
         <div className="events-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
           {filteredEventDetails.map((event) => (
             <Card
-              key={event.id}
-              image={event.image}
-              title={event.title}
-              date={event.date}
-              location={event.location}
-              link={event.link}
+              key={event.EventID}
+              // image={event.image}
+              title={event.Title}
+              date={event.EventDateTime}
+              location={event.Location}
+              // link={event.link}
             />
           ))}
         </div>
