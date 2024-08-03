@@ -1,17 +1,30 @@
-import React, { useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchEvents } from "../../features/eventSlice"; // Corrected import
 import Card from "./Event_card";
 import SearchBar from "../Alumini-Achievements/SearchBar";
 import { SearchContext } from "../../Context/SearchContext";
 
 function New_eventpage() {
-  const eventDetails = useSelector((state) => state.event.eventData);
+  const dispatch = useDispatch();
+  const eventDetails = useSelector((state) => state.events.eventData); // Updated selector
+  const status = useSelector((state) => state.events.status); // Updated selector
   const { searchTerm } = useContext(SearchContext);
+
+  useEffect(() => {
+    if (status === 'idle') {
+      dispatch(fetchEvents());
+    }
+  }, [status, dispatch]);
 
   const filteredEventDetails = eventDetails.filter((event) =>
     event.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  if (status === 'loading') {
+    return <div className="min-h-screen flex items-center justify-center bg-gray-100">Loading...</div>;
+  }
 
   return (
     <div className="py-12 px-4 md:px-8">
@@ -35,31 +48,26 @@ function New_eventpage() {
       <div className="flex justify-center mt-8 mb-8">
         <SearchBar className="w-full max-w-lg" />
       </div>
-      <main>
-        <section className="events-section text-center">
-          <button className="events-button mb-8 mx-auto block">
-            Events and Reunions
-          </button>
-          <div className="flex flex-wrap justify-center md:justify-between">
-            {filteredEventDetails.map((event, index) => (
-              <div key={index} className="w-full sm:w-1/2 lg:w-1/4 p-2">
-                <Link
-                  to={`/Networking_Opportunities/EventDetailsPage?eventId=${event.id}`}
-                  className="view-more-link"
-                  style={{ textDecoration: "none", color: "inherit" }}
-                >
-                  <Card
-                    image={event.image}
-                    title={event.title}
-                    date={event.date}
-                    location={event.location}
-                  />
-                </Link>
-              </div>
-            ))}
-          </div>
-        </section>
-      </main>
+      <section className="events-section">
+        <button className="events-button text-center">Events and Reunions</button>
+        <div className="events-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
+          {filteredEventDetails.map((event) => (
+            <Card
+              key={event.id}
+              image={event.image}
+              title={event.title}
+              date={event.date}
+              location={event.location}
+              link={event.link}
+            />
+          ))}
+        </div>
+        <div className="flex justify-center mt-8">
+          <Link to="/Networking_Opportunities/New_eventpage" className="view-more-link">
+            <button className="view-more-button p-4">View More</button>
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }

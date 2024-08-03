@@ -1,11 +1,24 @@
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import "./test.css";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchEvents } from "../../features/eventSlice"; // Corrected import
 import Card from "./Event_card";
-import { useSelector } from "react-redux";
+import "./test.css";
 
+function Alumni_Eventpage() {
+  const dispatch = useDispatch();
+  const eventDetails = useSelector((state) => state.events.eventData); // Updated selector
+  const status = useSelector((state) => state.events.status); // Updated selector
 
-function Alumini_Eventpage() {
-  const eventDetails = useSelector((state) => state.event.eventData);
+  useEffect(() => {
+    if (status === 'idle') {
+      dispatch(fetchEvents());
+    }
+  }, [status, dispatch]);
+
+  if (status === 'loading') {
+    return <div className="min-h-screen flex items-center justify-center bg-gray-100">Loading...</div>;
+  }
 
   return (
     <div className="App">
@@ -25,9 +38,9 @@ function Alumini_Eventpage() {
         <section className="events-section">
           <button className="events-button">Events and Reunions</button>
           <div className="events-container">
-            {eventDetails.map((event, index) => (
+            {eventDetails.map((event) => (
               <Card
-                key={index}
+                key={event.id}
                 image={event.image}
                 title={event.title}
                 date={event.date}
@@ -45,4 +58,4 @@ function Alumini_Eventpage() {
   );
 }
 
-export default Alumini_Eventpage;
+export default Alumni_Eventpage;
