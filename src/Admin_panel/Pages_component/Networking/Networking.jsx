@@ -33,7 +33,7 @@ function Networking() {
 
   const fetchNetworkingData = async () => {
     try {
-      const response = await axios.get('/admin/alumniattending');
+      const response = await axios.get('/api/admin/alumniattending');
       setNetworkingData(response.data);
     } catch (error) {
       console.error('Error fetching networking data:', error);
@@ -65,7 +65,7 @@ function Networking() {
 
   const deleteEvent = async (eventID) => {
     try {
-      await axios.delete(`/event/${eventID}`);
+      await axios.delete(`/api/event/${eventID}`);
       setNetworkingData(networkingData.filter((_, i) => i !== editIndex));
       toast.success('Event deleted successfully!');
     } catch (error) {
@@ -105,7 +105,7 @@ function Networking() {
     event.preventDefault();
     if (actionType === 'add') {
       try {
-        const response = await axios.post('/admin/alumniattending', newEvent);
+        const response = await axios.post('/api/admin/alumniattending', newEvent);
         setNetworkingData([...networkingData, response.data]);
         toast.success('Event added successfully!');
       } catch (error) {
@@ -114,7 +114,7 @@ function Networking() {
       }
     } else if (actionType === 'edit') {
       try {
-        await axios.put(`/admin/alumniattending/${networkingData[editIndex].EventID}`, newEvent);
+        await axios.put(`/api/admin/alumniattending/${networkingData[editIndex].EventID}`, newEvent);
         const updatedData = networkingData.map((event, i) =>
           i === editIndex ? { ...event, ...newEvent } : event
         );

@@ -32,7 +32,7 @@ function Student() {
   const fetchStudentData = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('/alumni/achievements?status=student');
+      const response = await axios.get('/api/alumni/achievements?status=student');
       setStudentData(response.data);
       setLoading(false);
     } catch (error) {
@@ -71,14 +71,14 @@ function Student() {
     event.preventDefault();
     try {
       if (actionType === 'add') {
-        await axios.post('/alumni', {
+        await axios.post('/api/alumni', {
           ...newStudent,
           Status: "student"
         });
         toast.success('Student added successfully!');
       } else if (actionType === 'edit') {
         const student = studentData[editIndex];
-        await axios.put(`/alumni/${student.AlumniID}`, newStudent);
+        await axios.put(`/api/alumni/${student.AlumniID}`, newStudent);
         toast.success('Student updated successfully!');
       }
       fetchStudentData();
@@ -93,7 +93,7 @@ function Student() {
     try {
       if (actionType === 'delete') {
         const student = studentData[editIndex];
-        await axios.delete(`/alumni/${student.AlumniID}`);
+        await axios.delete(`/api/alumni/${student.AlumniID}`);
         toast.success('Student deleted successfully!');
       }
       fetchStudentData();
