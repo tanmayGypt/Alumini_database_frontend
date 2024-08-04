@@ -8,8 +8,8 @@ import { SearchContext } from "../../Context/SearchContext";
 
 function New_eventpage() {
   const dispatch = useDispatch();
-  const eventDetails = useSelector((state) => state.events.eventData); // Updated selector
-  const status = useSelector((state) => state.events.status); // Updated selector
+  const eventDetails = useSelector((state) => state.event.eventData); // Updated selector
+  const status = useSelector((state) => state.event.status); // Updated selector
   const { searchTerm } = useContext(SearchContext);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ function New_eventpage() {
   }, [status, dispatch]);
 
   const filteredEventDetails = eventDetails.filter((event) =>
-    event.title.toLowerCase().includes(searchTerm.toLowerCase())
+    event.Title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   if (status === 'loading') {
@@ -52,14 +52,21 @@ function New_eventpage() {
         <button className="events-button text-center">Events and Reunions</button>
         <div className="events-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
           {filteredEventDetails.map((event) => (
-            <Card
-              key={event.id}
-              image={event.image}
-              title={event.title}
-              date={event.date}
-              location={event.location}
-              link={event.link}
-            />
+            <div key={event.EventID} className="w-full sm:w-1/2 lg:w-1/4 p-2">
+              <Link
+                to={`/Networking_Opportunities/EventDetailsPage?eventId=${event.EventID}`} // Corrected string interpolation
+                className="view-more-link"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <Card
+                  image={event.image} // Ensure this property exists
+                  title={event.Title}
+                  date={event.EventDateTime}
+                  location={event.Location}
+                  // link={event.link} // Ensure this property exists if needed
+                />
+              </Link>
+            </div>
           ))}
         </div>
         <div className="flex justify-center mt-8">

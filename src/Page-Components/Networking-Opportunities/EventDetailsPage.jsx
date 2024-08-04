@@ -9,9 +9,9 @@ function EventDetailsPage() {
   const eventId = parseInt(queryParams.get("eventId"), 10);
 
   const dispatch = useDispatch();
-  const eventDetails = useSelector((state) => state.events.eventData); // Updated selector
-  const status = useSelector((state) => state.events.status); // Updated selector
-  const event = eventDetails.find((event) => event.id === eventId);
+  const eventDetails = useSelector((state) => state.event.eventData); // Updated selector
+  const status = useSelector((state) => state.event.status); // Updated selector
+  const event = eventDetails.find((event) => event.EventID === eventId);
 
   useEffect(() => {
     if (!event && status === 'idle') {
