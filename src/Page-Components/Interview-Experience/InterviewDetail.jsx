@@ -4,11 +4,10 @@ import ActionAreaCard from './ActionAreaCard';
 const InterviewDetail = ({ interview, handleBackClick }) => {
   return (
     <div className="max-w-3xl mx-auto mt-4">
-     
       <div className="p-6 border border-gray-300 rounded-lg lg:w-3/4 md:w-5/6 w-full mx-auto my-4">
         <ActionAreaCard 
           title={interview.title} 
-          content={interview.content} 
+          content={interview.description} 
           image={interview.image} 
           dateTime={interview.dateTime}
           postedBy={interview.postedBy}
@@ -26,4 +25,3 @@ const InterviewDetail = ({ interview, handleBackClick }) => {
 };
 
 export default InterviewDetail;
-

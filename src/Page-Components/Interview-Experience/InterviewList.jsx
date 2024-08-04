@@ -1,10 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchAllInterviews } from "../../features/interviewSlice";
 import ActionAreaCard from "./ActionAreaCard";
 
-const InterviewList = ({ interviews, handleInterviewClick }) => {
+const InterviewList = ({ handleInterviewClick }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const cardsToShow = 3; // Number of cards to show at once
   const cardWidthPercentage = 100 / cardsToShow; // Each card occupies 1/3 of the container
+
+  const dispatch = useDispatch();
+  const interviews = useSelector((state) => state.interviews.interviews);
+  const status = useSelector((state) => state.interviews.status);
+
+  useEffect(() => {
+    if (status === 'idle') {
+      dispatch(fetchAllInterviews());
+    }
+  }, [status, dispatch]);
 
   const handlePrevClick = () => {
     setCurrentIndex((prevIndex) =>
@@ -45,7 +57,7 @@ const InterviewList = ({ interviews, handleInterviewClick }) => {
                 <div className="transform transition duration-300 hover:scale-105 hover:shadow-lg">
                   <ActionAreaCard
                     title={interview.title}
-                    content={interview.summary}
+                    content={interview.conclusion}
                     image={interview.image}
                     dateTime={interview.dateTime}
                     postedBy={interview.postedBy}
@@ -71,4 +83,3 @@ const InterviewList = ({ interviews, handleInterviewClick }) => {
 };
 
 export default InterviewList;
-
