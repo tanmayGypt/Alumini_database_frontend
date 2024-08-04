@@ -7,8 +7,8 @@ import "./test.css";
 
 function Alumni_Eventpage() {
   const dispatch = useDispatch();
-  const eventDetails = useSelector((state) => state.events.eventData); // Updated selector
-  const status = useSelector((state) => state.events.status); // Updated selector
+  const eventDetails = useSelector((state) => state.event.eventData); // Updated selector
+  const status = useSelector((state) => state.event.status); // Updated selector
 
   useEffect(() => {
     if (status === 'idle') {
