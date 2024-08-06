@@ -1,12 +1,16 @@
-import  { useState } from "react";
+import  { useState, useContext } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Oval } from "react-loader-spinner";
+import { useNavigate } from "react-router-dom";
 import ReCAPTCHA from "react-google-recaptcha";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../Context/AuthContext";
 import axios from 'axios';
 
 const Login = () => {
+  const { login } = useContext(AuthContext)
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -69,7 +73,9 @@ const Login = () => {
   
       if (response.status === 200) {
         localStorage.setItem("jwtToken", data.token);
+        login()
         toast.success("Login successful");
+        navigate('/')
       } else {
         toast.error(data.message || "Login failed");
       }
