@@ -3,10 +3,10 @@ import Overview from "../Page-Components/Home-Components/Overview";
 
 function Homepage() {
   return (
-    <div>
+    <>
       <Dashboard />
       <Overview/>
-    </div>
+    </>
   );
 }
 
