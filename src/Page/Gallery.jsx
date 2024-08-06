@@ -10,7 +10,7 @@ const Gallery = () => {
   return (
     <div>
       
-      <Albums />
+      <Videos />
       
     </div>
   );
