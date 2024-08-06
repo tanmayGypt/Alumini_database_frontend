@@ -27,7 +27,7 @@ const InterviewExp = () => {
   };
 
   const filteredInterviews = interviews.filter((interview) =>
-    interview.title.toLowerCase().includes(searchTerm.toLowerCase())
+    interview.JobTitle.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
