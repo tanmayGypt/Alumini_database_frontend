@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import msalInstance from "./msalConfig";
+import { AuthContext } from "../../Context/AuthContext"
 import "./NavBar.css";
 
 const NavBar = () => {
+  const { isAuthenticated, logout } = useContext(AuthContext)
   const [isOpen, setIsOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [account, setAccount] = useState(null);
@@ -56,7 +58,7 @@ const NavBar = () => {
 
   return (
     <>
-      <nav className="navbar fixed top-0 left-0 right-0 bg-white shadow-md z-40">
+      <nav className="navbar fixed top-0 left-0 right-0 bg-white shadow-md z-40 font-sans">
         <div className="container mx-auto grid grid-cols-2 md:grid-cols-3 items-center py-3 md:py-5">
           <div className="flex items-center">
             <Link to="/">
@@ -209,43 +211,31 @@ const NavBar = () => {
                       Gallery
                     </NavLink>
                   </li>
-                  <li>
-                    <NavLink
-                      to="/login"
-                      className="dropdown-link block px-4 py-2 text-sm text-gray-700"
-                      activeClassName="active"
-                    >
-                      Login
-                    </NavLink>
-                  </li>
+                  
                 </ul>
               )}
             </li>
-            <li>
-              {account ? (
-                <div className="nav-link flex flex-col items-center">
-                  <div className="flex items-center">
-                    <img
-                      src={`https://www.gravatar.com/avatar/${account.id}?d=identicon`}
-                      alt="User Avatar"
-                      className="h-6 w-6 rounded-full"
-                    />
-                    <span className="ml-2">{account.name}</span>
-                  </div>
-                  <button onClick={handleLogout} className="mt-1 text-sm text-blue-600">
+            {
+              isAuthenticated ? (
+                <li className="relative">
+                  <button
+                    onClick={() => logout()}
+                    className="dropdown-link block px-4 py-2 text-sm text-gray-700">
                     Logout
                   </button>
-                </div>
+                </li>
               ) : (
-                <NavLink
-              to="/login"
-              className="dropdown-link block px-4 py-2 text-sm text-gray-700"
-              activeClassName="active"
-            >
-              Login
-            </NavLink>
-              )}
-            </li>
+                <li className="relative">
+                  <NavLink
+                    to="/login"
+                    className="dropdown-link block px-4 py-2 text-sm text-gray-700"
+                    activeClassName="active"
+                  >
+                    Login
+                  </NavLink>
+                </li>
+              )
+            }
           </ul>
         </div>
       </nav>
