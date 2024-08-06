@@ -89,7 +89,7 @@ const Login = () => {
   
 
   return (
-    <div className="h-full w-full flex items-center justify-center flex-col bg-gray-100 py-10 sm:py-20 px-4">
+    <div className="h-full w-full flex items-center justify-center mt-20 flex-col bg-gray-100 py-10 sm:py-20 px-4">
       <form
         className={`bg-white p-6 rounded-lg shadow-lg w-full max-w-screen-md ${
           isLoading ? "opacity-50" : ""
