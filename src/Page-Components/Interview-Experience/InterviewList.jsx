@@ -49,25 +49,21 @@ const InterviewList = ({ handleInterviewClick }) => {
           {interviews?.map((interview, index) => (
             <div
               key={index}
-              className="flex-shrink-0 p-5"
+              className="flex-shrink-0 p-6 bg-white border rounded-lg shadow-lg m-4"
               style={{ width: `${cardWidthPercentage}%` }}
               onClick={() => handleInterviewClick(interview)}
             >
-              <div className="no-underline p-3 cursor-pointer">
-                <div className="transform transition duration-300 hover:scale-105 hover:shadow-lg">
-                  <ActionAreaCard
-                    title={interview.title}
-                    content={interview.conclusion}
-                    image={interview.image}
-                    dateTime={interview.dateTime}
-                    postedBy={interview.postedBy}
-                    role={interview.role}
-                  />
-                  <div className="mt-2">
-                    <p className="text-sm text-gray-500">{interview.role}</p>
-                  </div>
-                </div>
+              <h3 className="text-2xl font-semibold mb-3">{interview.JobTitle}</h3>
+              <p className="text-gray-700 mb-3">{interview.Description}</p>
+              <div className="text-sm text-gray-600 mb-4">
+                <p><strong>Company:</strong> {interview.CompanyName}</p>
+                <p><strong>Date:</strong> {new Date(interview.InterviewDate).toLocaleDateString()}</p>
+                <p><strong>On Campus:</strong> {interview.OnCampus ? 'Yes' : 'No'}</p>
+                <p><strong>Referral:</strong> {interview.Referral ? 'Yes' : 'No'}</p>
               </div>
+              <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+                View Details
+              </button>
             </div>
           ))}
         </div>
