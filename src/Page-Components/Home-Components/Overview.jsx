@@ -16,9 +16,9 @@ function Overview() {
 
 
     return (
-        <div className="container mx-auto p-4 grid grid-cols-4 gap-6 md:grid-cols-3 mb-12">
+        <div className="container mx-auto p-4 grid grid-cols-5 gap-6 mb-12">
 
-            <div className="px-5 bg-white col-span-4 rounded-lg ">
+            <div className="px-5 bg-white col-span-5 rounded-lg ">
                 <h1 className="text-2xl font-bold mt-10 mb-4">News and Events</h1>
                 <div className="grid gap-6 md:grid-rows-auto lg:grid-cols-2 sm:grid-rows-auto">
                 {newsData.map((item, index) => (
@@ -27,14 +27,14 @@ function Overview() {
                 </div>
             </div>
 
-            <div className="p-5 bg-white rounded-lg col-span-4 mb-10">
+            <div className="p-5 bg-white rounded-lg lg:col-span-2 md:col-span-2 sm:col-span-5 col-span-5 mb-10">
                 <h1 className="text-2xl font-bold mt-10 mb-4">Jobs</h1>
                 <div className="">
                 <JobCarousel jobs={jobs} />
                 </div>
             </div>
  
-            <div className="p-5 bg-white rounded-lg mt-10 mb-10 lg:col-span-3 md:col-span-4 sm:col-span-4 col-span-4">
+            <div className="p-5 bg-white rounded-lg mt-10 mb-10 lg:col-span-3 md:col-span-3 sm:col-span-5 col-span-5  col-span-4">
                 <h1 className="text-2xl font-bold mb-4">Achievements</h1>
                 <AchievementList/>
             </div> 
@@ -42,12 +42,9 @@ function Overview() {
 
 
 
-            <div className=" p-5 justify-centre pr-10 lg:col-span-1 md:col-span-4 sm:col-span-4 col-span-4" >
-                <h1 className="text-2xl  font-bold mb-4">Our Alumni</h1>
-                <ImageList />
-            </div>
+            
 
-            <div className="p-5 bg-white col-span-4 colrounded-lg col-span-3 text-center">
+            <div className="p-5 bg-white col-span-4 colrounded-lg col-span-5 text-center">
             
                 <Link 
                     to="/Contact"
