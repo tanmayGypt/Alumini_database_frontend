@@ -4,7 +4,7 @@ import Heading from "../Heading";
 import AchievementCard from "./AchievementCard";
 import SearchBar from "./SearchBar";
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchAllAchievements } from '../../features/achievementSlice';
+import { fetchAllAchievements } from '../../features/AchievementSlice';
 import { SearchContext } from '../../Context/SearchContext';
 
 const AchievementsSection = () => {
