@@ -1,5 +1,5 @@
 import  { useState } from "react";
-import "./Tab_Component_student.css";
+import "./Tab_component_student.css";
 
 const TabComponentStudent = () => {
   const [activeTab, setActiveTab] = useState("personal");
