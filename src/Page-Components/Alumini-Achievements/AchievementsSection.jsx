@@ -1,4 +1,3 @@
-// src/components/AchievementsSection.js
 import { useEffect, useContext } from "react";
 import Heading from "../Heading";
 import AchievementCard from "./AchievementCard";
@@ -24,21 +23,19 @@ const AchievementsSection = () => {
       achievement.Title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       achievement.Description.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  console.log(achievements);
 
   return (
-    <div className="container m-auto px-35 py-30">
-      <Heading />
+    <div className="container mx-auto px-6 py-12">
+      <Heading title="Achievements" />
       <SearchBar />
-
-      <div className="bg-gray-100 rounded-xl shadow-lg">
+      <div className="mt-10 grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
         {filteredAchievements.map((item) => (
           <AchievementCard 
-          key={item.AchievementID}
-          title={item.Title}
-          date={item.DateAchieved}
-          description={item.Description}
-        />
+            key={item.AchievementID}
+            title={item.Title}
+            date={item.DateAchieved}
+            description={item.Description}
+          />
         ))}
       </div>
     </div>

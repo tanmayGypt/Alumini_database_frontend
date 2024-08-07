@@ -2,10 +2,10 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
-    alumniData : [],
+    alumniData: [],
     status: 'idle',
     error: null
-}
+};
 
 const JWTtoken = localStorage.getItem('jwtToken');
 console.log('JWT Token:', JWTtoken);
@@ -18,49 +18,34 @@ export const fetchAlumni = createAsyncThunk(
         headers: {
           'Authorization': `Bearer ${JWTtoken}`
         }
-      })
-      console.log("Api response: ", response.data)
-      return response.data
+      });
+      console.log("Api response: ", response.data);
+      return response.data;
     } catch (error) {
-      console.log("API error: ", error.response ? error.response.data : error.message)
-      return rejectWithValue(error.response ? error.response.data : error.message)
+      console.log("API error: ", error.response ? error.response.data : error.message);
+      return rejectWithValue(error.response ? error.response.data : error.message);
     }
   }
-)
+);
 
 const alumniDataSlice = createSlice({
-  name :'alumniDataSlice',
+  name: 'alumniDataSlice',
   initialState,
-  reducers : {
-    // addAlumniData : {
-    //   reducer : (state , action) => {
-    //     state.alumniData.push(action.payload)
-    //   },
-    //   prepare : (name, role, achievement, year) => ({
-    //     payload : {
-    //         id : nanoid(),
-    //         name,
-    //         role,
-    //         achievement,
-    //         year
-    //     }
-    // })
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchAlumni.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchAlumni.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.alumniData = action.payload;
+      })
+      .addCase(fetchAlumni.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
+      });
+  }
+});
 
-    },
-    extraReducers: (builder) => {
-      builder
-        .addCase(fetchAlumni.pending, (state) => {
-          state.status = "loading"
-        })
-        .addCase(fetchAlumni.fulfilled, (state, action) => {
-          state.status = "succeeded"
-          state.alumniData = action.payload
-        })
-        .addCase(fetchAlumni.rejected, (state, action) => {
-          state.status = 'failed'
-          state.error = action.payload
-        })
-    }
-})
-
-export default alumniDataSlice.reducer
+export default alumniDataSlice.reducer;
