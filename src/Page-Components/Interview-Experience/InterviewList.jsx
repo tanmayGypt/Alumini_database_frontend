@@ -34,7 +34,7 @@ const InterviewList = ({ handleInterviewClick }) => {
     <div className="relative">
       <div className="flex overflow-x-hidden">
         <button
-          className="absolute left-0 z-10 p-2 bg-white border rounded-full shadow-md top-1/2 transform -translate-y-1/2"
+          className="absolute left-0 z-10 p-2 bg-white border rounded-full shadow-md top-1/2 transform -translate-y-1/2 hover:bg-gray-200 transition-colors duration-300"
           onClick={handlePrevClick}
         >
           &#8249;
@@ -49,7 +49,7 @@ const InterviewList = ({ handleInterviewClick }) => {
           {interviews?.map((interview, index) => (
             <div
               key={index}
-              className="flex-shrink-0 p-6 bg-white border rounded-lg shadow-lg m-4"
+              className="flex-shrink-0 p-6 bg-white border rounded-lg shadow-lg m-4 hover:shadow-2xl transition-shadow duration-300"
               style={{ width: `${cardWidthPercentage}%` }}
               onClick={() => handleInterviewClick(interview)}
             >
@@ -61,14 +61,14 @@ const InterviewList = ({ handleInterviewClick }) => {
                 <p><strong>On Campus:</strong> {interview.OnCampus ? 'Yes' : 'No'}</p>
                 <p><strong>Referral:</strong> {interview.Referral ? 'Yes' : 'No'}</p>
               </div>
-              <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+              <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors duration-300">
                 View Details
               </button>
             </div>
           ))}
         </div>
         <button
-          className="absolute right-0 z-10 p-2 bg-white border rounded-full shadow-md top-1/2 transform -translate-y-1/2"
+          className="absolute right-0 z-10 p-2 bg-white border rounded-full shadow-md top-1/2 transform -translate-y-1/2 hover:bg-gray-200 transition-colors duration-300"
           onClick={handleNextClick}
         >
           &#8250;

@@ -1,14 +1,15 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchEvents } from "../../features/eventSlice"; // Corrected import
+import { fetchEvents } from "../../features/eventSlice";
 import Card from "./Event_card";
 import "./test.css";
+import defaultImage from "./etouches-post-alimni-events.jpg"; // Corrected import
 
 function Alumni_Eventpage() {
   const dispatch = useDispatch();
-  const eventDetails = useSelector((state) => state.event.eventData); // Updated selector
-  const status = useSelector((state) => state.event.status); // Updated selector
+  const eventDetails = useSelector((state) => state.event.eventData);
+  const status = useSelector((state) => state.event.status);
 
   useEffect(() => {
     if (status === 'idle') {
@@ -40,11 +41,11 @@ function Alumni_Eventpage() {
           <div className="events-container">
             {eventDetails.map((event) => (
               <Card
-                key={event.id}
-                image={event.image}
-                title={event.title}
-                date={event.date}
-                location={event.location}
+                key={event.EventID}
+                image={defaultImage} // Use the default image variable
+                title={event.Title}
+                date={event.EventDateTime}
+                location={event.Location}
                 link={event.link}
               />
             ))}
