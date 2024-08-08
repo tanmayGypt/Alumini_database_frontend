@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchEvents } from "../../features/eventSlice"; // Corrected import
+import defaultImage from "./etouches-post-alimni-events.jpg"; // Corrected import
+
 
 function EventDetailsPage() {
   const location = useLocation();
@@ -30,26 +32,26 @@ function EventDetailsPage() {
   return (
     <div className="min-h-screen pt-20 flex items-center justify-center bg-gray-100">
       <div className="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg">
-        <h2 className="text-3xl font-bold mb-4">{event.title}</h2>
+        <h2 className="text-3xl font-bold mb-4">{event.Title}</h2>
         <img
-          src={event.image}
-          alt={event.title}
+          src={defaultImage}
+          alt={event.Title}
           className="w-full h-64 object-contain rounded-md mb-4"
         />
         <p className="text-lg mb-2">
-          <span className="font-semibold">Date:</span> {event.date}
+          <span className="font-semibold">Date:</span> {event.EventDateTime}
         </p>
         <p className="text-lg mb-2">
-          <span className="font-semibold">Location:</span> {event.location}
+          <span className="font-semibold">Location:</span> {event.Location}
         </p>
         <p className="text-lg mb-4">
-          <span className="font-semibold">Description:</span> {event.description}
+          <span className="font-semibold">Description:</span> {event.Description}
         </p>
         <p className="text-lg mb-2">
-          <span className="font-semibold">Event Type:</span> {event.eventType}
+          <span className="font-semibold">Event Type:</span> {event.EventType}
         </p>
         <p className="text-lg mb-2">
-          <span className="font-semibold">Mode of Event:</span> {event.modeOfEvent}
+          <span className="font-semibold">Mode of Event:</span> {event.ModeOfEvent}
         </p>
         <div className="flex justify-center mt-4">
           <Link

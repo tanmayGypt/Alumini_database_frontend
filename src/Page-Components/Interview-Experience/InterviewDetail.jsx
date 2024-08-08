@@ -22,7 +22,7 @@ const InterviewDetail = ({ interview, handleBackClick }) => {
       </div>
       <button
         onClick={handleBackClick}
-        className="p-3 mb-6 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600"
+        className="p-3 mb-6 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition-colors duration-300"
       >
         Back
       </button>

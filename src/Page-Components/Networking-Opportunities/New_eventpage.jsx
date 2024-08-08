@@ -5,6 +5,8 @@ import { fetchEvents } from "../../features/eventSlice"; // Corrected import
 import Card from "./Event_card";
 import SearchBar from "../Alumini-Achievements/SearchBar";
 import { SearchContext } from "../../Context/SearchContext";
+import defaultImage from "./etouches-post-alimni-events.jpg"; // Corrected import
+
 
 function New_eventpage() {
   const dispatch = useDispatch();
@@ -50,20 +52,19 @@ function New_eventpage() {
       </div>
       <section className="events-section">
         <button className="events-button text-center">Events and Reunions</button>
-        <div className="events-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
+        <div className="events-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredEventDetails.map((event) => (
-            <div key={event.EventID} className="w-full sm:w-1/2 lg:w-1/4 p-2">
+            <div key={event.EventID} className="w-full">
               <Link
                 to={`/Networking_Opportunities/EventDetailsPage?eventId=${event.EventID}`} // Corrected string interpolation
-                className="view-more-link"
+                className="view-more-link block"
                 style={{ textDecoration: "none", color: "inherit" }}
               >
                 <Card
-                  image={event.image} // Ensure this property exists
+                  image={defaultImage} // Ensure this property exists
                   title={event.Title}
                   date={event.EventDateTime}
                   location={event.Location}
-                  // link={event.link} // Ensure this property exists if needed
                 />
               </Link>
             </div>
@@ -71,7 +72,9 @@ function New_eventpage() {
         </div>
         <div className="flex justify-center mt-8">
           <Link to="/Networking_Opportunities/New_eventpage" className="view-more-link">
-            <button className="view-more-button p-4">View More</button>
+            <button className="view-more-button bg-blue-600 text-white py-3 px-6 rounded-full shadow-lg hover:bg-blue-700 transition-all duration-300">
+              View More
+            </button>
           </Link>
         </div>
       </section>
