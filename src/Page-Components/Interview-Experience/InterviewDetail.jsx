@@ -7,7 +7,7 @@ const InterviewDetail = ({ interview, handleBackClick }) => {
       <div className="p-6 border border-gray-300 rounded-lg shadow-lg lg:w-3/4 md:w-5/6 w-full mx-auto my-6">
         <ActionAreaCard
           title={interview.JobTitle} // Use new field names
-          content={interview.Description} // Use new field names
+          content={interview.Conclusion} // Use new field names
           dateTime={interview.CreatedAt} // Updated to use creation date
           postedBy={interview.CompanyName} // Use new field names
           postedInYear={new Date(interview.CreatedAt).getFullYear()} // Extract year from CreatedAt
