@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./AlumniTable.css"; // Import the CSS file
+import "./AlumniTable.css"; 
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAlumni } from "../../features/alumniDataSlice";
 
