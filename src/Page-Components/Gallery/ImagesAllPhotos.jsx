@@ -6,11 +6,16 @@ import ImageListItemBar from '@mui/material/ImageListItemBar';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 export default function TitlebarBelowMasonryImageList() {
   const [open, setOpen] = useState(false);
   const [currentImg, setCurrentImg] = useState(null);
   const [itemData, setItemData] = useState([]);
+
+  // Media queries for responsiveness
+  const isSmallScreen = useMediaQuery('(max-width:600px)');
+  const isMediumScreen = useMediaQuery('(max-width:960px)');
 
   useEffect(() => {
     const jwtToken = localStorage.getItem('jwtToken');
@@ -44,8 +49,12 @@ export default function TitlebarBelowMasonryImageList() {
   };
 
   return (
-    <Box sx={{ width: '100%', padding: '0 250px', overflowY: 'scroll' }}>
-      <ImageList variant="masonry" cols={3} gap={8}>
+    <Box sx={{ width: '100%', padding: { xs: '0 10px', md: '0 250px' }, overflowY: 'scroll' }}>
+      <ImageList
+        variant="masonry"
+        cols={isSmallScreen ? 1 : isMediumScreen ? 2 : 3} // Adjust columns based on screen size
+        gap={8}
+      >
         {itemData.map((item) => (
           <ImageListItem key={item.img} onClick={() => handleOpen(item.img)}>
             <img
