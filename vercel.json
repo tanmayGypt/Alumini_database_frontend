@@ -3,13 +3,10 @@
     {
       "source": "/api/(.*)",
       "destination": "https://alumnibackend.up.railway.app/$1"
-    }
-  ],
-  "redirects": [
+    },
     {
       "source": "/(.*)",
-      "destination": "/",
-      "statusCode": 200
+      "destination": "/"
     }
   ]
 }
