@@ -1,6 +1,6 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Routes,
   Route,
   useLocation,
@@ -65,7 +65,10 @@ function App() {
   const [requests, setRequests] = useState([]);
 
   const handleRequestSubmit = (request) => {
-    setRequests([...requests, { ...request, id: requests.length + 1, approved: false }]);
+    setRequests([
+      ...requests,
+      { ...request, id: requests.length + 1, approved: false },
+    ]);
   };
 
   useEffect(() => {
@@ -84,10 +87,16 @@ function App() {
           <Route path="/admin/Student" element={<Student />} />
           <Route path="/admin/news" element={<News1 />} />
           <Route path="/admin/ranklist" element={<Ranklist />} />
-          <Route path="/admin/jobs" element={<Jobs />} /> 
-          <Route path="/admin/loginnew" element={<LoginPage />} /> 
-          <Route path="/admin/requests" element={<Requests requests={requests} />} />
-          <Route path='/submit-request' element={<RequestForm onRequestSubmit={handleRequestSubmit} />} />
+          <Route path="/admin/jobs" element={<Jobs />} />
+          <Route path="/admin/loginnew" element={<LoginPage />} />
+          <Route
+            path="/admin/requests"
+            element={<Requests requests={requests} />}
+          />
+          <Route
+            path="/submit-request"
+            element={<RequestForm onRequestSubmit={handleRequestSubmit} />}
+          />
         </Routes>
       </>
     );
@@ -95,75 +104,79 @@ function App() {
   return (
     <>
       <AuthProvider>
-      <SearchContextProvider>
-        <NavBar />
-        <Routes>
-          <Route path="/" element={<Homepage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/verifyOTP" element={ <VerifyOTP/> } />
+        <SearchContextProvider>
+          <NavBar />
+          <Routes>
+            <Route path="/" element={<Homepage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/verifyOTP" element={<VerifyOTP />} />
 
-          <Route path="" element={<ProtectedRoute />}>
-            <Route path="/Contact" element={<Contact />} />
-            <Route
-              path="/Alumini-Achivements"
-              element={<Alumini_Achivements_Page />}
-            />
-            <Route path="/Alumini_Directory" element={<Alumini_Directory />} />
-            
-            <Route
-              path="/Netwoking_Opportunities"
-              element={<Netwoking_Opportunities />}
-            />
-            <Route
-              path="/Networking_Opportunities/RegisterPage"
-              element={<RegisterPage />}
-            />
-            <Route
-              path="/Networking_Opportunities/JobsSection"
-              element={<JobsSection />}
-            />
-            <Route path="/News" element={<News />} />
-            <Route path="/MoreNews" element={<MoreNews />} />
-            <Route path="/Mobile_App" element={<Mobile />} />
-            <Route path="/registered_candidates" element={<Cards />} />
-            <Route path="/JobSection" element={<JobsSection />} />
-            <Route
-              path="/Networking_Opportunities/New_eventpage"
-              element={<New_eventpage />}
-            />
-            <Route path="/About" element={<AboutUs />} />
-            <Route
-              path="/Networking_Opportunities/EventDetailsPage"
-              element={<EventDetailsPage />}
-            />
-            <Route path="/Student_Registration" element={<Body />} />
-            <Route path="/JobRankForm" element={<JobPostingPage />} />
-            <Route path="/JobRanklist" element={<RanklistPage />} />
-            <Route path="/interview_experience" element={<InterviewList />} />
-            <Route path="/InterviewDetails" element={<InterviewDetail />} />
-            <Route path="/interview-experience" element={<InterviewExp />} />
-            
-            <Route path="/explore" element={<MainPage />} />
-            <Route path="/portfolio" element={<TabComponent />} />
-            <Route path="/ForgetPassword" element={<ForgetPassword />} />
-            <Route path="/Gallery" element={<Gallery />} />
-            <Route path="/Albums" element={<Albums />} />
-            <Route path="/Videos" element={<Videos />} />
-            <Route path="/AllPhotos" element={<AllPhotos />} />
-            <Route path="/albums/:id" element={<AlbumDetails />} />
-            <Route path="/candidates" element={<RegisteredCandidates />} />
-            <Route path="/student_portfolio" element={<TabComponentStudent />} />
+            <Route path="" element={<ProtectedRoute />}>
+              <Route path="/Contact" element={<Contact />} />
+              <Route
+                path="/Alumini-Achivements"
+                element={<Alumini_Achivements_Page />}
+              />
+              <Route
+                path="/Alumini_Directory"
+                element={<Alumini_Directory />}
+              />
+
+              <Route
+                path="/Netwoking_Opportunities"
+                element={<Netwoking_Opportunities />}
+              />
+              <Route
+                path="/Networking_Opportunities/RegisterPage"
+                element={<RegisterPage />}
+              />
+              <Route
+                path="/Networking_Opportunities/JobsSection"
+                element={<JobsSection />}
+              />
+              <Route path="/News" element={<News />} />
+              <Route path="/MoreNews" element={<MoreNews />} />
+              <Route path="/Mobile_App" element={<Mobile />} />
+              <Route path="/registered_candidates" element={<Cards />} />
+              <Route path="/JobSection" element={<JobsSection />} />
+              <Route
+                path="/Networking_Opportunities/New_eventpage"
+                element={<New_eventpage />}
+              />
+              <Route path="/About" element={<AboutUs />} />
+              <Route
+                path="/Networking_Opportunities/EventDetailsPage"
+                element={<EventDetailsPage />}
+              />
+              <Route path="/Student_Registration" element={<Body />} />
+              <Route path="/JobRankForm" element={<JobPostingPage />} />
+              <Route path="/JobRanklist" element={<RanklistPage />} />
+              <Route path="/interview_experience" element={<InterviewList />} />
+              <Route path="/InterviewDetails" element={<InterviewDetail />} />
+              <Route path="/interview-experience" element={<InterviewExp />} />
+
+              <Route path="/explore" element={<MainPage />} />
+              <Route path="/portfolio" element={<TabComponent />} />
+              <Route path="/ForgetPassword" element={<ForgetPassword />} />
+              <Route path="/Gallery" element={<Gallery />} />
+              <Route path="/Albums" element={<Albums />} />
+              <Route path="/Videos" element={<Videos />} />
+              <Route path="/AllPhotos" element={<AllPhotos />} />
+              <Route path="/albums/:id" element={<AlbumDetails />} />
+              <Route path="/candidates" element={<RegisteredCandidates />} />
+              <Route
+                path="/student_portfolio"
+                element={<TabComponentStudent />}
+              />
             </Route>
-        </Routes>
-        <LoadingBar color="#9333ea" height={3} progress={progress} />
-        <Footer />
+          </Routes>
+          <LoadingBar color="#9333ea" height={3} progress={progress} />
+          <Footer />
 
-        {/* <TabComponentStudent/> */}
-
-      </SearchContextProvider>
+          {/* <TabComponentStudent/> */}
+        </SearchContextProvider>
       </AuthProvider>
-        
     </>
   );
 }
