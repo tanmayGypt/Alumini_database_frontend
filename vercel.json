@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "https://alumnibackend.up.railway.app/$1"
+      "destination": "https://alumini-project-backend.onrender.com/$1"
     },
     {
       "source": "/(.*)",
