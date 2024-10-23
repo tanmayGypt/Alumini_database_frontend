@@ -2,16 +2,15 @@ import React from 'react';
 
 const HomePage = () => {
   const sections = [
-    { name: "Achievements", path: "/achievements" },
-    { name: "Alumni Directory", path: "/alumni-directory" },
-    { name: "Jobs", path: "/jobs" },
-    { name: "Login Page", path: "/login" },
-    { name: "Navbar", path: "/navbar" },
-    { name: "Networking", path: "/networking" },
-    { name: "News", path: "/news" },
-    { name: "Ranklist", path: "/ranklist" },
-    { name: "Request", path: "/request" },
-    { name: "Students", path: "/students" },
+    { name: "Achievements", path: "/admin/Achievements" },
+    { name: "Alumni Directory", path: "/admin/AlumniDirectory" },
+    { name: "Jobs", path: "/admin/Jobs" },
+    { name: "Login Page", path: "/admin/loginnew" },
+    { name: "Networking", path: "/admin/Networking" },
+    { name: "News", path: "/admin/News" },
+    { name: "Ranklist", path: "/admin/Ranklist" },
+    { name: "Request", path: "/admin/requests" },
+    { name: "Students", path: "/admin/Student" },
   ];
 
   return (
