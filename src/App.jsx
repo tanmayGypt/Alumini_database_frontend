@@ -58,6 +58,7 @@ import RegisteredCandidates from "./Page-Components/Registered-Candidates/Card";
 import VerifyOTP from "./Page/VerifyOTP";
 import ProtectedRoute from "./util/ProtectedRoute";
 import { AuthProvider } from "./Context/AuthContext";
+import HomePage from "./Admin_panel/Pages_component/HomePage";
 
 function App() {
   const location = useLocation();
@@ -81,6 +82,7 @@ function App() {
       <>
         <Navbar1 />
         <Routes>
+          <Route path="/admin" element={<HomePage />} />
           <Route path="/admin/Achievements" element={<Achievements />} />
           <Route path="/admin/AlumniDirectory" element={<AlumniDirectory />} />
           <Route path="/admin/Networking" element={<Networking />} />
