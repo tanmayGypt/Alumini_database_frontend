@@ -11,7 +11,7 @@ const HomePage = () => {
     { name: "Ranklist", path: "/admin/Ranklist" },
     { name: "Request", path: "/admin/requests" },
     { name: "Students", path: "/admin/Student" },
-    
+
   ];
 
   return (
