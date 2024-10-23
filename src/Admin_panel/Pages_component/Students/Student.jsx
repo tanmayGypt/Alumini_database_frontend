@@ -32,7 +32,7 @@ function Student() {
   const fetchStudentData = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('/api/alumni/achievements?status=student');
+      const response = await axios.get('/api/alumni?status=student');
       setStudentData(response.data);
       setLoading(false);
     } catch (error) {
