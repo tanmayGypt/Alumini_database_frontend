@@ -80,7 +80,8 @@ function App() {
   if (Locations[1].toLowerCase() === "admin") {
     return (
       <>
-        <Navbar1 />
+        <Navbar1 />     
+        
         <Routes>
           <Route path="/admin" element={<HomePage />} />
           <Route path="/admin/Achievements" element={<Achievements />} />
